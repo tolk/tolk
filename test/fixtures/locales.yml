@@ -1,10 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 en-US:
   name: en-US
+  system: basecamp
 
 da:
   name: da
+  system: basecamp
 
 se:
   name: se
+  system: basecamp

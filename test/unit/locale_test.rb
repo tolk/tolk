@@ -6,6 +6,12 @@ class LocaleTest < ActiveSupport::TestCase
   end
   
   test "turning locale with nested phrases into a hash" do
-    assert_equal({ "hello_world" => "Hello World", "nested" => { "hello_world" => "Nested Hello World" } }, locales("en-US").to_hash)
+    assert_equal({ 
+      "hello_world" => "Hello World", 
+      "nested" => { 
+        "hello_world" => "Nested Hello World",
+        "hello_country" => "Nested Hello Country"
+      }
+    }, locales("en-US").to_hash)
   end
 end

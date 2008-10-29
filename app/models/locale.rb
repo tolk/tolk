@@ -1,4 +1,5 @@
 class Locale < ActiveRecord::Base
+  belongs_to :system
   has_many :translations, :include => :phrase
   
   def to_hash

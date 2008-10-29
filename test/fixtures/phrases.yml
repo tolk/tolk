@@ -1,7 +1,8 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
 hello_world:
   key: hello_world
 
 nested_hello_world:
   key: nested.hello_world
+
+nested_hello_country:
+  key: nested.hello_country
