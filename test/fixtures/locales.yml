@@ -1,0 +1,10 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+en-US:
+  name: en-US
+
+da:
+  name: da
+
+se:
+  name: se

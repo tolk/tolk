@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+hello_world_en-US:
+  phrase: hello_world 
+  locale: en-US
+  text: Hello World
+
+hello_world_da:
+  phrase: hello_world 
+  locale: da
+  text: Hej Verden
+
+hello_world_se:
+  phrase: hello_world 
+  locale: se
+  text: Hejsan Verdon
+
+nested_hello_world_en-US:
+  phrase: nested_hello_world 
+  locale: en-US
+  text: Nested Hello World
+
+nested_hello_world_da:
+  phrase: nested_hello_world 
+  locale: da
+  text: Nedarvet Hej Verden
