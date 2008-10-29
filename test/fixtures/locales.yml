@@ -1,11 +1,11 @@
 en-US:
   name: en-US
-  system: basecamp
+  application: basecamp
 
 da:
   name: da
-  system: basecamp
+  application: basecamp
 
 se:
   name: se
-  system: basecamp
+  application: basecamp
