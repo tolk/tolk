@@ -1,0 +1,13 @@
+<h1>Phrases for <%= @application.name %></h1>
+
+<table>
+  <tr><th>Key</th></tr>
+  <% for phrase in @phrases %>
+    <tr><td><%= phrase.key %></td></tr>
+  <% end %>
+  <tr><td>
+    <% form_for([@application, Phrase.new]) do |f| %>
+      <%= f.text_field :key %>
+    <% end %>
+  </td></tr>
+</table>

@@ -1,7 +1,20 @@
 class Locale < ActiveRecord::Base
   belongs_to :application
+
   has_many :translations, :include => :phrase
-  
+  has_many :phrases, :through => :translations
+
+  def phrases_with_translation
+    translations.collect do |translation|
+      translation.phrase.translation = translation
+      translation.phrase
+    end.sort_by(&:key)
+  end
+
+  def phrases_without_translation
+    (application.phrases - phrases).sort_by(&:key)
+  end
+
   def to_hash
     translations.each_with_object({}) do |translation, locale|
       if translation.phrase.key.include?(".")

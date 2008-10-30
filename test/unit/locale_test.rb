@@ -14,4 +14,8 @@ class LocaleTest < ActiveSupport::TestCase
       }
     }, locales("en-US").to_hash)
   end
+  
+  test "phrases without translations" do
+    assert locales("en-US").phrases_without_translation.include?(phrases("phrase_not_translated_to_en-US"))
+  end
 end

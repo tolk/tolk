@@ -1,5 +1,6 @@
 class Application < ActiveRecord::Base
   has_many :locales
+  has_many :phrases
   
   def to_hash
     locales.each_with_object({}) do |locale, application|

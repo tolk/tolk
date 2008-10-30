@@ -27,3 +27,8 @@ nested_hello_world_da:
   phrase: nested_hello_world 
   locale: da
   text: Nedarvet Hej Verden
+
+cozy_da:
+  phrase: cozy
+  locale: da
+  text: Hyggeligt
