@@ -9,27 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081030171726) do
-
-  create_table "applications", :force => true do |t|
-    t.string   "name"
-    t.text     "location"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20081124140539) do
 
   create_table "locales", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "application_id"
   end
 
   create_table "phrases", :force => true do |t|
     t.text     "key"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "application_id"
   end
 
   create_table "translations", :force => true do |t|

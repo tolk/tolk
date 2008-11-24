@@ -1,15 +1,11 @@
 hello_world:
   key: hello_world
-  application: basecamp
 
 nested_hello_world:
   key: nested.hello_world
-  application: basecamp
 
 nested_hello_country:
   key: nested.hello_country
-  application: basecamp
 
-phrase_not_translated_to_en-US:
+cozy:
   key: cozy
-  application: basecamp

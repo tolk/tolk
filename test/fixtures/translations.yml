@@ -1,6 +1,6 @@
-hello_world_en-US:
+hello_world_en:
   phrase: hello_world 
-  locale: en-US
+  locale: en
   text: Hello World
 
 hello_world_da:
@@ -13,14 +13,14 @@ hello_world_se:
   locale: se
   text: Hejsan Verdon
 
-nested_hello_world_en-US:
+nested_hello_world_en:
   phrase: nested_hello_world 
-  locale: en-US
+  locale: en
   text: Nested Hello World
 
-nested_hello_country_en-US:
+nested_hello_country_en:
   phrase: nested_hello_country
-  locale: en-US
+  locale: en
   text: Nested Hello Country
 
 nested_hello_world_da:

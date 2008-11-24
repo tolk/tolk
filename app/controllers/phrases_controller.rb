@@ -1,16 +1,14 @@
 class PhrasesController < ApplicationController
-  before_filter :set_application
-
   def index
-    @phrases = @application.phrases
+    @phrases = Phrase.all
   end
   
   def create
     translation_parameters = params[:phrase].delete(:translation)
 
-    phrase      = @application.phrases.create(params[:phrase])
+    phrase      = Phrase.all.create(params[:phrase])
     translation = Translation.create(translation_parameters.merge(:phrase => phrase))
 
-    redirect_to([ @application, translation.locale ])
+    redirect_to(translation.locale)
   end
 end

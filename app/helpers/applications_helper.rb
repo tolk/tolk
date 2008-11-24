@@ -1,2 +1,0 @@
-module ApplicationsHelper
-end

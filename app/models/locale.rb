@@ -1,8 +1,19 @@
 class Locale < ActiveRecord::Base
-  belongs_to :application
-
-  has_many :translations, :include => :phrase
   has_many :phrases, :through => :translations
+  has_many :translations, :include => :phrase
+
+  LOCALES_CONFIG_PATH = "#{Rails.root}/config/locales"
+
+  class << self
+    def dump_all(to = LOCALES_CONFIG_PATH)
+      all.each do |locale|
+        File.open("#{to}/#{locale.name}.yml", "w+") do |file|
+          YAML.dump(locale.to_hash, file)
+        end
+      end
+    end
+  end
+
 
   def phrases_with_translation
     translations.collect do |translation|
@@ -12,17 +23,17 @@ class Locale < ActiveRecord::Base
   end
 
   def phrases_without_translation
-    (application.phrases - phrases).sort_by(&:key)
+    (Phrase.all - phrases).sort_by(&:key)
   end
 
   def to_hash
-    translations.each_with_object({}) do |translation, locale|
+    { name => translations.each_with_object({}) do |translation, locale|
       if translation.phrase.key.include?(".")
         locale.deep_merge!(unsquish(translation.phrase.key, translation.text))
       else
         locale[translation.phrase.key] = translation.text
       end
-    end
+    end }
   end
   
   private
