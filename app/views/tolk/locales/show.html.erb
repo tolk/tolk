@@ -11,7 +11,7 @@
           <%= phrase.key %>
         </td>
         <td>
-          <% form_for(Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
+          <% form_for([:tolk, Translation.new(:locale => @locale, :phrase => phrase)]) do |f| %>
             <%= f.hidden_field :locale_id %>
             <%= f.hidden_field :phrase_id %>
 
@@ -37,7 +37,7 @@
         <%= phrase.key %>
       </td>
       <td>
-        <% remote_form_for(phrase.translation) do |f| %>
+        <% remote_form_for([:tolk, phrase.translation]) do |f| %>
           <%= f.hidden_field :locale_id %>
           <%= f.text_field :text %>
           <%= f.submit "Update" %>

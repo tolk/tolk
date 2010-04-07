@@ -3,14 +3,14 @@
 <ul>
   <% @locales.each do |locale| %>
     <li>
-      <%= link_to locale.name, locale %><%= " <b>(primary)</b>" if locale.primary? %>
+      <%= link_to locale.name, [:tolk, locale] %><%= " <b>(primary)</b>" if locale.primary? %>
     </li>
   <% end %>
 </ul>
 
 <h1>Create a new Locale</h1>
 
-<% form_for(Locale.new) do |f| %>
+<% form_for([:tolk, Locale.new]) do |f| %>
   <%= f.error_messages %>
 
   <p>
