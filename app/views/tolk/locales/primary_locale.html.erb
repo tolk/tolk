@@ -11,10 +11,11 @@
   <% @locale.phrases_with_translation.each do |phrase| %>
     <tr>
       <td>
-        <%= phrase.key %>
+        <%= phrase.translations.primary.text -%>
       </td>
       <td>
         <%= phrase.translation.text %>
+        <span class="key"><%= phrase.key %></span>
       </td>
     </tr>
   <% end %>

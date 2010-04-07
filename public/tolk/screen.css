@@ -170,6 +170,15 @@ div.add_locale input.locale_new {
   width: 50%;
 }
 
+span.updated {
+  font-size: 11px;
+  padding: 1px;
+  background: #ffc;
+  color: #777;
+  margin-bottom: 10px;
+  float: right;
+}
+
 /*-------------------------------------------------
 Translation tables
 -------------------------------------------------*/
@@ -185,6 +194,8 @@ table.translations th {
   color: #222;
   padding: 8px 10px;
   border-bottom: 1px solid #e5e5e5;
+  width: 50%;
+  vertical-align: top;
 }
 
 table.translations th {
@@ -202,14 +213,22 @@ table.translations td.hint {
   background: #f5f5f5;
 }
 
-table.translations th.key {width: 15%;}
-table.translations th.translation {width: 45%; white-space: nowrap;}
-table.translations.all th.translation {width: 85%;}
-table.translations th.hint {width: 45%;}
-
-table.translations input.locale {
+table.translations textarea.locale {
   font-size: 14px;
   color: #222;
   padding: 1px;
-  width: 70%;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+table.translations tr.updated td {
+  background: #ffc;
+}
+
+table.translations span.key {
+  color: #999;
+  font-size: 10px;
+  display: block;
+  text-align: right;
 }
