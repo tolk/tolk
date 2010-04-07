@@ -7,8 +7,8 @@
      Missing translations</h3>
   <table class="translations missing">
     <tr>
-      <th class="key">Phrase</th>
-      <th class="translation">Translation</th>
+      <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+      <th class="translation"><%= @locale.language_name -%></th>
     </tr>
     <% for phrase in @locale.phrases_without_translation %>
       <tr>
@@ -34,9 +34,9 @@
 
 <table class="translations">
   <tr>
-    <th class="key">Phrase</th>
+    <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
     <th class="translation">Translation</th>
-    <th class="hint">Hint</th>
+    <th class="hint"><%= @locale.language_name -%></th>
   </tr>
   <% for phrase in @locale.phrases_with_translation %>
     <tr>
