@@ -9,6 +9,7 @@ class SyncTest < ActiveSupport::TestCase
 
     Tolk::Locale.locales_config_path = RAILS_ROOT + "/test/locales/sync"
     Tolk::Locale.primary_locale_name = 'en'
+    Tolk::Locale.primary_locale(true)
   end
 
   def test_flat_hash
