@@ -1,16 +1,16 @@
 module Tolk
   class LocalesController < ApplicationController
     def index
-      @locales = Locale.all
+      @locales = Tolk::Locale.all
     end
   
     def show
-      @locale = Locale.find_by_name!(params[:id])
+      @locale = Tolk::Locale.find_by_name!(params[:id])
       render :primary_locale if @locale.primary?
     end
   
     def create
-      Locale.create!(params[:locale])
+      Tolk::Locale.create!(params[:tolk_locale])
       redirect_to :action => :index
     end
   end

@@ -4,7 +4,7 @@ module Tolk
     before_filter :ensure_no_primary_locale
 
     def create
-      @translation = @locale.translations.new(params[:translation])
+      @translation = @locale.translations.new(params[:tolk_translation])
 
       if @translation.save
         flash[:notice] = 'Translation saved'
@@ -12,20 +12,20 @@ module Tolk
         flash[:alert] = 'Translation could not be saved'
       end
 
-      redirect_to [:tolk, @locale]
+      redirect_to @locale
     end
 
     def update
       @translation = @locale.translations.find(params[:id])
-      @translation.update_attributes!(params[:translation])
+      @translation.update_attributes!(params[:tolk_translation])
       head :ok
     end
 
     private
 
     def find_locale
-      locale_id = params[:translation].delete(:locale_id) if params[:translation]
-      @locale = Locale.find(locale_id)
+      locale_id = params[:tolk_translation].delete(:locale_id) if params[:tolk_translation]
+      @locale = Tolk::Locale.find(locale_id)
     end
 
     def ensure_no_primary_locale

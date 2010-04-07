@@ -11,6 +11,7 @@ module Tolk
     include Tolk::Sync
 
     validates_uniqueness_of :name
+    validates_presence_of :name
 
     class << self
       def primary_locale

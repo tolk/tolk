@@ -1,7 +1,7 @@
 module Tolk
   class PhrasesController < ApplicationController
     def index
-      @phrases = Phrase.all
+      @phrases = Tolk::Phrase.all
     end
   end
 end
