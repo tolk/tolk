@@ -20,15 +20,20 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "dumping all locales to yml" do
+    Locale.primary_locale_name = 'en'
+
     begin
       FileUtils.mkdir_p(RAILS_ROOT + "/tmp/locales")
       Locale.dump_all(RAILS_ROOT + "/tmp/locales")
 
-      %w( en da se ).each do |locale|
+      %w( da se ).each do |locale|
         assert_equal \
           File.read(RAILS_ROOT + "/test/locales/basic/#{locale}.yml"), 
           File.read(RAILS_ROOT + "/tmp/locales/#{locale}.yml")
       end
+
+      # Make sure dump doesn't generate en.yml
+      assert ! File.exists?(RAILS_ROOT + "/tmp/locales/en.yml")
     ensure
       FileUtils.rm_rf(RAILS_ROOT + "/tmp/locales")
     end
