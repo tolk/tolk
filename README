@@ -17,7 +17,7 @@ To setup :
 
 * Usage
 
-Tolk treats <tt>Locale.primary_locale_name</tt> as the main source of strings to be translated. Developers are expected to make all the changes to that file ( en.yml in our case ) and treat all the other locale.yml files as readonly files.
+Tolk treats <tt>Tolk::Locale.primary_locale_name</tt> as the main source of strings to be translated. Developers are expected to make all the changes to that file ( en.yml in our case ) and treat all the other locale.yml files as readonly files.
 
 As tolk stores all the keys and translated strings in the database, you need to ask Tolk to update it's database from the primary yml file :
 
@@ -32,3 +32,16 @@ Upon visiting http://<your app>/tolk - you will be presented with different opti
 This will generate yml files for all non primary locales and put them in RAILS_ROOT/config/locales/ directory by default. You can pass directory path as the argument if you want the generated files to be at a different location :
 
   $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
+
+* Authentication
+
+If you want to authenticate users who can access Tolk, you need to provide <tt>Tolk::ApplicationController.authenticator</tt> proc. For example :
+
+  # config/initializers/tolk.rb
+  Tolk::ApplicationController.authenticator = proc {
+    authenticate_or_request_with_http_basic do |user_name, password|
+      user_name == 'translator' && password == 'transpass'
+    end
+  }
+
+Authenticator proc will be run from a before filter in controller context.
