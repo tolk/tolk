@@ -11,13 +11,14 @@
           <%= phrase.key %>
         </td>
         <td>
-          <% remote_form_for(Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
+          <% form_for(Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
             <%= f.hidden_field :locale_id %>
             <%= f.hidden_field :phrase_id %>
 
             <%= f.text_field :text %>
-            <%= f.submit "Update" %>
+            <%= f.submit "Update" %> ( <i>Hint:</i> <%= phrase.translations.primary.text -%> )
           <% end %>
+
         </td>
       </tr>
     <% end %>
@@ -36,28 +37,9 @@
       <td>
         <% remote_form_for(phrase.translation) do |f| %>
           <%= f.text_field :text %>
-          <%= f.submit "Update" %>
+          <%= f.submit "Update" %> ( <i>Hint:</i> <%= phrase.translations.primary.text -%> )
         <% end %>
       </td>
     </tr>
   <% end %>
 </table>
-
-<table>
-<tr><th>Phrase</th><th>Translation</th></tr>
-<% form_for([ @application, Phrase.new ]) do |f| %>
-  <tr>
-    <td>
-      <%= f.text_field :key %>
-    </td>
-    <td>
-      <% f.fields_for(Translation.new) do |ff| %>
-        <%= ff.hidden_field :locale_id, :value => @locale.id %>
-        <%= ff.text_field :text %>
-      <% end %>
-
-      <%= f.submit "Create" %>
-    </td>
-  </tr>
-<% end %>
-<table>

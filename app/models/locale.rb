@@ -2,18 +2,34 @@ class Locale < ActiveRecord::Base
   has_many :phrases, :through => :translations
   has_many :translations, :include => :phrase
 
-  LOCALES_CONFIG_PATH = "#{Rails.root}/config/locales"
+  cattr_accessor :locales_config_path
+  self.locales_config_path = "#{Rails.root}/config/locales"
+
+  cattr_accessor :primary_locale_name
+
+  include Tolk::Sync
+
+  validates_uniqueness_of :name
 
   class << self
-    def dump_all(to = LOCALES_CONFIG_PATH)
-      all.each do |locale|
+    def primary_locale
+      raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
+
+      Locale.find_or_create_by_name(self.primary_locale_name)
+    end
+
+    def secondary_locales
+      Locale.all - [primary_locale]
+    end
+
+    def dump_all(to = self.locales_config_path)
+      secondary_locales.each do |locale|
         File.open("#{to}/#{locale.name}.yml", "w+") do |file|
           YAML.dump(locale.to_hash, file)
         end
       end
     end
   end
-
 
   def phrases_with_translation
     translations.collect do |translation|
@@ -35,7 +51,15 @@ class Locale < ActiveRecord::Base
       end
     end }
   end
-  
+
+  def to_param
+    name.parameterize
+  end
+
+  def primary?
+    name == self.class.primary_locale_name
+  end
+
   private
     def unsquish(string, value)
       if string.is_a?(String)

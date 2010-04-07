@@ -1,7 +1,23 @@
 <h1>Locales</h1>
 
 <ul>
-  <% for locale in @locales %>
-    <li><%= link_to locale.name, locale %></li>
+  <% @locales.each do |locale| %>
+    <li>
+      <%= link_to locale.name, locale %><%= " <b>(primary)</b>" if locale.primary? %>
+    </li>
   <% end %>
 </ul>
+
+<h1>Create a new Locale</h1>
+
+<% form_for(Locale.new) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>

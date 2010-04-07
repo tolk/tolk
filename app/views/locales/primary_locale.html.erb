@@ -1,0 +1,19 @@
+<h1><%= @locale.name %> <b>(primary)</b></h1>
+
+<h4>Tolk treats primary translations as readonly</h4>
+
+<h2>All translations</h2>
+
+<table>
+  <tr><th>Phrase</th><th>Translation</th></tr>
+  <% @locale.phrases_with_translation.each do |phrase| %>
+    <tr>
+      <td>
+        <%= phrase.key %>
+      </td>
+      <td>
+        <%= phrase.translation.text %>
+      </td>
+    </tr>
+  <% end %>
+</table>

@@ -4,10 +4,12 @@ class LocalesController < ApplicationController
   end
   
   def show
-    @locale = Locale.find(params[:id])
+    @locale = Locale.find_by_name!(params[:id])
+    render :primary_locale if @locale.primary?
   end
   
   def create
-    redirect_to(Locale.create(params[:locale]))
+    Locale.create!(params[:locale])
+    redirect_to :action => :index
   end
 end
