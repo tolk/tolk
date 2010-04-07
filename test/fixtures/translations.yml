@@ -1,34 +1,41 @@
 hello_world_en:
-  phrase: hello_world 
-  locale: en
+  id: 1
+  phrase_id: 1 
+  locale_id: 1
   text: Hello World
 
 hello_world_da:
-  phrase: hello_world 
-  locale: da
+  id: 2
+  phrase_id: 1 
+  locale_id: 2
   text: Hej Verden
 
 hello_world_se:
-  phrase: hello_world 
-  locale: se
+  id: 3
+  phrase_id: 1 
+  locale_id: 3
   text: Hejsan Verdon
 
 nested_hello_world_en:
-  phrase: nested_hello_world 
-  locale: en
+  id: 4
+  phrase_id: 2 
+  locale_id: 1
   text: Nested Hello World
 
 nested_hello_country_en:
-  phrase: nested_hello_country
-  locale: en
+  id: 5
+  phrase_id: 3
+  locale_id: 1
   text: Nested Hello Country
 
 nested_hello_world_da:
-  phrase: nested_hello_world 
-  locale: da
+  id: 6
+  phrase_id: 2 
+  locale_id: 2
   text: Nedarvet Hej Verden
 
 cozy_da:
-  phrase: cozy
-  locale: da
+  id: 7
+  phrase_id: 4
+  locale_id: 2
   text: Hyggeligt

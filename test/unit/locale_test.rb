@@ -20,11 +20,11 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "dumping all locales to yml" do
-    Locale.primary_locale_name = 'en'
+    Tolk::Locale.primary_locale_name = 'en'
 
     begin
       FileUtils.mkdir_p(RAILS_ROOT + "/tmp/locales")
-      Locale.dump_all(RAILS_ROOT + "/tmp/locales")
+      Tolk::Locale.dump_all(RAILS_ROOT + "/tmp/locales")
 
       %w( da se ).each do |locale|
         assert_equal \
