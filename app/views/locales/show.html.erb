@@ -4,7 +4,7 @@
   <h2>Missing translations</h2>
 
   <table>
-    <tr><th>Phrase</th><th>Translation</th></tr>
+    <tr><th>Phrase</th><th>Translation</th><th>Hint</th></tr>
     <% for phrase in @locale.phrases_without_translation %>
       <tr>
         <td>
@@ -16,9 +16,11 @@
             <%= f.hidden_field :phrase_id %>
 
             <%= f.text_field :text %>
-            <%= f.submit "Update" %> ( <i>Hint:</i> <%= phrase.translations.primary.text -%> )
+            <%= f.submit "Update" %>
           <% end %>
-
+        </td>
+        <td>
+          <%= phrase.translations.primary.text -%>
         </td>
       </tr>
     <% end %>
@@ -28,7 +30,7 @@
 <h2>Existing translations</h2>
 
 <table>
-  <tr><th>Phrase</th><th>Translation</th></tr>
+  <tr><th>Phrase</th><th>Translation</th><th>Hint</th></tr>
   <% for phrase in @locale.phrases_with_translation %>
     <tr>
       <td>
@@ -37,8 +39,11 @@
       <td>
         <% remote_form_for(phrase.translation) do |f| %>
           <%= f.text_field :text %>
-          <%= f.submit "Update" %> ( <i>Hint:</i> <%= phrase.translations.primary.text -%> )
+          <%= f.submit "Update" %>
         <% end %>
+      </td>
+      <td>
+        <%= phrase.translations.primary.text -%>
       </td>
     </tr>
   <% end %>
