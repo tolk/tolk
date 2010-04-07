@@ -1,11 +1,13 @@
-<h1><%= @locale.name %> <b>(primary)</b></h1>
+<% content_for :locale do %><span class="locale"><%= @locale.name %> <em>(primary)</em></span> <span class="note">Tolk treats the primary translation as readonly</span>
+<% end %>
 
-<h4>Tolk treats the primary translation as readonly</h4>
+<h3>All translations</h3>
 
-<h2>All translations</h2>
-
-<table>
-  <tr><th>Phrase</th><th>Translation</th></tr>
+<table class="translations all">
+  <tr>
+    <th class="key">Phrase</th>
+    <th class="translation">Translation</th>
+  </tr>
   <% @locale.phrases_with_translation.each do |phrase| %>
     <tr>
       <td>

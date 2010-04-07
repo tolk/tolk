@@ -1,23 +1,21 @@
-<h1>Locales</h1>
+<% content_for :locale do %><span class="locale">Locales</span>
+<% end %>
 
-<ul>
+<ul class="locales clearfix">
   <% @locales.each do |locale| %>
     <li>
-      <%= link_to locale.name, locale %><%= " <b>(primary)</b>" if locale.primary? %>
+      <%= link_to locale.name, locale %><%= " <span>(primary)</span>" if locale.primary? %>
     </li>
   <% end %>
 </ul>
 
-<h1>Create a new Locale</h1>
-
 <% form_for(Tolk::Locale.new) do |f| %>
+<div class="add_locale">
   <%= f.error_messages %>
-
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.label "Add a new Locale" %>
+    <%= f.text_field :name, :class => "locale_new" %>
+    <%= f.submit 'Add' %>
   </p>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
+</div>
 <% end %>

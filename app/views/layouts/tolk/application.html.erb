@@ -6,14 +6,16 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Tolk</title>
   <%= javascript_include_tag :all %>
-  <%= stylesheet_link_tag :all %>
+  <%= stylesheet_link_tag "/tolk/reset", "/tolk/screen" %>
   <%= yield :head %>
 </head>
 
 <body>
-  <ul>
-    <li><%= link_to "Home", tolk_root_path %></li>
-  </ul>
-  <%= yield %>
+  <div id="container">
+    <div id="head">
+      <h1><span class="home"><%= link_to "Tolk", tolk_root_path %></span><%= yield :locale %></h1>
+    </div>
+    <%= yield %>
+  </div>
 </body>
 </html>

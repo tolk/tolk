@@ -1,25 +1,30 @@
-<h1><%= @locale.name %></h1>
+<% content_for :locale do %><span class="locale"><%= @locale.name %></span>
+<% end %>
 
 <% if @locale.phrases_without_translation.any? %>
-  <h2>Missing translations</h2>
+  <h3>Missing translations</h3>
 
-  <table>
-    <tr><th>Phrase</th><th>Translation</th><th>Hint</th></tr>
+  <table class="translations missing">
+    <tr>
+      <th class="key">Phrase</th>
+      <th class="translation">Translation</th>
+      <th class="hint">Hint</th>
+    </tr>
     <% for phrase in @locale.phrases_without_translation %>
       <tr>
-        <td>
+        <td class="key">
           <%= phrase.key %>
         </td>
-        <td>
+        <td class="translation">
           <% form_for(Tolk::Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
             <%= f.hidden_field :locale_id %>
             <%= f.hidden_field :phrase_id %>
 
-            <%= f.text_field :text %>
+            <%= f.text_field :text, :class => "locale" %>
             <%= f.submit "Update" %>
           <% end %>
         </td>
-        <td>
+        <td class="hint">
           <%= phrase.translations.primary.text -%>
         </td>
       </tr>
@@ -27,23 +32,27 @@
   </table>
 <% end %>
 
-<h2>Existing translations</h2>
+<h3>Existing translations</h3>
 
-<table>
-  <tr><th>Phrase</th><th>Translation</th><th>Hint</th></tr>
+<table class="translations">
+  <tr>
+    <th class="key">Phrase</th>
+    <th class="translation">Translation</th>
+    <th class="hint">Hint</th>
+  </tr>
   <% for phrase in @locale.phrases_with_translation %>
     <tr>
-      <td>
+      <td class="key">
         <%= phrase.key %>
       </td>
-      <td>
+      <td class="translation">
         <% remote_form_for(phrase.translation) do |f| %>
           <%= f.hidden_field :locale_id %>
           <%= f.text_field :text %>
           <%= f.submit "Update" %>
         <% end %>
       </td>
-      <td>
+      <td class="hint">
         <%= phrase.translations.primary.text -%>
       </td>
     </tr>
