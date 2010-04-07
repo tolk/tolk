@@ -1,4 +1,4 @@
-class LocalesController < ApplicationController
+class LocalesController < TolkController
   def index
     @locales = Locale.all
   end

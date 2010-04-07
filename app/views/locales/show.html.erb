@@ -38,6 +38,7 @@
       </td>
       <td>
         <% remote_form_for(phrase.translation) do |f| %>
+          <%= f.hidden_field :locale_id %>
           <%= f.text_field :text %>
           <%= f.submit "Update" %>
         <% end %>

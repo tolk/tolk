@@ -1,4 +1,4 @@
-class PhrasesController < ApplicationController
+class PhrasesController < TolkController
   def index
     @phrases = Phrase.all
   end
