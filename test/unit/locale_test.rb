@@ -38,4 +38,9 @@ class LocaleTest < ActiveSupport::TestCase
       FileUtils.rm_rf(RAILS_ROOT + "/tmp/locales")
     end
   end
+
+  test "human language name" do
+    assert_equal 'English', locales(:en).language_name
+    assert_equal 'pirate', Tolk::Locale.new(:name => 'pirate').language_name
+  end
 end

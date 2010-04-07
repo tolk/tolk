@@ -1,5 +1,12 @@
 module Tolk
   class Locale < ActiveRecord::Base
+    MAPPING = {
+      'en' => 'English',
+      'de' => 'German',
+      'es' => 'Spanish',
+      'da' => 'Dansk'
+    }
+
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
     has_many :translations, :include => :phrase, :class_name => 'Tolk::Translation'
 
@@ -60,6 +67,10 @@ module Tolk
 
     def primary?
       name == self.class.primary_locale_name
+    end
+
+    def language_name
+      MAPPING[self.name.downcase] || self.name
     end
 
     private
