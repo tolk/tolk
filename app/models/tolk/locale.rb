@@ -21,10 +21,16 @@ module Tolk
     validates_presence_of :name
 
     class << self
-      def primary_locale
-        raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
+      def primary_locale(reload = false)
+        @_primary_locale = nil if reload
+        @_primary_locale ||= begin
+          raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
+          find_or_create_by_name(self.primary_locale_name)
+        end
+      end
 
-        find_or_create_by_name(self.primary_locale_name)
+      def primary_language_name
+        primary_locale.language_name
       end
 
       def secondary_locales
