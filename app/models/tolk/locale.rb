@@ -47,14 +47,14 @@ module Tolk
     end
 
     def phrases_with_translation
-      translations.collect do |translation|
+      @_phrases_with_translation ||= translations.collect do |translation|
         translation.phrase.translation = translation
         translation.phrase
       end.sort_by(&:key)
     end
 
     def phrases_without_translation
-      (Tolk::Phrase.all - phrases).sort_by(&:key)
+      @_phrases_without_translation ||= (Tolk::Phrase.all - phrases).sort_by(&:key)
     end
 
     def to_hash

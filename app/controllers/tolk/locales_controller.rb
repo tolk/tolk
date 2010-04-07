@@ -5,7 +5,7 @@ module Tolk
     end
   
     def show
-      @locale = Tolk::Locale.find_by_name!(params[:id])
+      @locale = Tolk::Locale.find_by_name!(params[:id], :include => { :translations => {:phrase => :translations } })
       render :primary_locale if @locale.primary?
     end
   
