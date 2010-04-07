@@ -13,7 +13,10 @@ To setup :
   # environment.rb
   Tolk::Locale.primary_locale_name = 'en'
 
-  2) Generate a new migration and copy relevant parts of tolk/db/schema.rb to self.up() and migrate
+  2) Generate tolk migration and migrate your database :
+
+  $ script/generate tolk_migration
+  $ rake db:migrate
 
 * Usage
 
