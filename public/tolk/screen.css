@@ -199,6 +199,15 @@ div.translations {
   text-align: center;
 }
 
+span.notice {
+  background: #ffc;
+  color: #666;
+  font-size: 12px;
+  padding: 2px 5px;
+  margin: -5px 0 15px;
+  display: inline-block;
+}
+
 /*-------------------------------------------------
 Translation tables
 -------------------------------------------------*/
