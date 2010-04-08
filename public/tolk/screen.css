@@ -19,19 +19,8 @@ em {font-style: italic;}
 .clearfix { display: inline-block; }		 
 .clearfix{ display: block; }
 
-p {  
-  margin: 0 0 1.5em;
-}
-
-a {
-  color: #3671a1;
-}
-
-a:hover {
-  color: #84c0cd;
-}
-
-img {border: none;}
+a {color: #888;}
+a:hover {color: #000;}
 
 /*-------------------------------------------------
 Layout
@@ -105,6 +94,12 @@ div#head span.locale {
   border-bottom-right-radius: 10px;
 }
 
+div#head span.locale.empty {
+  background: #333;
+  padding-left: 0;
+  margin-left: -6px;
+}
+
 div#head span.locale em {
   font-style: normal;
   font-weight: normal;
@@ -124,25 +119,38 @@ h3 {
   margin: 25px 0 10px;
 }
 
+h2 span,
+h3 span {
+  font-size: 13px;
+  color: #888;
+}
+
 ul.locales {
   margin: 25px 0;
 }
 
 ul.locales li {
-  width: 17%;
+  width: 230px;
   display: block;
   float: left;
-  margin: 0 1% 10px 0;
-  padding: 5px 1%;
+  margin: 0 10px 10px 0;
+}
+
+ul.locales a {
+  font-weight: bold;
+  text-decoration: none;
+  padding: 5px 10px;
   background: #eee;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   border: 1px solid #e5e5e5;
+  display: block;
 }
 
-ul.locales a {
-  font-weight: bold;
+ul.locales a:hover {
+  background: #ddd;
+  border-color: #ccc;
 }
 
 ul.locales span {
@@ -150,10 +158,10 @@ ul.locales span {
   color: #666;
 }
 
-div.add_locale {
+div.submit {
   background: #f5f5f5;
   margin: 25px -25px -25px;
-  padding: 15px 25px 5px;
+  padding: 15px 25px 25px;
   border-top: 1px dashed #ccc;
   -webkit-border-bottom-right-radius: 20px;
   -webkit-border-bottom-left-radius: 20px;
@@ -163,7 +171,7 @@ div.add_locale {
   border-bottom-left-radius: 20px;
 }
 
-div.add_locale input.locale_new {
+div.submit input.locale_new {
   font-size: 14px;
   color: #222;
   padding: 1px;
@@ -179,13 +187,26 @@ span.updated {
   float: right;
 }
 
+div.table_submit {
+  background: #f5f5f5;
+  margin: -25px 0 0;
+  padding: 12px 15px 15px;
+  text-align: right;
+}
+
+div.translations {
+  width: 96%;
+  text-align: center;
+}
+
 /*-------------------------------------------------
 Translation tables
 -------------------------------------------------*/
 
 table.translations {
   margin: 0 0 25px;
-  width: 96%;
+  width: 100%;
+  text-align: left;
 }
 
 table.translations td,
@@ -194,8 +215,8 @@ table.translations th {
   color: #222;
   padding: 8px 10px;
   border-bottom: 1px solid #e5e5e5;
-  width: 50%;
   vertical-align: top;
+  width: 50%;
 }
 
 table.translations th {
@@ -207,18 +228,13 @@ table.translations th {
   padding-bottom: 2px;
 }
 
-table.translations td.hint {
-  font-size: 13px;
-  color: #777;
-  background: #f5f5f5;
-}
-
 table.translations textarea.locale {
   font-size: 14px;
+  line-height: 21px;
   color: #222;
   padding: 1px;
   width: 100%;
-  height: 50px;
+  height: 100%;
   margin-bottom: 10px;
 }
 
@@ -227,8 +243,51 @@ table.translations tr.updated td {
 }
 
 table.translations span.key {
-  color: #999;
-  font-size: 10px;
+  color: #aaa;
+  font-size: 9px;
   display: block;
-  text-align: right;
+}
+
+table.translations td.translation {
+  padding: 6px 10px;
+}
+
+/*-------------------------------------------------
+Pagination
+-------------------------------------------------*/
+
+div.paginate {
+  margin: 15px auto 20px;
+  font-size: 12px;
+  color: #777;
+}
+
+div.paginate a,
+div.paginate span {
+  padding: 2px 6px;
+  text-decoration: none;
+}
+
+div.paginate a:hover,
+div.paginate span.current {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #eee;
+  color: #333;
+}
+
+div.paginate .next_page,
+div.paginate .prev_page {
+ margin: 0 15px;
+ -webkit-border-radius: 5px;
+ -moz-border-radius: 5px;
+ border-radius: 5px;
+ border: 1px solid #bbb;
+ padding: 4px 8px;
+}
+
+div.paginate .disabled {
+  color: #ccc;
+  border-color: #eee;
 }

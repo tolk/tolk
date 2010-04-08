@@ -1,36 +1,39 @@
-<% content_for :locale do %><span class="locale"><%= @locale.name %></span>
+<% content_for :locale do %><span class="locale"><%= @locale.language_name %></span>
 <% end %>
 
-<h3><%= link_to 'Missing translations', @locale %> | Existing translations</h3>
-
+<h3 class="switch">Completed translations <span>(<%= link_to 'See phrases needing translation', @locale %>)</span></h3>
+<div class="translations">
 <% if @phrases.any? %>
-  <table class="translations">
-    <tr>
-      <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
-      <th class="hint"><%= @locale.language_name -%></th>
-    </tr>
-    <% form_for @locale do |locale_form| %>
+  <% form_for @locale do |locale_form| %>
+        <table class="translations">
+      <tr>
+        <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+        <th class="hint"><%= @locale.language_name -%></th>
+      </tr>
       <% @phrases.each do |phrase| %>
         <tr>
           <td class="phrase">
             <%=h phrase.translations.primary.text -%>
+            <span class="key"><%= phrase.key %></span>
           </td>
 
           <td class="translation">
             <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
             <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
             <%= text_area_tag :"translations[][text]", phrase.translation.text, :class => 'locale' %>
-            <span class="key"><%= phrase.key %></spa
           </td>
         </tr>
       <% end %>
-
-      <%= locale_form.submit "Update all" %>
-    <% end %>
-
-  </table>
-
-  <%= will_paginate @phrases %>
+    </table>
+    <div class="table_submit">
+      <p><%= locale_form.submit "Save changes" %></p>
+    </div>
+    <div class="paginate">
+      <%= will_paginate @phrases %>
+    </div>
+  <% end %>
 <% else %>
-  No translations found
+  <p style="text-align: left">There aren't any completed translations for this locale.</p>
+  <p>&nbsp;</p>
 <% end %>
+</div>

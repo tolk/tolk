@@ -1,11 +1,11 @@
 module Tolk
   class Locale < ActiveRecord::Base
     MAPPING = {
-      'en' => 'English',
-      'de' => 'German',
-      'es' => 'Spanish',
-      'da' => 'Dansk',
-      'fr' => 'French'
+      'en' => 'English (en)',
+      'de' => 'German (de)',
+      'es' => 'Spanish (es)',
+      'da' => 'Dansk (da)',
+      'fr' => 'French (fr)'
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'

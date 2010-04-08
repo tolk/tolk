@@ -1,39 +1,41 @@
-<% content_for :locale do %><span class="locale"><%= @locale.name %></span>
+<% content_for :locale do %><span class="locale"><%= @locale.language_name %></span>
 <% end %>
 
-<h3>Missing translations | <%= link_to 'Existing translations', all_tolk_locale_path(@locale) %></h3>
-
-<% if @phrases.any? %>
-  <%# <span class="updated">The primary language has been updated for this phrase</span>%>
-  <table class="translations missing">
-    <tr>
-      <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
-      <th class="translation"><%= @locale.language_name -%></th>
-    </tr>
-    <% form_for @locale do |locale_form| %>
-      <% @phrases.each do |phrase| %>
+<h3 class="switch">Phrases needing translation <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
+<div class="translations">
+  <% if @phrases.any? %>
+     <% form_for @locale do |locale_form| %>
+      <table class="translations">
         <tr>
-          <td class="phrase">
-            <%=h phrase.translations.primary.text -%>
-          </td>
-
-          <% translation = Tolk::Translation.new(:locale => @locale, :phrase => phrase) %>
-          <td class="translation">
-            <%= hidden_field_tag :"translations[][id]", translation.id, :id => "#{translation.object_id}_id" %>
-            <%= hidden_field_tag :"translations[][phrase_id]", phrase.id, :id => "#{translation.object_id}_phrase_id" %>
-            <%= hidden_field_tag :"translations[][locale_id]", translation.locale_id, :id => "#{translation.object_id}_locale_id" %>
-            <%= text_area_tag :"translations[][text]", translation.text, :class => "locale", :id => "#{translation.object_id}_text" %>
-            <span class="key"><%= phrase.key %></spa
-          </td>
-
+          <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+          <th class="translation"><%= @locale.language_name -%></th>
         </tr>
-      <% end %>
+        <% @phrases.each do |phrase| %>
+          <tr>
+            <td class="phrase">
+              <%=h phrase.translations.primary.text -%>
+              <span class="key"><%= phrase.key %></span>
+            </td>
 
-      <%= locale_form.submit "Update all" %>
+            <% translation = Tolk::Translation.new(:locale => @locale, :phrase => phrase) %>
+            <td class="translation">
+              <%= hidden_field_tag :"translations[][id]", translation.id, :id => "#{translation.object_id}_id" %>
+              <%= hidden_field_tag :"translations[][phrase_id]", phrase.id, :id => "#{translation.object_id}_phrase_id" %>
+              <%= hidden_field_tag :"translations[][locale_id]", translation.locale_id, :id => "#{translation.object_id}_locale_id" %>
+              <%= text_area_tag :"translations[][text]", translation.text, :class => "locale", :id => "#{translation.object_id}_text" %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+      <div class="table_submit">
+        <p><%= locale_form.submit "Save changes" %></p>
+      </div>
     <% end %>
-  </table>
-
-  <%= will_paginate @phrases %>
-<% else %>
-  No missing translations found
-<% end %>
+    <div class="paginate">
+      <%= will_paginate @phrases %>
+    </div>
+  <% else %>
+    <p style="text-align: left">There aren't any missing or updated phrases that need translation.</p>
+    <p>&nbsp;</p>
+  <% end %>
+</div>
