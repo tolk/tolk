@@ -8,8 +8,6 @@ Webrat.configure do |config|
   config.mode = :rails
 end
 
-Tolk::Locale.primary_locale_name = 'en'
-
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false

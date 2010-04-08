@@ -18,6 +18,7 @@ module Tolk
     self.locales_config_path = "#{Rails.root}/config/locales"
 
     cattr_accessor :primary_locale_name
+    self.primary_locale_name = I18n.default_locale.to_s
 
     include Tolk::Sync
 
