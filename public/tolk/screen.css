@@ -252,6 +252,10 @@ table.translations td.translation {
   padding: 6px 10px;
 }
 
+table.translations tr.active td {
+  background: #edf9fe;
+}
+
 /*-------------------------------------------------
 Pagination
 -------------------------------------------------*/

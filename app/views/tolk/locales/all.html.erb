@@ -20,7 +20,7 @@
           <td class="translation">
             <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
             <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
-            <%= text_area_tag :"translations[][text]", phrase.translation.text, :class => 'locale' %>
+            <%= text_area_tag :"translations[][text]", phrase.translation.text, :class => 'locale', :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
           </td>
         </tr>
       <% end %>
