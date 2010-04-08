@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20081124140539) do
+ActiveRecord::Schema.define(:version => 20100408173138) do
 
   create_table "locales", :force => true do |t|
     t.string   "name"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(:version => 20081124140539) do
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "updated",       :default => false
+    t.text     "previous_text"
   end
 
 end
