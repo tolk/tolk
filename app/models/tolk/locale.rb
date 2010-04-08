@@ -4,7 +4,8 @@ module Tolk
       'en' => 'English',
       'de' => 'German',
       'es' => 'Spanish',
-      'da' => 'Dansk'
+      'da' => 'Dansk',
+      'fr' => 'French'
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
