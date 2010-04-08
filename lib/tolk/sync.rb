@@ -37,15 +37,20 @@ module Tolk
 
           # Update primary translation if it's been changed
           if value.present? && translation.text != value
+
+            unless translation.new_record?
+              # Set the primary updated flag if the translation is not new
+              secondary_locales.each do |locale|
+                if existing_translation = existing_phrase.translations.detect {|t| t.locale_id == locale.id }
+                  existing_translation.force_set_primary_update = true
+                  existing_translation.save!
+                end
+              end
+            end
+
             translation.text = value 
             translation.save!
           end
-
-          # Make sure the translation record exists for all the locales
-          # secondary_locales.each do |locale|
-          #   existing_translation = existing_phrase.translations.detect {|t| t.locale_id == locale.id }
-          #   locale.translations.create!(:phrase_id => existing_phrase.id) unless existing_translation
-          # end
         end
       end
 
