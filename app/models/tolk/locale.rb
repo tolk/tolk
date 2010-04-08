@@ -47,10 +47,10 @@ module Tolk
     end
 
     def phrases_with_translation
-      @_phrases_with_translation ||= translations.collect do |translation|
+      translations.collect do |translation|
         translation.phrase.translation = translation
         translation.phrase
-      end.sort_by(&:key)
+      end
     end
 
     def phrases_without_translation(from_id = 0, limit = 1000)
