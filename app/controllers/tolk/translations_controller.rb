@@ -27,9 +27,5 @@ module Tolk
       locale_id = params[:tolk_translation].delete(:locale_id) if params[:tolk_translation]
       @locale = Tolk::Locale.find(locale_id)
     end
-
-    def ensure_no_primary_locale
-      redirect_to tolk_locales_path if @locale.primary?
-    end
   end
 end

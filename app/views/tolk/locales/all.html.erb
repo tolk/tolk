@@ -1,0 +1,32 @@
+<% content_for :locale do %><span class="locale"><%= @locale.name %></span>
+<% end %>
+
+<h3><%= link_to 'Missing translations', @locale %> | Existing translations</h3>
+
+<% phrases_with_translation = @locale.phrases_with_translation %>
+<% if phrases_with_translation.any? %>
+  <table class="translations">
+    <tr>
+      <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+      <th class="translation">Translation</th>
+      <th class="hint"><%= @locale.language_name -%></th>
+    </tr>
+    <% phrases_with_translation.each do |phrase| %>
+      <tr>
+        <td class="phrase">
+          <%= phrase.translations.primary.text -%>
+        </td>
+        <td class="translation">
+          <% remote_form_for(phrase.translation) do |f| %>
+            <%= f.hidden_field :locale_id %>
+            <%= f.text_field :text %>
+            <%= f.submit "Update" %>
+            <span class="key"><%= phrase.key %></spa
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  No missing translations found
+<% end %>

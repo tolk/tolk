@@ -1,11 +1,11 @@
 <% content_for :locale do %><span class="locale"><%= @locale.name %></span>
 <% end %>
 
+<h3>Missing translations | <%= link_to 'Existing translations', all_tolk_locale_path(@locale) %></h3>
+
 <% phrases_without_translation = @locale.phrases_without_translation %>
 <% if phrases_without_translation.any? %>
-  <h3>
-    <%# <span class="updated">The primary language has been updated for this phrase</span>%>
-     Missing translations</h3>
+  <%# <span class="updated">The primary language has been updated for this phrase</span>%>
   <table class="translations missing">
     <tr>
       <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
@@ -29,29 +29,6 @@
       </tr>
     <% end %>
   </table>
+<% else %>
+  No translations found
 <% end %>
-
-<h3>Existing translations</h3>
-
-<table class="translations">
-  <tr>
-    <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
-    <th class="translation">Translation</th>
-    <th class="hint"><%= @locale.language_name -%></th>
-  </tr>
-  <% for phrase in @locale.phrases_with_translation %>
-    <tr>
-      <td class="phrase">
-        <%= phrase.translations.primary.text -%>
-      </td>
-      <td class="translation">
-        <% remote_form_for(phrase.translation) do |f| %>
-          <%= f.hidden_field :locale_id %>
-          <%= f.text_field :text %>
-          <%= f.submit "Update" %>
-          <span class="key"><%= phrase.key %></spa
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
