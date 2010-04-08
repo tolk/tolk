@@ -16,7 +16,14 @@
       <% @phrases.each do |phrase| %>
         <tr>
           <td class="phrase">
-            <%=h phrase.translations.primary.text -%>
+            <div class="updated">
+              <span class="key">Updated</span>
+              <%=h phrase.translations.primary.text -%>
+            </div>
+            <div class="original">
+              <span class="key">Original</span>
+              <%=h phrase.translations.primary.text -%>
+            </div>
             <span class="key"><%= phrase.key %></span>
           </td>
 
@@ -40,3 +47,4 @@
   <p>&nbsp;</p>
 <% end %>
 </div>
+
