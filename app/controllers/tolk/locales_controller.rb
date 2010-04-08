@@ -8,10 +8,15 @@ module Tolk
     end
   
     def show
-      render :primary_locale if @locale.primary?
+      if @locale.primary?
+        render :primary_locale 
+      else
+        @phrases = @locale.phrases_without_translation
+      end
     end
 
     def all
+      @phrases = @locale.phrases_with_translation
     end
 
     def create

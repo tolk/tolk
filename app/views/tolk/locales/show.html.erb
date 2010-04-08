@@ -3,15 +3,14 @@
 
 <h3>Missing translations | <%= link_to 'Existing translations', all_tolk_locale_path(@locale) %></h3>
 
-<% phrases_without_translation = @locale.phrases_without_translation %>
-<% if phrases_without_translation.any? %>
+<% if @phrases.any? %>
   <%# <span class="updated">The primary language has been updated for this phrase</span>%>
   <table class="translations missing">
     <tr>
       <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
       <th class="translation"><%= @locale.language_name -%></th>
     </tr>
-    <% for phrase in phrases_without_translation %>
+    <% @phrases.each do |phrase| %>
       <tr>
         <td class="phrase">
           <%= phrase.translations.primary.text -%>
