@@ -1,5 +1,7 @@
 module Tolk
   class Translation < ActiveRecord::Base
+    set_table_name "tolk_translations"
+
     validates_presence_of :text
     validates_uniqueness_of :phrase_id, :scope => :locale_id
 

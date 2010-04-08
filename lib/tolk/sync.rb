@@ -26,9 +26,9 @@ module Tolk
         secondary_locales = self.secondary_locales
 
         # Handle deleted phrases
-        translations.present? ? Phrase.destroy_all(["phrases.key NOT IN (?)", translations.keys]) : Phrase.destroy_all
+        translations.present? ? Tolk::Phrase.destroy_all(["tolk_phrases.key NOT IN (?)", translations.keys]) : Tolk::Phrase.destroy_all
 
-        phrases = Phrase.all
+        phrases = Tolk::Phrase.all
 
         translations.each do |key, value|
           # Create phrase and primary translation if missing

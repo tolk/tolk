@@ -1,5 +1,7 @@
 module Tolk
   class Phrase < ActiveRecord::Base
+    set_table_name "tolk_phrases"
+
     cattr_accessor :per_page
     self.per_page = 30
 
