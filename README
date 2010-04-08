@@ -8,15 +8,17 @@ To install :
 
 To setup :
 
-  1) Define the primary locale inside your application's configuration file :
-
-  # environment.rb
-  Tolk::Locale.primary_locale_name = 'en'
-
-  2) Generate tolk migration and migrate your database :
+  1) Generate tolk migration and migrate your database :
 
   $ script/generate tolk_migration
   $ rake db:migrate
+
+  2) Setup Tolk assets by creating a symlink to tolk/public/tolk inside your application's public directory :
+
+  $ cd public
+  $ ln -s ../vendor/plugins/tolk/public/tolk tolk
+
+  And you're all set!
 
 * Usage
 
