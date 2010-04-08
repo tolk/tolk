@@ -52,15 +52,11 @@ module Tolk
     end
 
     def phrases_with_translation(page = nil)
-      result = Tolk::Phrase.paginate(:page => page, :conditions => { :'tolk_translations.locale_id' => self.id },
-        :joins => :translations, :order => 'tolk_phrases.id ASC')
-      Tolk::Phrase.send :preload_associations, result, :translations
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => false)
+    end
 
-      result.each do |phrase|
-        phrase.translation = phrase.translations.for(self)
-      end
-
-      result
+    def phrases_with_updated_translation(page = nil)
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => true)
     end
 
     def phrases_without_translation(page = nil)
@@ -97,16 +93,31 @@ module Tolk
     end
 
     private
-      def unsquish(string, value)
-        if string.is_a?(String)
-          unsquish(string.split("."), value)
-        elsif string.size == 1
-          { string.first => value }
-        else
-          key  = string[0]
-          rest = string[1..-1]
-          { key => unsquish(rest, value) }
-        end
+
+    def find_phrases_with_translations(conditions)
+      result = Tolk::Phrase.paginate(:page => page,
+        :conditions => { :'tolk_translations.locale_id' => self.id }.merge(conditions),
+        :joins => :translations, :order => 'tolk_phrases.id ASC')
+
+      Tolk::Phrase.send :preload_associations, result, :translations
+
+      result.each do |phrase|
+        phrase.translation = phrase.translations.for(self)
       end
+
+      result
+    end
+
+    def unsquish(string, value)
+      if string.is_a?(String)
+        unsquish(string.split("."), value)
+      elsif string.size == 1
+        { string.first => value }
+      else
+        key  = string[0]
+        rest = string[1..-1]
+        { key => unsquish(rest, value) }
+      end
+    end
   end
 end
