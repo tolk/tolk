@@ -52,7 +52,7 @@ module Tolk
       Tolk::Phrase.send :preload_associations, result, :translations
 
       result.each do |phrase|
-        phrase.translation = phrase.translations.secondary(self)
+        phrase.translation = phrase.translations.for(self)
       end
 
       result

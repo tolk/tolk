@@ -5,7 +5,7 @@ module Tolk
         to_a.detect {|t| t.locale_id == Tolk::Locale.primary_locale.id}
       end
 
-      def secondary(locale)
+      def for(locale)
         to_a.detect {|t| t.locale_id == locale.id}
       end
     end
