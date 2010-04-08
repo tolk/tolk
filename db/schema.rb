@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(:version => 20100408173138) do
     t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "updated",       :default => false
+    t.boolean  "primary_updated", :default => false
     t.text     "previous_text"
   end
 

@@ -17,7 +17,7 @@ class CreateTolkTables < ActiveRecord::Migration
       t.integer  :locale_id
       t.text     :text
       t.text     :previous_text
-      t.boolean  :updated, :default => false
+      t.boolean  :primary_updated, :default => false
       t.datetime :created_at
       t.datetime :updated_at
     end
