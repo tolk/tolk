@@ -6,8 +6,6 @@ module Tolk
 
     module ClassMethods
       def sync!
-        raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
-
         translations = read_primary_locale_file
         sync_phrases(translations)
       end
@@ -17,6 +15,20 @@ module Tolk
         raise "Primary locale file #{primary_file} does not exists" unless File.exists?(primary_file)
 
         flat_hash(YAML::load(IO.read(primary_file))[self.primary_locale_name])
+      end
+
+      def flat_hash(data, prefix = '', result = {})
+        data.each do |key, value|
+          current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
+
+          if value.is_a?(Hash)
+            flat_hash(value, current_prefix, result)
+          else
+            result[current_prefix] = value
+          end
+        end
+
+        result
       end
 
       private
@@ -52,20 +64,6 @@ module Tolk
             translation.save!
           end
         end
-      end
-
-      def flat_hash(data, prefix = '', result = {})
-        data.each do |key, value|
-          current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
-
-          if value.is_a?(Hash)
-            flat_hash(value, current_prefix, result)
-          else
-            result[current_prefix] = value
-          end
-        end
-
-        result
       end
 
     end
