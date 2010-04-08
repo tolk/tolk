@@ -52,11 +52,11 @@ module Tolk
     end
 
     def phrases_with_translation(page = nil)
-      find_phrases_with_translations(:'tolk_translations.primary_updated' => false)
+      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => false)
     end
 
     def phrases_with_updated_translation(page = nil)
-      find_phrases_with_translations(:'tolk_translations.primary_updated' => true)
+      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => true)
     end
 
     def phrases_without_translation(page = nil)
@@ -94,7 +94,7 @@ module Tolk
 
     private
 
-    def find_phrases_with_translations(conditions)
+    def find_phrases_with_translations(page, conditions = {})
       result = Tolk::Phrase.paginate(:page => page,
         :conditions => { :'tolk_translations.locale_id' => self.id }.merge(conditions),
         :joins => :translations, :order => 'tolk_phrases.id ASC')
