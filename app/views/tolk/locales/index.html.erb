@@ -3,9 +3,7 @@
 
 <ul class="locales clearfix">
   <% @locales.each do |locale| %>
-    <li>
-      <%= link_to locale.name, locale %><%= " <span>(primary)</span>" if locale.primary? %>
-    </li>
+    <li><%= link_to locale.name, locale %></li>
   <% end %>
 </ul>
 
