@@ -14,7 +14,7 @@ class TranslationProcessTest < ActionController::IntegrationTest
     # Adding a new translation
     pirate_url = tolk_locale_url(locale)
     visit pirate_url
-    fill_in 'translations][][text]', :with => "Dead men don't bite"
+    fill_in 'translations[][text]', :with => "Dead men don't bite"
     click_button 'Update all'
 
     assert_equal current_url, pirate_url
@@ -24,7 +24,7 @@ class TranslationProcessTest < ActionController::IntegrationTest
     click_link 'Existing translations'
     assert_contain "Dead men don't bite"
 
-    fill_in 'translations][][text]', :with => "Arrrr!"
+    fill_in 'translations[][text]', :with => "Arrrr!"
     click_button 'Update all'
 
     assert_equal current_url, all_tolk_locale_url(locale)
