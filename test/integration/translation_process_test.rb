@@ -48,7 +48,6 @@ class TranslationProcessTest < ActionController::IntegrationTest
     Tolk::Phrase.delete_all
 
     Tolk::Locale.locales_config_path = RAILS_ROOT + "/test/locales/sync"
-    Tolk::Locale.primary_locale_name = 'en'
     Tolk::Locale.primary_locale(true)
 
     Tolk::Locale.sync!
