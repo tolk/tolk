@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LocaleTest < ActiveSupport::TestCase
   test "turning locale without nested phrases into a hash" do
-    assert_equal({ "se" => { "hello_world" => "Hejsan Verdon" } }, locales(:se).to_hash)
+    assert_equal({ "se" => { "hello_world" => "Hejsan Verdon" } }, tolk_locales(:se).to_hash)
   end
 
   test "turning locale with nested phrases into a hash" do
@@ -12,16 +12,16 @@ class LocaleTest < ActiveSupport::TestCase
         "hello_world" => "Nested Hello World",
         "hello_country" => "Nested Hello Country"
       }
-    }}, locales(:en).to_hash)
+    }}, tolk_locales(:en).to_hash)
   end
 
   test "phrases without translations" do
-    assert locales(:en).phrases_without_translation.include?(phrases(:cozy))
+    assert tolk_locales(:en).phrases_without_translation.include?(tolk_phrases(:cozy))
   end
 
   test "paginating phrases without translations" do
     Tolk::Phrase.per_page = 2
-    locale = locales(:se)
+    locale = tolk_locales(:se)
 
     page1 = locale.phrases_without_translation
     assert_equal [2, 3], page1.map(&:id)
@@ -35,7 +35,7 @@ class LocaleTest < ActiveSupport::TestCase
 
   test "paginating phrases with translations" do
     Tolk::Phrase.per_page = 3
-    locale = locales(:en)
+    locale = tolk_locales(:en)
 
     page1 = locale.phrases_with_translation
     assert_equal [1, 2, 3], page1.map(&:id)
@@ -65,7 +65,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "human language name" do
-    assert_equal 'English', locales(:en).language_name
+    assert_equal 'English', tolk_locales(:en).language_name
     assert_equal 'pirate', Tolk::Locale.new(:name => 'pirate').language_name
   end
 end

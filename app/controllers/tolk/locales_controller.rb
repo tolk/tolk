@@ -1,17 +1,16 @@
 module Tolk
   class LocalesController < ApplicationController
     before_filter :find_locale, :only => [:show, :all, :update]
-    before_filter :ensure_no_primary_locale, :only => [:all, :update]
+    before_filter :ensure_no_primary_locale, :only => [:all, :update, :show]
 
     def index
       @locales = Tolk::Locale.secondary_locales
     end
   
     def show
-      if @locale.primary?
-        render :primary_locale 
-      else
-        @phrases = @locale.phrases_without_translation(params[:page])
+      respond_to do |format|
+        format.html { @phrases = @locale.phrases_without_translation(params[:page]) }
+        format.yml { render :text => @locale.to_hash.to_yaml }
       end
     end
 

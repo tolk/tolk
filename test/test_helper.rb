@@ -16,5 +16,5 @@ class ActiveSupport::TestCase
 
   fixtures :all
 
-  self.fixture_class_names = {:locales => 'Tolk::Locale', :phrases => 'Tolk::Phrase', :translation => 'Tolk::Translation'}
+  self.fixture_class_names = {:tolk_locales => 'Tolk::Locale', :tolk_phrases => 'Tolk::Phrase', :tolk_translation => 'Tolk::Translation'}
 end

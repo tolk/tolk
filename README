@@ -28,13 +28,15 @@ As tolk stores all the keys and translated strings in the database, you need to 
   
 The above will fetch all the new keys from en.yml and put them in the database. Additionally, it'll also get rid of the deleted keys from the database and reflect updated translations - if any.
 
-Upon visiting http://<your app>/tolk - you will be presented with different options like creating new locale or providing translations for the existing locales. Once done with translating all the pending strings, you are can write back the new locales to filesystem :
+Upon visiting http://your_app.com/tolk - you will be presented with different options like creating new locale or providing translations for the existing locales. Once done with translating all the pending strings, you are can write back the new locales to filesystem :
 
   $ script/runner 'Tolk::Locale.dump_all'
 
 This will generate yml files for all non primary locales and put them in RAILS_ROOT/config/locales/ directory by default. You can pass directory path as the argument if you want the generated files to be at a different location :
 
   $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
+
+You can even download the yml file using Tolk web interface by appending '.yml' to the locale url. E.g http://your_app.com/tolk/locales/de.yml
 
 * Authentication
 
