@@ -32,6 +32,16 @@ class LocaleTest < ActiveSupport::TestCase
     assert page3.blank?
   end
 
+  test "paginating phrases with translations" do
+    locale = locales(:en)
+
+    page1 = locale.phrases_with_translation(0, 3)
+    assert_equal [1, 2, 3], page1.map(&:id)
+
+    page2 = locale.phrases_with_translation(3, 3)
+    assert page2.blank?
+  end
+
   test "dumping all locales to yml" do
     Tolk::Locale.primary_locale_name = 'en'
 

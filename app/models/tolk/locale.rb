@@ -46,11 +46,16 @@ module Tolk
       end
     end
 
-    def phrases_with_translation
-      translations.collect do |translation|
-        translation.phrase.translation = translation
-        translation.phrase
+    def phrases_with_translation(from_id = 0, limit = 1000)
+      result = Tolk::Phrase.all(:conditions => ['phrases.id > ? AND translations.locale_id = ?', from_id, self.id],
+        :joins => :translations, :order => 'phrases.id ASC', :limit => limit)
+      Tolk::Phrase.send :preload_associations, result, :translations
+
+      result.each do |phrase|
+        phrase.translation = phrase.translations.secondary(self)
       end
+
+      result
     end
 
     def phrases_without_translation(from_id = 0, limit = 1000)
