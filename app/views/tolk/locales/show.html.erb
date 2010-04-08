@@ -10,22 +10,26 @@
       <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
       <th class="translation"><%= @locale.language_name -%></th>
     </tr>
-    <% @phrases.each do |phrase| %>
-      <tr>
-        <td class="phrase">
-          <%=h phrase.translations.primary.text -%>
-        </td>
-        <td class="translation">
-          <% form_for(Tolk::Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
-            <%= f.hidden_field :locale_id %>
-            <%= f.hidden_field :phrase_id %>
+    <% form_for @locale do |locale_form| %>
+      <% @phrases.each do |phrase| %>
+        <tr>
+          <td class="phrase">
+            <%=h phrase.translations.primary.text -%>
+          </td>
 
-            <%= f.text_area :text, :class => "locale" %>
-            <%= f.submit "Update" %>
-            <span class="key"><%= phrase.key %></span>
-          <% end %>
-        </td>
-      </tr>
+          <% translation = Tolk::Translation.new(:locale => @locale, :phrase => phrase) %>
+          <td class="translation">
+            <%= hidden_field_tag :"translations][][id]", translation.id, :id => "#{translation.object_id}_id" %>
+            <%= hidden_field_tag :"translations][][phrase_id]", phrase.id, :id => "#{translation.object_id}_phrase_id" %>
+            <%= hidden_field_tag :"translations][][locale_id]", translation.locale_id, :id => "#{translation.object_id}_locale_id" %>
+            <%= text_area_tag :"translations][][text]", translation.text, :class => "locale", :id => "#{translation.object_id}_text" %>
+            <span class="key"><%= phrase.key %></spa
+          </td>
+
+        </tr>
+      <% end %>
+
+      <%= locale_form.submit "Update all" %>
     <% end %>
   </table>
 

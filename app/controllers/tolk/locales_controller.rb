@@ -1,7 +1,7 @@
 module Tolk
   class LocalesController < ApplicationController
-    before_filter :find_locale, :only => [:show, :all]
-    before_filter :ensure_no_primary_locale, :only => :all
+    before_filter :find_locale, :only => [:show, :all, :update]
+    before_filter :ensure_no_primary_locale, :only => [:all, :update]
 
     def index
       @locales = Tolk::Locale.all
@@ -13,6 +13,12 @@ module Tolk
       else
         @phrases = @locale.phrases_without_translation(params[:page])
       end
+    end
+
+    def update
+      @locale.translations_attributes = params[:translations]
+      @locale.save!
+      redirect_to request.referrer
     end
 
     def all

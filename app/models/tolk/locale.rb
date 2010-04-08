@@ -9,6 +9,7 @@ module Tolk
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
     has_many :translations, :include => :phrase, :class_name => 'Tolk::Translation'
+    accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
 
     cattr_accessor :locales_config_path
     self.locales_config_path = "#{Rails.root}/config/locales"
