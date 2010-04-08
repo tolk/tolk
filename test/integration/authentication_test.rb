@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AuthenticationTest < ActionController::IntegrationTest
-
   def setup
     Tolk::ApplicationController.authenticator = proc do
       authenticate_or_request_with_http_basic {|user_name, password| user_name == 'lifo' && password == 'pass' }
