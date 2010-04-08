@@ -11,12 +11,12 @@ module Tolk
       if @locale.primary?
         render :primary_locale 
       else
-        @phrases = @locale.phrases_without_translation
+        @phrases = @locale.phrases_without_translation(params[:page])
       end
     end
 
     def all
-      @phrases = @locale.phrases_with_translation
+      @phrases = @locale.phrases_with_translation(params[:page])
     end
 
     def create
