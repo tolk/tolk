@@ -19,6 +19,19 @@ class LocaleTest < ActiveSupport::TestCase
     assert locales(:en).phrases_without_translation.include?(phrases(:cozy))
   end
 
+  test "paginating phrases without translations" do
+    locale = locales(:se)
+
+    page1 = locale.phrases_without_translation(0, 2)
+    assert_equal [2, 3], page1.map(&:id)
+
+    page2 = locale.phrases_without_translation(3, 3)
+    assert_equal [4], page2.map(&:id)
+
+    page3 = locale.phrases_without_translation(4, 3)
+    assert page3.blank?
+  end
+
   test "dumping all locales to yml" do
     Tolk::Locale.primary_locale_name = 'en'
 

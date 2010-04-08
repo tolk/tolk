@@ -1,7 +1,8 @@
 <% content_for :locale do %><span class="locale"><%= @locale.name %></span>
 <% end %>
 
-<% if @locale.phrases_without_translation.any? %>
+<% phrases_without_translation = @locale.phrases_without_translation %>
+<% if phrases_without_translation.any? %>
   <h3>
     <%# <span class="updated">The primary language has been updated for this phrase</span>%>
      Missing translations</h3>
@@ -10,7 +11,7 @@
       <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
       <th class="translation"><%= @locale.language_name -%></th>
     </tr>
-    <% for phrase in @locale.phrases_without_translation %>
+    <% for phrase in phrases_without_translation %>
       <tr>
         <td class="phrase">
           <%= phrase.translations.primary.text -%>

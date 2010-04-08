@@ -53,8 +53,15 @@ module Tolk
       end.sort_by(&:key)
     end
 
-    def phrases_without_translation
-      @_phrases_without_translation ||= (Tolk::Phrase.all - phrases).sort_by(&:key)
+    def phrases_without_translation(from_id = 0, limit = 1000)
+      phrases = Tolk::Phrase.scoped(:conditions => ['phrases.id > ?', from_id], :order => 'phrases.id ASC', :limit => limit)
+
+      existing_ids = self.phrases
+      phrases = phrases.scoped(:conditions => ['phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
+
+      result = phrases.all
+      Tolk::Phrase.send :preload_associations, result, :translations
+      result
     end
 
     def to_hash
