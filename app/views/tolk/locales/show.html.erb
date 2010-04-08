@@ -13,7 +13,7 @@
     <% @phrases.each do |phrase| %>
       <tr>
         <td class="phrase">
-          <%= phrase.translations.primary.text -%>
+          <%=h phrase.translations.primary.text -%>
         </td>
         <td class="translation">
           <% form_for(Tolk::Translation.new(:locale => @locale, :phrase => phrase)) do |f| %>
