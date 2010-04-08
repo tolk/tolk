@@ -7,7 +7,6 @@
   <table class="translations">
     <tr>
       <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
-      <th class="translation">Translation</th>
       <th class="hint"><%= @locale.language_name -%></th>
     </tr>
     <% form_for @locale do |locale_form| %>
@@ -20,7 +19,7 @@
           <td class="translation">
             <%= hidden_field_tag :"translations][][id]", phrase.translation.id %>
             <%= hidden_field_tag :"translations][][locale_id]", phrase.translation.locale_id %>
-            <%= text_field_tag :"translations][][text]", phrase.translation.text %>
+            <%= text_area_tag :"translations][][text]", phrase.translation.text, :class => 'locale' %>
             <span class="key"><%= phrase.key %></spa
           </td>
         </tr>
