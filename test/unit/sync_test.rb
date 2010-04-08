@@ -20,6 +20,39 @@ class SyncTest < ActiveSupport::TestCase
     assert_equal ['hola', 'something'], result.values.sort
   end
 
+  def test_sync_sets_previous_text_for_primary_locale
+    Tolk::Locale.sync!
+
+    # Change 'Hello World' to 'Hello Super World'
+    Tolk::Locale.expects(:read_primary_locale_file).returns({"hello_world" => "Hello Super World"})
+    Tolk::Locale.sync!
+
+    translation = Tolk::Locale.primary_locale(true).translations.first
+    assert_equal 'Hello Super World', translation.text
+    assert_equal 'Hello World', translation.previous_text
+  end
+
+  def test_sync_sets_primary_updated_for_secondary_translations_on_update
+    spanish = Tolk::Locale.create!(:name => 'es')
+
+    Tolk::Locale.sync!
+
+    phrase1 = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
+    t1 = spanish.translations.create!(:text => 'hola', :phrase => phrase1)
+    phrase2 = Tolk::Phrase.all.detect {|p| p.key == 'nested.hello_country'}
+    t2 = spanish.translations.create!(:text => 'nested hola', :phrase => phrase2)
+
+    # Change 'Hello World' to 'Hello Super World'. But don't change nested.hello_country
+    Tolk::Locale.expects(:read_primary_locale_file).returns({'hello_world' => 'Hello Super World', 'nested.hello_country' => 'Nested Hello Country'})
+    Tolk::Locale.sync!
+
+    t1.reload
+    t2.reload
+
+    assert t1.primary_updated?
+    assert ! t2.primary_updated?
+  end
+
   def test_sync_creates_locale_phrases_translations
     Tolk::Locale.sync!
 

@@ -18,6 +18,10 @@ To setup :
   $ cd public
   $ ln -s ../vendor/plugins/tolk/public/tolk tolk
 
+  3) Make sure you have the latest will_paginate gem installed :
+
+  $ gem install will_paginate
+
   And you're all set!
 
 * Usage
