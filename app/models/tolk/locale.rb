@@ -15,6 +15,9 @@ module Tolk
 
     cattr_accessor :primary_locale_name
 
+    cattr_accessor :default_page_size
+    self.default_page_size = 100
+
     include Tolk::Sync
 
     validates_uniqueness_of :name
@@ -46,7 +49,7 @@ module Tolk
       end
     end
 
-    def phrases_with_translation(from_id = 0, limit = 1000)
+    def phrases_with_translation(from_id = 0, limit = self.class.default_page_size)
       result = Tolk::Phrase.all(:conditions => ['phrases.id > ? AND translations.locale_id = ?', from_id, self.id],
         :joins => :translations, :order => 'phrases.id ASC', :limit => limit)
       Tolk::Phrase.send :preload_associations, result, :translations
@@ -58,7 +61,7 @@ module Tolk
       result
     end
 
-    def phrases_without_translation(from_id = 0, limit = 1000)
+    def phrases_without_translation(from_id = 0, limit = self.class.default_page_size)
       phrases = Tolk::Phrase.scoped(:conditions => ['phrases.id > ?', from_id], :order => 'phrases.id ASC', :limit => limit)
 
       existing_ids = self.phrases
