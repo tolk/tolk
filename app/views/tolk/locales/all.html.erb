@@ -47,7 +47,7 @@
       <p><%= locale_form.submit "Save changes" %></p>
     </div>
     <div class="paginate">
-      <%= will_paginate @phrases %>
+      <%= will_paginate @phrases, :renderer => Tolk::LinkRenderer %>
     </div>
   <% end %>
 <% else %>
