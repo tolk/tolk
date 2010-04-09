@@ -246,7 +246,7 @@ table.translations td,
 table.translations th {
   font-size: 14px;
   color: #222;
-  padding: 8px 10px;
+  padding: 12px 8px;
   border-bottom: 1px solid #e5e5e5;
   vertical-align: top;
   width: 50%;
@@ -269,8 +269,7 @@ table.translations textarea.locale {
   padding: 1px;
   width: 100%;
   height: 100%;
-  min-height: 100%;
-  margin-bottom: 10px;
+  min-height: 42px;
 }
 
 table.translations span.key {
@@ -280,7 +279,7 @@ table.translations span.key {
 }
 
 table.translations td.translation {
-  padding: 6px 10px;
+  padding: 10px 8px;
 }
 
 table.translations tr.active td {

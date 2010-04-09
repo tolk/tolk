@@ -58,7 +58,10 @@
 </div>
 
 <script type="text/javascript">
-  document.observe("dom:loaded", function() {
-    $$('textarea').setStyle('height', ($('this').up('td').getHeight() + 'px'));
-  });
+ 
+    $$('textarea').each(function(element) {
+        cell_height = (element.up('td').getHeight() + 'px');
+        element.setStyle({height: cell_height});
+     });
+  
 </script>
