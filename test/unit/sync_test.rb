@@ -134,6 +134,24 @@ class SyncTest < ActiveSupport::TestCase
     assert_equal 'hola', hola.text
   end
 
+  def test_sync_array_values
+    spanish = Tolk::Locale.create!(:name => 'es')
+
+    # Mimic deleting 'nested.hello_country' and updating 'hello_world'
+    data = {"weekend" => ['Friday', 'Saturday', 'Sunday']}
+    Tolk::Locale.expects(:load_translations).returns(data)
+    Tolk::Locale.sync!
+
+    assert_equal 1, Tolk::Locale.primary_locale.translations.count
+
+    translation = Tolk::Locale.primary_locale.translations.first
+    assert_equal data['weekend'], translation.text
+
+    yaml = ['Saturday', 'Sunday'].to_yaml
+    spanish_weekends = spanish.translations.create!(:text => yaml, :phrase => Tolk::Phrase.first)
+    assert_equal YAML.load(yaml), spanish_weekends.text
+  end
+
   def test_dump_all_after_sync
     spanish = Tolk::Locale.create!(:name => 'es')
 
