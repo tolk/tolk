@@ -38,7 +38,9 @@ module Tolk
         secondary_locales = self.secondary_locales
 
         # Handle deleted phrases
-        translations.present? ? Tolk::Phrase.destroy_all(["tolk_phrases.key NOT IN (?)", translations.keys]) : Tolk::Phrase.destroy_all
+        I18n.available_locales # force load
+        possible_keys = (flat_hash(I18n.backend.send(:translations)[primary_locale.name.to_sym]).keys + translations.keys).uniq
+        possible_keys.present? ? Tolk::Phrase.destroy_all(["tolk_phrases.key NOT IN (?)", possible_keys]) : Tolk::Phrase.destroy_all
 
         phrases = Tolk::Phrase.all
 
