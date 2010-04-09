@@ -47,7 +47,7 @@ class TranslationProcessTest < ActionController::IntegrationTest
     Tolk::Translation.delete_all
     Tolk::Phrase.delete_all
 
-    Tolk::Locale.locales_config_path = RAILS_ROOT + "/test/locales/sync"
+    Tolk::Locale.locales_config_path = File.join(Rails.root, "test/locales/sync")
     Tolk::Locale.primary_locale(true)
 
     Tolk::Locale.sync!

@@ -7,7 +7,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Translation.delete_all
     Tolk::Phrase.delete_all
 
-    Tolk::Locale.locales_config_path = RAILS_ROOT + "/test/locales/sync/"
+    Tolk::Locale.locales_config_path = File.join(Rails.root, "test/locales/sync/")
 
     I18n.backend.reload!
     I18n.load_path = [Tolk::Locale.locales_config_path + 'en.yml']
@@ -159,7 +159,7 @@ class SyncTest < ActiveSupport::TestCase
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
     hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
 
-    tmpdir = RAILS_ROOT + "/tmp/sync/locales"
+    tmpdir = File.join Rails.root, "tmp/sync/locales"
     FileUtils.mkdir_p(tmpdir)
     Tolk::Locale.dump_all(tmpdir)
 

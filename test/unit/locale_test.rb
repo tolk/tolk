@@ -48,19 +48,19 @@ class LocaleTest < ActiveSupport::TestCase
     Tolk::Locale.primary_locale_name = 'en'
 
     begin
-      FileUtils.mkdir_p(RAILS_ROOT + "/tmp/locales")
-      Tolk::Locale.dump_all(RAILS_ROOT + "/tmp/locales")
+      FileUtils.mkdir_p(File.join(Rails.root, "tmp/locales"))
+      Tolk::Locale.dump_all(File.join(Rails.root, "tmp/locales"))
 
       %w( da se ).each do |locale|
         assert_equal \
-          File.read(RAILS_ROOT + "/test/locales/basic/#{locale}.yml"), 
-          File.read(RAILS_ROOT + "/tmp/locales/#{locale}.yml")
+          File.read(File.join(Rails.root, "test/locales/basic/#{locale}.yml")),
+          File.read(File.join(Rails.root, "tmp/locales/#{locale}.yml"))
       end
 
       # Make sure dump doesn't generate en.yml
-      assert ! File.exists?(RAILS_ROOT + "/tmp/locales/en.yml")
+      assert ! File.exists?(File.join(Rails.root, "tmp/locales/en.yml"))
     ensure
-      FileUtils.rm_rf(RAILS_ROOT + "/tmp/locales")
+      FileUtils.rm_rf(File.join(Rails.root, "tmp/locales"))
     end
   end
 
