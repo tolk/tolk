@@ -22,14 +22,15 @@
             <% if action_name == 'updated' %>
               <div class="updated">
                 <span class="key">Updated</span>
+                <%= format_i18n_value(phrase.translations.primary.text) -%>
                 <%=h phrase.translations.primary.text -%>
               </div>
               <div class="original">
                 <span class="key">Original</span>
-                <%=h phrase.translations.primary.previous_text -%>
+                <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
               </div>
             <% else %>
-              <%=h phrase.translations.primary.text -%>
+              <%= format_i18n_value(phrase.translations.primary.text) -%>
             <% end %>
 
             <span class="key"><%= phrase.key %></span>
@@ -38,7 +39,8 @@
           <td class="translation">
             <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
             <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
-            <%= text_area_tag :"translations[][text]", phrase.translation.text, :class => 'locale', :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
+            <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text), :class => 'locale',
+                              :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
           </td>
         </tr>
       <% end %>

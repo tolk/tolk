@@ -21,9 +21,14 @@ module Tolk
         count = 0
 
         data.each do |key, value|
-          phrase = phrases.detect {|p| p.key == key} || Phrase.create!(:key => key)
-          translation = locale.translations.new(:text => value, :phrase => phrase)
-          count = count + 1 if translation.save
+          phrase = phrases.detect {|p| p.key == key}
+
+          if phrase
+            translation = locale.translations.new(:text => value, :phrase => phrase)
+            count = count + 1 if translation.save
+          else
+            puts "[ERROR] Key '#{key}' was found in #{locale_name}.yml but #{Tolk::Locale.primary_language_name} translation is missing"
+          end
         end
 
         puts "[INFO] Imported #{count} keys from #{locale_name}.yml"

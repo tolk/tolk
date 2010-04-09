@@ -18,7 +18,7 @@
         <% @phrases.each do |phrase| %>
           <tr>
             <td class="phrase">
-              <%=h phrase.translations.primary.text -%>
+              <%= format_i18n_value(phrase.translations.primary.text) -%>
               <span class="key"><%= phrase.key %></span>
             </td>
 
