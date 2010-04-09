@@ -137,7 +137,6 @@ class SyncTest < ActiveSupport::TestCase
   def test_sync_array_values
     spanish = Tolk::Locale.create!(:name => 'es')
 
-    # Mimic deleting 'nested.hello_country' and updating 'hello_world'
     data = {"weekend" => ['Friday', 'Saturday', 'Sunday']}
     Tolk::Locale.expects(:load_translations).returns(data)
     Tolk::Locale.sync!
