@@ -2,9 +2,11 @@
 <% end %>
 
 <h3 class="switch">Phrases missing translation <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
-<%# show when there are updated phrases for this locale %>
-  <span class="notice">Some phrases have changed. <%= link_to "Update translations" %>.</span>
-<%# end %>
+
+<% if @locale.has_updated_translations? && action_name != 'updated' %>
+  <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
+<% end %>
+
 <div class="translations">
   <% if @phrases.any? %>
      <% form_for @locale do |locale_form| %>
@@ -16,7 +18,7 @@
         <% @phrases.each do |phrase| %>
           <tr>
             <td class="phrase">
-              <%=h phrase.translations.primary.text -%>
+              <%= format_i18n_value(phrase.translations.primary.text) -%>
               <span class="key"><%= phrase.key %></span>
             </td>
 

@@ -11,7 +11,7 @@ module Tolk
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
-    has_many :translations, :include => :phrase, :class_name => 'Tolk::Translation'
+    has_many :translations, :class_name => 'Tolk::Translation', :dependent => :destroy
     accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
 
     cattr_accessor :locales_config_path
@@ -21,6 +21,7 @@ module Tolk
     self.primary_locale_name = I18n.default_locale.to_s
 
     include Tolk::Sync
+    include Tolk::Import
 
     validates_uniqueness_of :name
     validates_presence_of :name
@@ -49,6 +50,10 @@ module Tolk
           end
         end
       end
+    end
+
+    def has_updated_translations?
+      translations.count(:conditions => {:'tolk_translations.primary_updated' => true}) > 0
     end
 
     def phrases_with_translation(page = nil)

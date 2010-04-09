@@ -1,7 +1,7 @@
 module Tolk
   class LocalesController < ApplicationController
-    before_filter :find_locale, :only => [:show, :all, :update]
-    before_filter :ensure_no_primary_locale, :only => [:all, :update, :show]
+    before_filter :find_locale, :only => [:show, :all, :update, :updated]
+    before_filter :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
 
     def index
       @locales = Tolk::Locale.secondary_locales
@@ -22,6 +22,11 @@ module Tolk
 
     def all
       @phrases = @locale.phrases_with_translation(params[:page])
+    end
+
+    def updated
+      @phrases = @locale.phrases_with_updated_translation(params[:page])
+      render :all
     end
 
     def create

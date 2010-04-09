@@ -6,17 +6,32 @@ module Tolk
 
     module ClassMethods
       def sync!
-        raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
+        sync_phrases(load_translations)
+      end
 
-        translations = read_primary_locale_file
-        sync_phrases(translations)
+      def load_translations
+        I18n.available_locales # force load
+        translations = flat_hash(I18n.backend.send(:translations)[primary_locale.name.to_sym])
+        translations.merge(read_primary_locale_file)
       end
 
       def read_primary_locale_file
         primary_file = "#{self.locales_config_path}/#{self.primary_locale_name}.yml"
-        raise "Primary locale file #{primary_file} does not exists" unless File.exists?(primary_file)
+        File.exists?(primary_file) ? flat_hash(YAML::load(IO.read(primary_file))[self.primary_locale_name]) : {}
+      end
 
-        flat_hash(YAML::load(IO.read(primary_file))[self.primary_locale_name])
+      def flat_hash(data, prefix = '', result = {})
+        data.each do |key, value|
+          current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
+
+          if value.is_a?(Hash)
+            flat_hash(value, current_prefix, result)
+          else
+            result[current_prefix] = value
+          end
+        end
+
+        result.stringify_keys
       end
 
       private
@@ -32,11 +47,11 @@ module Tolk
 
         translations.each do |key, value|
           # Create phrase and primary translation if missing
-          existing_phrase = phrases.detect {|p| p.key == key} || Phrase.create!(:key => key)
+          existing_phrase = phrases.detect {|p| p.key == key} || Tolk::Phrase.create!(:key => key)
           translation = existing_phrase.translations.primary || primary_locale.translations.build(:phrase_id => existing_phrase.id)
 
           # Update primary translation if it's been changed
-          if value.present? && translation.text != value
+          if value && translation.text != value
 
             unless translation.new_record?
               # Set the primary updated flag if the translation is not new
@@ -48,24 +63,11 @@ module Tolk
               end
             end
 
-            translation.text = value 
-            translation.save!
+            translation.text = value
           end
+
+          translation.save!
         end
-      end
-
-      def flat_hash(data, prefix = '', result = {})
-        data.each do |key, value|
-          current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
-
-          if value.is_a?(Hash)
-            flat_hash(value, current_prefix, result)
-          else
-            result[current_prefix] = value
-          end
-        end
-
-        result
       end
 
     end
