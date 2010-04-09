@@ -45,10 +45,10 @@
 </div>
 
 <script type="text/javascript">
-  document.observe("dom:loaded", function() {
+ 
     $$('textarea').each(function(element) {
-        cell_height = (element.up('td').getHeight() + 'px');
+        cell_height = ((element.up('td').getHeight() - 24) + 'px'); //get height, then remove padding
         element.setStyle({height: cell_height});
      });
-  });
+  
 </script>
