@@ -48,3 +48,8 @@
 <% end %>
 </div>
 
+<script type="text/javascript">
+  document.observe("dom:loaded", function() {
+    $$('textarea').setStyle('height', ($('this').up('td').getHeight() + 'px'));
+  });
+</script>

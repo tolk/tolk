@@ -140,17 +140,19 @@ ul.locales a {
   font-weight: bold;
   text-decoration: none;
   padding: 5px 10px;
-  background: #eee;
+  background: #fff;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   border: 1px solid #e5e5e5;
   display: block;
+  color: #2fadcf;
 }
 
 ul.locales a:hover {
-  background: #ddd;
+  background: #f5f5f5;
   border-color: #ccc;
+  text-decoration: underline;
 }
 
 ul.locales span {
