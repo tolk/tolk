@@ -24,10 +24,10 @@ class LocaleTest < ActiveSupport::TestCase
     locale = tolk_locales(:se)
 
     page1 = locale.phrases_without_translation
-    assert_equal [2, 3], page1.map(&:id)
+    assert_equal [4, 3], page1.map(&:id)
 
     page2 = locale.phrases_without_translation(2)
-    assert_equal [4], page2.map(&:id)
+    assert_equal [2], page2.map(&:id)
 
     page3 = locale.phrases_without_translation(3)
     assert page3.blank?
@@ -38,7 +38,7 @@ class LocaleTest < ActiveSupport::TestCase
     locale = tolk_locales(:en)
 
     page1 = locale.phrases_with_translation
-    assert_equal [1, 2, 3], page1.map(&:id)
+    assert_equal [1, 3, 2], page1.map(&:id)
 
     page2 = locale.phrases_with_translation(2)
     assert page2.blank?
