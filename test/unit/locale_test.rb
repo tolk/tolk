@@ -46,6 +46,7 @@ class LocaleTest < ActiveSupport::TestCase
 
   test "dumping all locales to yml" do
     Tolk::Locale.primary_locale_name = 'en'
+    Tolk::Locale.primary_locale(true)
 
     begin
       FileUtils.mkdir_p(File.join(Rails.root, "tmp/locales"))

@@ -97,6 +97,13 @@ module Tolk
       MAPPING[self.name.downcase] || self.name
     end
 
+    def [](key)
+      if phrase = Tolk::Phrase.find_by_key(key)
+        t = self.translations.find_by_phrase_id(phrase.id)
+        t.text if t
+      end
+    end
+
     private
 
     def find_phrases_with_translations(page, conditions = {})

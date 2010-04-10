@@ -1,0 +1,5 @@
+en:
+  number: 1
+  string: I am just a stupid string :(
+  number_array: [1, 2, 3]
+  string_array: ['sun', 'moon']

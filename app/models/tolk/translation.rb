@@ -3,6 +3,7 @@ module Tolk
     set_table_name "tolk_translations"
 
     serialize :text
+    validates_presence_of :text, :unless => proc {|r| r.primary }
 
     validates_uniqueness_of :phrase_id, :scope => :locale_id
 
@@ -14,17 +15,31 @@ module Tolk
 
     before_save :set_previous_text
 
-    before_validation :fix_text_type, :unless => proc {|r| r.new_record? }
+    attr_accessor :primary
+    before_validation :fix_text_type, :unless => proc {|r| r.primary }
+
+    def primary_translation
+      @_primary_translation ||= begin
+        if locale && !locale.primary?
+          phrase.translations.primary
+        end
+      end
+    end
 
     private
 
     def fix_text_type
-      if self.text_changed? && !self.text_was.is_a?(String) && self.text.is_a?(String)
-        self.text = begin
-          YAML.load(self.text.strip)
-        rescue ArgumentError
-          nil
+      if primary_translation.present?
+        if self.text.is_a?(String) && !primary_translation.text.is_a?(String)
+          self.text = begin
+            YAML.load(self.text.strip)
+          rescue ArgumentError
+            nil
+          end
+
         end
+
+        self.text = nil if primary_translation.text.class != self.text.class
       end
 
       true

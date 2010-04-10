@@ -52,7 +52,6 @@ module Tolk
 
           # Update primary translation if it's been changed
           if value && translation.text != value
-
             unless translation.new_record?
               # Set the primary updated flag if the translation is not new
               secondary_locales.each do |locale|
@@ -66,6 +65,7 @@ module Tolk
             translation.text = value
           end
 
+          translation.primary = true
           translation.save!
         end
       end
