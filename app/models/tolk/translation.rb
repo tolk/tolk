@@ -20,11 +20,13 @@ module Tolk
 
     def fix_text_type
       if self.text && self.text.is_a?(String)
-        self.text = begin
+        yaml_object = begin
           YAML.load(self.text.strip)
         rescue ArgumentError
           self.text
         end
+
+        self.text = yaml_object unless yaml_object.is_a?(String)
       end
 
       true
