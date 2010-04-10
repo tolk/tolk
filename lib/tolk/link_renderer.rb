@@ -7,17 +7,17 @@ module Tolk
       links.push    page_link_or_span(@collection.next_page,     'disabled next_page', @options[:next_label])
       
       html = links.join(@options[:separator])
-      @options[:container] ? @template.content_tag(:div, html.html_safe!, html_attributes) : html.html_safe!
+      @options[:container] ? @template.content_tag(:div, html.html_safe, html_attributes) : html.html_safe
     end
 
     protected
 
     def page_link(page, text, attributes = {})
-      @template.link_to text.html_safe!, url_for(page), attributes
+      @template.link_to text.html_safe, url_for(page), attributes
     end
 
     def page_span(page, text, attributes = {})
-      @template.content_tag :span, text.html_safe!, attributes
+      @template.content_tag :span, text.html_safe, attributes
     end
   end
 end
