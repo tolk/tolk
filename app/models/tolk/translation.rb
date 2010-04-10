@@ -14,19 +14,17 @@ module Tolk
 
     before_save :set_previous_text
 
-    before_validation :fix_text_type
+    before_validation :fix_text_type, :unless => proc {|r| r.new_record? }
 
     private
 
     def fix_text_type
-      if self.text && self.text.is_a?(String)
-        yaml_object = begin
+      if self.text_changed? && !self.text_was.is_a?(String) && self.text.is_a?(String)
+        self.text = begin
           YAML.load(self.text.strip)
         rescue ArgumentError
-          self.text
+          nil
         end
-
-        self.text = yaml_object unless yaml_object.is_a?(String)
       end
 
       true
