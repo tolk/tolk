@@ -31,7 +31,7 @@
             </td>
             <td class="phrase">
               <%= format_i18n_value(phrase.translations.primary.text) -%>
-              <span class="key"><%= truncate(phrase.key, :length => 100) %></span>
+              <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
           </tr>
         <% end %>
