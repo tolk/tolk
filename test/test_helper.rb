@@ -8,6 +8,10 @@ Webrat.configure do |config|
   config.mode = :rails
 end
 
+class Hash
+  undef :ya2yaml
+end
+
 class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
