@@ -46,7 +46,8 @@ module Tolk
       def dump_all(to = self.locales_config_path)
         secondary_locales.each do |locale|
           File.open("#{to}/#{locale.name}.yml", "w+") do |file|
-            YAML.dump(locale.to_hash, file)
+            data = locale.to_hash
+            data.respond_to?(:ya2yaml) ? file.write data.ya2yaml(:syck_compatible => true) : YAML.dump(locale.to_hash, file)
           end
         end
       end

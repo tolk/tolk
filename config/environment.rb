@@ -11,3 +11,6 @@ Rails::Initializer.run do |config|
     :secret      => 'f2d72b63242db79df080031c60159a419981cc6c066e961405c1a86c5c38ba56c960d6de171dc4cf985f1544c00466400abf0aac2ce1cbdb726f6127d304fb07'
   }
 end
+
+$KCODE = 'UTF8'
+require 'ya2yaml'
