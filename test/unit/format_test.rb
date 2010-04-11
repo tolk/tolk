@@ -25,6 +25,9 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal 'I am just a stupid string :(', @en['string']
     assert_equal [1, 2, 3], @en['number_array']
     assert_equal ['sun', 'moon'], @en['string_array']
+
+    pluralization = { :other=>"Hello" }
+    assert_equal pluralization, @en['pluralization']
   end
 
   def test_creating_translations_fails_on_mismatch_with_primary_translation
