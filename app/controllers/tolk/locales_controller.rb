@@ -16,7 +16,7 @@ module Tolk
 
     def update
       @locale.translations_attributes = params[:translations]
-      @locale.save!
+      @locale.save
       redirect_to request.referrer
     end
 
