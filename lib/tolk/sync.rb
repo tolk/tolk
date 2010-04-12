@@ -24,7 +24,7 @@ module Tolk
         data.each do |key, value|
           current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
 
-          if value.is_a?(Hash) && !value.keys.include?(:other)
+          if value.is_a?(Hash) && !value.keys.include?(:other) && !value.keys.include?('other')
             flat_hash(value, current_prefix, result)
           else
             result[current_prefix] = value
