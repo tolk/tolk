@@ -25,9 +25,15 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal 'I am just a stupid string :(', @en['string']
     assert_equal [1, 2, 3], @en['number_array']
     assert_equal ['sun', 'moon'], @en['string_array']
+  end
 
+  def test_pluaralization
     result = {'other' => 'Hello'}
     assert_equal result, @en['pluralization']
+
+    assert ! @en['not_pluralization']
+    assert_equal 'World', @en['not_pluralization.other']
+    assert_equal 'fifo', @en['not_pluralization.lifo']
   end
 
   # def test_specail_activerecord_keys_and_prefixes

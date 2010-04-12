@@ -5,6 +5,9 @@ en:
   string_array: ['sun', 'moon']
   pluralization:
     other: Hello
+  not_pluralization:
+    other: World
+    lifo: fifo
   activerecord:
     models:
       person: Dude

@@ -61,6 +61,12 @@ module Tolk
       def special_key_or_prefix?(prefix, key)
         self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
       end
+
+      PLURALIZATION_KEYS = ['zero', 'one', 'two', 'few', 'many', 'other']
+      def pluralization_data?(data)
+        keys = data.keys.map(&:to_s)
+        keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
+      end
     end
 
     def has_updated_translations?
