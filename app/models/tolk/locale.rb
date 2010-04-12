@@ -26,6 +26,12 @@ module Tolk
     validates_uniqueness_of :name
     validates_presence_of :name
 
+    cattr_accessor :special_prefixes
+    self.special_prefixes = ['activerecord.attributes']
+
+    cattr_accessor :special_keys
+    self.special_keys = ['activerecord.models']
+
     class << self
       def primary_locale(reload = false)
         @_primary_locale = nil if reload
@@ -50,6 +56,10 @@ module Tolk
             data.respond_to?(:ya2yaml) ? file.write(data.ya2yaml(:syck_compatible => true)) : YAML.dump(locale.to_hash, file)
           end
         end
+      end
+
+      def special_key_or_prefix?(prefix, key)
+        self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
       end
     end
 

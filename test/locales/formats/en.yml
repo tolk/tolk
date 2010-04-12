@@ -5,3 +5,9 @@ en:
   string_array: ['sun', 'moon']
   pluralization:
     other: Hello
+  activerecord:
+    models:
+      person: Dude
+    attributes:
+      person:
+        login: Handle

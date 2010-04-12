@@ -24,10 +24,10 @@ module Tolk
         data.each do |key, value|
           current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
 
-          if value.is_a?(Hash) && !value.keys.include?(:other) && !value.keys.include?('other')
-            flat_hash(value, current_prefix, result)
-          else
+          if !value.is_a?(Hash) || value.keys.map(&:to_s).include?('other') || Tolk::Locale.special_key_or_prefix?(prefix, current_prefix)
             result[current_prefix] = value
+          else
+            flat_hash(value, current_prefix, result)
           end
         end
 

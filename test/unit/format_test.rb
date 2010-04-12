@@ -26,8 +26,16 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], @en['number_array']
     assert_equal ['sun', 'moon'], @en['string_array']
 
-    pluralization = { :other=>"Hello" }
-    assert_equal pluralization, @en['pluralization']
+    result = {'other' => 'Hello'}
+    assert_equal result, @en['pluralization']
+
+    # Special key
+    result = {'person' => 'Dude'}
+    assert_equal result, @en['activerecord.models']
+
+    # Special prefix
+    result = {'login' => 'Handle'}
+    assert_equal result, @en['activerecord.attributes.person']
   end
 
   def test_creating_translations_fails_on_mismatch_with_primary_translation
