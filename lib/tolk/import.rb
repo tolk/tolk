@@ -23,16 +23,11 @@ module Tolk
         data.each do |key, value|
           phrase = phrases.detect {|p| p.key == key}
 
-          unless phrase
-            phrase = Tolk::Phrase.create!(:key => key)
-            Tolk::Locale.primary_locale.translations.create!(:phrase => phrase, :primary => true, :text => value)
-          end
-
-          translation = locale.translations.build(:text => value, :phrase => phrase)
-          if translation.save
-            count = count + 1
+          if phrase
+            translation = locale.translations.new(:text => value, :phrase => phrase)
+            count = count + 1 if translation.save
           else
-            puts "[ERROR] Failed to import '#{key}' from #{locale_name}.yml - Errors : #{translation.errors.full_messages.inspect}"
+            puts "[ERROR] Key '#{key}' was found in #{locale_name}.yml but #{Tolk::Locale.primary_language_name} translation is missing"
           end
         end
 
