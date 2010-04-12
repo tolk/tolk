@@ -24,7 +24,7 @@ module Tolk
         data.each do |key, value|
           current_prefix = prefix.present? ? "#{prefix}.#{key}" : key
 
-          if !value.is_a?(Hash) || value.keys.map(&:to_s).include?('other') || Tolk::Locale.special_key_or_prefix?(prefix, current_prefix)
+          if !value.is_a?(Hash) || value.keys.map(&:to_s).include?('other')
             result[current_prefix] = value.respond_to?(:stringify_keys) ? value.stringify_keys : value
           else
             flat_hash(value, current_prefix, result)

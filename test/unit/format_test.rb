@@ -28,15 +28,17 @@ class FormatTest < ActiveSupport::TestCase
 
     result = {'other' => 'Hello'}
     assert_equal result, @en['pluralization']
+  end
 
+  # def test_specail_activerecord_keys_and_prefixes
     # Special key
-    result = {'person' => 'Dude'}
-    assert_equal result, @en['activerecord.models']
+    # result = {'person' => 'Dude'}
+    # assert_equal result, @en['activerecord.models']
 
     # Special prefix
-    result = {'login' => 'Handle'}
-    assert_equal result, @en['activerecord.attributes.person']
-  end
+    # result = {'login' => 'Handle'}
+    # assert_equal result, @en['activerecord.attributes.person']
+  # end
 
   def test_creating_translations_fails_on_mismatch_with_primary_translation
     # Invalid type
