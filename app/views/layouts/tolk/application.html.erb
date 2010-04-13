@@ -23,5 +23,11 @@
     </div>
     <%= yield %>
   </div>
+  
+  <script type="text/javascript">
+    $$('td textarea').each(function(element) {
+      element.setStyle({height: element.up('td').measure('height')+'px'});
+    });
+  </script>
 </body>
 </html>
