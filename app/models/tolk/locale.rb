@@ -13,6 +13,7 @@ module Tolk
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
     has_many :translations, :class_name => 'Tolk::Translation', :dependent => :destroy
     accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
+    before_validation_on_update :remove_invalid_translations_from_target
 
     cattr_accessor :locales_config_path
     self.locales_config_path = "#{Rails.root}/config/locales"
@@ -122,6 +123,11 @@ module Tolk
     end
 
     private
+
+    def remove_invalid_translations_from_target
+      self.translations.target.each {|t| self.translations.target.delete(t) unless t.valid? }
+      true
+    end
 
     def find_phrases_with_translations(page, conditions = {})
       result = Tolk::Phrase.paginate(:page => page,

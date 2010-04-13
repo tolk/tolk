@@ -68,6 +68,22 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal "one more silly string", translation.text
   end
 
+  def test_bulk_translations_update_with_some_invalid_formats
+    @spanish.translations_attributes = [
+      {"locale_id" => @spanish.id, "phrase_id" => ph('string_array').id, "text" => 'invalid format'},
+      {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'spanish string'},
+      {"locale_id" => @spanish.id, "phrase_id" => ph('number').id, "text" => '2'}
+    ]
+
+    assert_difference('Tolk::Translation.count', 2) { @spanish.save }
+
+    @spanish.reload
+
+    assert_equal 'spanish string', @spanish['string']
+    assert_equal '2', @spanish['number']
+    assert ! @spanish['string_array']
+  end
+
   private
 
   def ph(key)
