@@ -59,7 +59,11 @@
 <script type="text/javascript">
  
     $$('textarea').each(function(element) {
-        cell_height = ((element.up('td').getHeight() - 24) + 'px'); //get height, then remove padding
+        cell_height = (element.up('td').getHeight() - 24); //get height, then remove padding
+        if (cell_height < 42) {
+          cell_height = 42;
+        }
+        cell_height = cell_height + 'px'
         element.setStyle({height: cell_height});
      });
   
