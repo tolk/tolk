@@ -10,7 +10,7 @@ module Tolk
     def show
       respond_to do |format|
         format.html { @phrases = @locale.phrases_without_translation(params[:page]) }
-        format.yml { render :text => @locale.to_hash.to_yaml }
+        format.yml { render :text => @locale.to_hash.ya2yaml(:syck_compatible => true) }
       end
     end
 
