@@ -6,8 +6,13 @@ module Tolk
       'en' => 'English (en)',
       'de' => 'German (de)',
       'es' => 'Spanish (es)',
-      'da' => 'Dansk (da)',
-      'fr' => 'French (fr)'
+      'da' => 'Danish (da)',
+      'fr' => 'French (fr)',
+      'se' => 'Swedish (se)',
+      'no' => 'Norweigan (no)',
+      'nl' => 'Dutch (nl)',
+      'jp' => 'Japanese (jp)',
+      'ru' => 'Russian (ru)'
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
