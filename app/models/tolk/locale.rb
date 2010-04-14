@@ -5,6 +5,7 @@ module Tolk
     MAPPING = {
       'en' => 'English (en)',
       'de' => 'German (de)',
+      'el' => 'Greek (el)',
       'es' => 'Spanish (es)',
       'da' => 'Danish (da)',
       'fr' => 'French (fr)',
