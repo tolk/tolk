@@ -92,13 +92,13 @@ module Tolk
       Tolk::Phrase.count - existing_ids.count
     end
 
-    def phrases_without_translation(page = nil)
+    def phrases_without_translation(page = nil, options = {})
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
       existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
       phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
 
-      result = phrases.paginate(:page => page)
+      result = phrases.paginate({:page => page}.merge(options))
       Tolk::Phrase.send :preload_associations, result, :translations
       result
     end
