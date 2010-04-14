@@ -1,4 +1,9 @@
-<% content_for :locale do %><span class="locale"><%= @locale.language_name %></span>
+<% content_for :locale do %>
+  <span class="locale"><%= @locale.language_name %></span>
+<% end %>
+
+<% content_for :head do %>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk_locale_path(@locale, :format => 'atom') -%>" />
 <% end %>
 
 <h3 class="switch">Phrases missing translation <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
