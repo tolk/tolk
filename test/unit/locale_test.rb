@@ -44,6 +44,11 @@ class LocaleTest < ActiveSupport::TestCase
     assert page2.blank?
   end
 
+  test "counting missing translations" do
+    assert_equal 1, tolk_locales(:da).count_phrases_without_translation
+    assert_equal 3, tolk_locales(:se).count_phrases_without_translation
+  end
+
   test "dumping all locales to yml" do
     Tolk::Locale.primary_locale_name = 'en'
     Tolk::Locale.primary_locale(true)
