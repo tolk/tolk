@@ -84,6 +84,25 @@ class FormatTest < ActiveSupport::TestCase
     assert ! @spanish['string_array']
   end
 
+  def test_bulk_update_saves_unchanged_record
+    data = {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'spanish string'}
+    @spanish.translations_attributes = [data]
+    @spanish.save!
+
+    spanish_string = @spanish.translations.first
+    spanish_string.force_set_primary_update = true
+    spanish_string.save!
+    assert spanish_string.primary_updated?
+
+    @spanish.reload
+
+    @spanish.translations_attributes = [data.merge('id' => spanish_string.id)]
+    @spanish.save!
+
+    spanish_string.reload
+    assert ! spanish_string.primary_updated?
+  end
+
   private
 
   def ph(key)

@@ -125,7 +125,14 @@ module Tolk
     private
 
     def remove_invalid_translations_from_target
-      self.translations.target.each {|t| self.translations.target.delete(t) unless t.valid? }
+      self.translations.proxy_target.each do |t|
+        unless t.valid?
+          self.translations.proxy_target.delete(t)
+        else
+          t.updated_at = Time.current # Silly hax to fool autosave into saving the record
+        end
+      end
+
       true
     end
 
