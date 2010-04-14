@@ -8,6 +8,16 @@
 
 <h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
 
+<h4 class="search">
+  <% form_tag @locale, :method => :get do %>
+    Search for a phrase in <span><%= Tolk::Locale.primary_language_name -%></span>: <%= text_field_tag :q, params[:q] %>
+    <%= submit_tag "Search", :name => nil %>
+    <% if params[:q].present? %>
+      (<%= link_to "Show all", @locale %>)
+    <% end %>
+  <% end %>
+</h4>
+
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
 <% end %>
@@ -30,7 +40,11 @@
               <%= text_area_tag :"translations[][text]", translation.text, :class => "locale", :id => "#{translation.object_id}_text", :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
             </td>
             <td class="phrase">
-              <%= format_i18n_value(phrase.translations.primary.text) -%>
+              <% if params[:q].present? -%>
+                <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
+              <% else -%>
+                <%= format_i18n_value(phrase.translations.primary.text) -%>
+              <% end -%>
               <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
           </tr>
