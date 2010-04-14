@@ -90,7 +90,7 @@ module Tolk
     def phrases_without_translation(page = nil)
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
-      existing_ids = self.phrases
+      existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
       phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
 
       result = phrases.paginate(:page => page)
