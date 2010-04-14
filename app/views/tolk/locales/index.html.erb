@@ -7,7 +7,7 @@
     <% @locales.each do |locale| %>
       <li>
         <%= link_to locale.language_name, locale %>
-        <span class="missing_translations">33</span>
+        <span class="missing_translations"><%= locale.count_phrases_without_translation %></span>
       </li>
     <% end %>
   </ul>
