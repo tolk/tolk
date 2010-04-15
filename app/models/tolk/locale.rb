@@ -13,7 +13,10 @@ module Tolk
       'no' => 'Norweigan',
       'nl' => 'Dutch',
       'jp' => 'Japanese',
-      'ru' => 'Russian'
+      'ru' => 'Russian',
+      'it' => "Italian",
+      'pl' => "Polish"
+      'pt-BR' => "Portugese (Brazilian)"
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
