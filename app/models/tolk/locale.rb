@@ -15,7 +15,7 @@ module Tolk
       'jp' => 'Japanese',
       'ru' => 'Russian',
       'it' => "Italian",
-      'pl' => "Polish"
+      'pl' => "Polish",
       'pt-BR' => "Portugese (Brazilian)"
     }
 
