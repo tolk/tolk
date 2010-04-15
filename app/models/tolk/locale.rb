@@ -3,17 +3,17 @@ module Tolk
     set_table_name "tolk_locales"
 
     MAPPING = {
-      'en' => 'English (en)',
-      'de' => 'German (de)',
-      'el' => 'Greek (el)',
-      'es' => 'Spanish (es)',
-      'da' => 'Danish (da)',
-      'fr' => 'French (fr)',
-      'se' => 'Swedish (se)',
-      'no' => 'Norweigan (no)',
-      'nl' => 'Dutch (nl)',
-      'jp' => 'Japanese (jp)',
-      'ru' => 'Russian (ru)'
+      'en' => 'English',
+      'de' => 'German',
+      'el' => 'Greek',
+      'es' => 'Spanish',
+      'da' => 'Danish',
+      'fr' => 'French',
+      'se' => 'Swedish',
+      'no' => 'Norweigan',
+      'nl' => 'Dutch',
+      'jp' => 'Japanese',
+      'ru' => 'Russian'
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'

@@ -4,11 +4,13 @@ class TranslationProcessTest < ActionController::IntegrationTest
   setup :setup_locales
 
   def test_adding_locale
-    assert_difference('Tolk::Locale.count') { add_locale 'pirate' }
+    assert_difference('Tolk::Locale.count') { add_locale 'German' }
   end
 
   def test_adding_missing_translations_and_updating_translations
-    locale = add_locale('pirate')
+    Tolk::Locale::MAPPING['xx'] = "Pirate"
+    
+    locale = add_locale("Pirate")
     assert locale.translations.empty?
 
     # Adding a new translation
@@ -36,10 +38,10 @@ class TranslationProcessTest < ActionController::IntegrationTest
 
   def add_locale(name)
     visit tolk_root_path
-    fill_in 'tolk_locale_name', :with => name
+    select name
     click_button 'Add'
 
-    Tolk::Locale.find_by_name!(name)
+    Tolk::Locale.find_by_name!(Tolk::Locale::MAPPING.index(name))
   end
 
   def setup_locales

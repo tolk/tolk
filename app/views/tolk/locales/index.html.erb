@@ -24,7 +24,9 @@
   <%= f.error_messages %>
   <p>
     <%= f.label "Add a new Locale" %>
-    <%= f.text_field :name, :class => "locale_new" %>
+    <select id="select_tolk_locale_name" name="tolk_locale[name]">
+      <%= options_for_select tolk_locale_selection %>
+    </select>
     <%= f.submit 'Add' %>
   </p>
 </div>

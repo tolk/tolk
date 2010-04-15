@@ -176,7 +176,7 @@ ul.locales span {
 div.submit {
   background: #f5f5f5;
   margin: 25px -25px -25px;
-  padding: 15px 25px 25px;
+  padding: 15px 25px;
   border-top: 1px dashed #ccc;
   -webkit-border-bottom-right-radius: 20px;
   -webkit-border-bottom-left-radius: 20px;
@@ -184,13 +184,6 @@ div.submit {
   -moz-border-radius-bottomleft: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-}
-
-div.submit input.locale_new {
-  font-size: 14px;
-  color: #222;
-  padding: 1px;
-  width: 50%;
 }
 
 span.updated {

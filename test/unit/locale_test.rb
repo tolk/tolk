@@ -71,7 +71,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "human language name" do
-    assert_equal 'English (en)', tolk_locales(:en).language_name
+    assert_equal 'English', tolk_locales(:en).language_name
     assert_equal 'pirate', Tolk::Locale.new(:name => 'pirate').language_name
   end
 end
