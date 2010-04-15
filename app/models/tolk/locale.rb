@@ -4,6 +4,8 @@ module Tolk
 
     MAPPING = {
       'en' => 'English',
+      'zh' => 'Chinese',
+      'bt' => 'Bulgarian',
       'de' => 'German',
       'el' => 'Greek',
       'es' => 'Spanish',
