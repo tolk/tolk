@@ -6,7 +6,7 @@
   <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk_locale_path(@locale, :format => 'atom') -%>" />
 <% end %>
 
-<h3 class="switch">Phrases missing translation <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
+<h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
@@ -31,7 +31,7 @@
             </td>
             <td class="phrase">
               <%= format_i18n_value(phrase.translations.primary.text) -%>
-              <span class="key"><%= truncate(phrase.key, :length => 100) %></span>
+              <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
           </tr>
         <% end %>
