@@ -18,7 +18,8 @@ module Tolk
       'ru' => 'Russian',
       'it' => "Italian",
       'pl' => "Polish",
-      'pt-BR' => "Portugese (Brazilian)"
+      'pt-BR' => "Portugese (Brazilian)",
+      'sl' => "Slovak"
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
