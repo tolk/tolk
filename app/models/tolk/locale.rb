@@ -12,7 +12,7 @@ module Tolk
       'da' => 'Danish',
       'fr' => 'French',
       'se' => 'Swedish',
-      'no' => 'Norweigan',
+      'no' => 'Norwegian',
       'nl' => 'Dutch',
       'jp' => 'Japanese',
       'ru' => 'Russian',
