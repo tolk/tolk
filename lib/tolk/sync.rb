@@ -12,7 +12,7 @@ module Tolk
       def load_translations
         I18n.available_locales # force load
         translations = flat_hash(I18n.backend.send(:translations)[primary_locale.name.to_sym])
-        translations.merge(read_primary_locale_file)
+        filter_out_i18n_keys(translations.merge(read_primary_locale_file))
       end
 
       def read_primary_locale_file
@@ -70,6 +70,9 @@ module Tolk
         end
       end
 
+      def filter_out_i18n_keys(flat_hash)
+        flat_hash.reject { |key, value| key.starts_with? "i18n" }
+      end
     end
 
   end
