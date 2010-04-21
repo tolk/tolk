@@ -129,7 +129,7 @@ module Tolk
     end
 
     def language_name
-      MAPPING[self.name.downcase] || self.name
+      MAPPING[self.name] || self.name
     end
 
     def [](key)
