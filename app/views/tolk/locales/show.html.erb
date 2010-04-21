@@ -12,13 +12,14 @@
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
 <% end %>
 
-<h4 class="search">
-  <% form_tag @locale, :method => :get do %>
+<div class="search">
+  <% form_tag "/tolk/search", :method => :get do %>
+    <%= hidden_field_tag :locale, @locale.name %>
     Search for an English phrase:
     <%= text_field_tag :q, params[:q] %>
     <%= submit_tag "Search", :name => nil %>
   <% end %>
-</h4>
+</div>
 
 <div class="translations">
   <% if @phrases.any? %>

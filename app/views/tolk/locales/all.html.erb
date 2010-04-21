@@ -7,6 +7,15 @@
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
 <% end %>
 
+<div class="search">
+  <% form_tag "/tolk/search", :method => :get do %>
+    <%= hidden_field_tag :locale, @locale.name %>
+    Search for an English phrase:
+    <%= text_field_tag :q, params[:q] %>
+    <%= submit_tag "Search", :name => nil %>
+  <% end %>
+</div>
+
 <div class="translations">
 <% if @phrases.any? %>
   <% form_for @locale do |locale_form| %>
@@ -16,31 +25,33 @@
         <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
       </tr>
       <% @phrases.each do |phrase| %>
-        <tr>
-          <td class="translation">
-            <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
-            <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
-            <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text), :class => 'locale',
-                              :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
-          </td>
-          <td class="phrase">
+        <% if phrase.translations.primary %>
+          <tr>
+            <td class="translation">
+              <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
+              <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
+              <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text), :class => 'locale',
+                                :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
+            </td>
+            <td class="phrase">
 
-            <% if action_name == 'updated' %>
-              <div class="updated">
-                <span class="key">Updated</span>
+              <% if action_name == 'updated' %>
+                <div class="updated">
+                  <span class="key">Updated</span>
+                  <%= format_i18n_value(phrase.translations.primary.text) -%>
+                </div>
+                <div class="original">
+                  <span class="key">Original</span>
+                  <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
+                </div>
+              <% else %>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
-              </div>
-              <div class="original">
-                <span class="key">Original</span>
-                <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
-              </div>
-            <% else %>
-              <%= format_i18n_value(phrase.translations.primary.text) -%>
-            <% end %>
+              <% end %>
 
-            <span class="key"><%= phrase.key %></span>
-          </td>
-        </tr>
+              <span class="key"><%= phrase.key %></span>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
     <div class="table_submit">

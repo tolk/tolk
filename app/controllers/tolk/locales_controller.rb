@@ -10,11 +10,7 @@ module Tolk
     def show
       respond_to do |format|
         format.html do
-          if params[:q].present?
-            @phrases = @locale.search_phrases(params[:q], params[:page])
-          else
-            @phrases = @locale.phrases_without_translation(params[:page])
-          end
+          @phrases = @locale.phrases_without_translation(params[:page])
         end
         format.atom { @phrases = @locale.phrases_without_translation(params[:page], :per_page => 50) }
         format.yml { render :text => @locale.to_hash.ya2yaml(:syck_compatible => true) }
