@@ -11,7 +11,7 @@ module Tolk
       respond_to do |format|
         format.html do
           if params[:q].present?
-            @phrases = @locale.search_phrases_without_translation(params[:q], params[:page])
+            @phrases = @locale.search_phrases(params[:q], params[:page])
           else
             @phrases = @locale.phrases_without_translation(params[:page])
           end

@@ -110,6 +110,20 @@ module Tolk
       result
     end
 
+    def search_phrases(query, page = nil, options = {})
+      return [] unless query.present?
+      
+      phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')      
+
+      phrase_ids = Tolk::Locale.primary_locale.translations.all(:conditions => ["tolk_translations.text LIKE ?", "%#{query}%"], :select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+
+      phrases = phrases.scoped(:conditions => ['tolk_phrases.id IN(?)', phrase_ids])
+
+      result = phrases.paginate({:page => page}.merge(options))
+      Tolk::Phrase.send :preload_associations, result, :translations
+      result
+    end
+    
     def search_phrases_without_translation(query, page = nil, options = {})
       return phrases_without_translation(page, options) unless query.present?
       
