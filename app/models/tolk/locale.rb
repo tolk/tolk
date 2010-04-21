@@ -18,7 +18,7 @@ module Tolk
       'ru' => 'Russian',
       'it' => "Italian",
       'pl' => "Polish",
-      'pt-BR' => "Portugese (Brazilian)",
+      'pt-BR' => "Portuguese (Brazilian)",
       'sl' => "Slovak"
     }
 
