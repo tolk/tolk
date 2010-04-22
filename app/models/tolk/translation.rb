@@ -31,7 +31,11 @@ module Tolk
     end
     
     def value
-      YAML.load text if text
+      if text.is_a?(String)
+        YAML.load text
+      else
+        text
+      end
     end
 
     private
