@@ -31,7 +31,7 @@ module Tolk
     end
     
     def value
-      YAML.load text
+      YAML.load text if text
     end
 
     private
