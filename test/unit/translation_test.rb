@@ -27,6 +27,11 @@ class TranslationTest < ActiveSupport::TestCase
     assert_equal "Hello World", tolk_translations(:hello_world_en).value
   end
 
+  test "translation with string value with variables" do
+    text = "{{attribute}} {{message}}"
+    assert_equal text, Tolk::Translation.new(:text => text).value
+  end
+
   test "translation with numeric value" do
     assert_equal 1, tolk_translations(:human_format_precision_en).value
   end
