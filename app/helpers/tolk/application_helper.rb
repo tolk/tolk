@@ -9,10 +9,12 @@ module Tolk
     end
 
     def yaml_value(value)
-      unless value.is_a?(String)
-        value = value.respond_to?(:ya2yaml) ? value.ya2yaml(:syck_compatible => true) : value.to_yaml
+      if value.present?
+        unless value.is_a?(String)
+          value = value.respond_to?(:ya2yaml) ? value.ya2yaml(:syck_compatible => true) : value.to_yaml
+        end
       end
-
+      
       value
     end
 
