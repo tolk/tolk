@@ -13,3 +13,7 @@ nested_hello_country:
 cozy:
   id: 4
   key: cozy
+
+human_format_precision:
+  id: 5
+  key: number.human.format.precision

@@ -25,6 +25,14 @@ module Tolk
         end
       end
     end
+    
+    def text=(value)
+      super unless value.to_s == text
+    end
+    
+    def value
+      YAML.load text
+    end
 
     private
 

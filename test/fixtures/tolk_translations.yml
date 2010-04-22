@@ -39,3 +39,9 @@ cozy_da:
   phrase_id: 4
   locale_id: 2
   text: Hyggeligt
+  
+human_format_precision_en:
+  id: 8
+  phrase_id: 5
+  locale_id: 1
+  text: "1"
