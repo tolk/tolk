@@ -14,7 +14,7 @@ module Tolk
       end
 
       def import_locale(locale_name)
-        locale = Tolk::Locale.find_or_create_by_name(locale_name.downcase)
+        locale = Tolk::Locale.find_or_create_by_name(locale_name)
         data = locale.read_locale_file
 
         phrases = Tolk::Phrase.all
