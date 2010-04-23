@@ -57,6 +57,34 @@ class SyncTest < ActiveSupport::TestCase
     assert t1.primary_updated?
     assert ! t2.primary_updated?
   end
+  
+  def test_sync_marks_translations_for_review_when_the_primary_translation_has_changed
+    Tolk::Locale.create!(:name => 'es')
+    
+    phrase = Tolk::Phrase.create! :key => 'number.precision'
+    english_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("en"))
+    spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("es"))
+
+    Tolk::Locale.expects(:load_translations).returns({'number.precision' => "1"})
+    Tolk::Locale.sync! and spanish_translation.reload
+    assert spanish_translation.up_to_date?
+
+    Tolk::Locale.expects(:load_translations).returns({'number.precision' => "2"})
+    Tolk::Locale.sync! and spanish_translation.reload
+    assert spanish_translation.out_of_date?
+    
+    spanish_translation.text = "2"
+    spanish_translation.save! and spanish_translation.reload
+    assert spanish_translation.up_to_date?
+
+    Tolk::Locale.expects(:load_translations).returns({'number.precision' => 2})
+    Tolk::Locale.sync! and spanish_translation.reload
+    assert spanish_translation.up_to_date?
+
+    Tolk::Locale.expects(:load_translations).returns({'number.precision' => 1})
+    Tolk::Locale.sync! and spanish_translation.reload
+    assert spanish_translation.out_of_date?
+  end
 
   def test_sync_creates_locale_phrases_translations
     Tolk::Locale.sync!

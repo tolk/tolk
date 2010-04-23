@@ -49,20 +49,16 @@ module Tolk
           # Create phrase and primary translation if missing
           existing_phrase = phrases.detect {|p| p.key == key} || Tolk::Phrase.create!(:key => key)
           translation = existing_phrase.translations.primary || primary_locale.translations.build(:phrase_id => existing_phrase.id)
+          translation.text = value
 
-          # Update primary translation if it's been changed
-          if value && translation.text != value
-            unless translation.new_record?
-              # Set the primary updated flag if the translation is not new
-              secondary_locales.each do |locale|
-                if existing_translation = existing_phrase.translations.detect {|t| t.locale_id == locale.id }
-                  existing_translation.force_set_primary_update = true
-                  existing_translation.save!
-                end
+          if translation.changed? && !translation.new_record?
+            # Set the primary updated flag if the primary translation has changed and it is not a new record.
+            secondary_locales.each do |locale|
+              if existing_translation = existing_phrase.translations.detect {|t| t.locale_id == locale.id }
+                existing_translation.force_set_primary_update = true
+                existing_translation.save!
               end
             end
-
-            translation.text = value
           end
 
           translation.primary = true
@@ -74,6 +70,5 @@ module Tolk
         flat_hash.reject { |key, value| key.starts_with? "i18n" }
       end
     end
-
   end
 end

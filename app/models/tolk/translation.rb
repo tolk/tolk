@@ -18,6 +18,14 @@ module Tolk
     attr_accessor :primary
     before_validation :fix_text_type, :unless => proc {|r| r.primary }
 
+    def up_to_date?
+      not out_of_date?
+    end
+
+    def out_of_date?
+      primary_updated?
+    end
+
     def primary_translation
       @_primary_translation ||= begin
         if locale && !locale.primary?
