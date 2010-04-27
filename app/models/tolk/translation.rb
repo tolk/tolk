@@ -3,7 +3,7 @@ module Tolk
     set_table_name "tolk_translations"
 
     serialize :text
-    validates_presence_of :text, :unless => proc {|r| r.primary }
+    validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
 
     validates_uniqueness_of :phrase_id, :scope => :locale_id
 
@@ -17,6 +17,9 @@ module Tolk
 
     attr_accessor :primary
     before_validation :fix_text_type, :unless => proc {|r| r.primary }
+
+    attr_accessor :explicit_nil
+    before_validation :set_explicit_nil
 
     def up_to_date?
       not out_of_date?
@@ -47,6 +50,13 @@ module Tolk
     end
 
     private
+
+    def set_explicit_nil
+      if self.text == '~'
+        self.text = nil
+        self.explicit_nil = true
+      end
+    end
 
     def fix_text_type
       if primary_translation.present?

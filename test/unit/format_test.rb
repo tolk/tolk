@@ -61,6 +61,15 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal [1, 2], success.text
   end
 
+  def test_creating_translations_with_nil_values
+    # implicit nil value
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:phrase => ph('string')) }
+
+    # explicit nil value
+    niltrans = @spanish.translations.create!(:phrase => ph('string'), :text => '~')
+    assert ! niltrans.text
+  end
+
   def test_creating_translation_with_wrong_type
     assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => [1, 2], :phrase => ph('string')) }
 
