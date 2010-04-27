@@ -33,11 +33,11 @@ module Tolk
         end
       end
     end
-    
+
     def text=(value)
       super unless value.to_s == text
     end
-    
+
     def value
       if text.is_a?(String) && /^\d+$/.match(text)
         text.to_i
@@ -56,12 +56,12 @@ module Tolk
           rescue ArgumentError
             nil
           end
-          
+
         end
-          
+
         self.text = nil if primary_translation.text.class != self.text.class
       end
-          
+
       true
     end
 
