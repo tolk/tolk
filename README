@@ -61,7 +61,7 @@ Authenticator proc will be run from a before filter in controller context.
 
 * Handling blank and non-string values
 
-Tolk speaks YAML for non strings values. If you want to enter a nil values, you could just enter '---'. Similarly, for an Array value, you could enter :
+Tolk speaks YAML for non strings values. If you want to enter a nil values, you could just enter '~'. Similarly, for an Array value, you could enter :
 
 ---
 - Sun
