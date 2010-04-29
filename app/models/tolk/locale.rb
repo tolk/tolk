@@ -163,6 +163,13 @@ module Tolk
       end
     end
 
+    def translations_with_html
+      translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND 
+        tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
+      Translation.send :preload_associations, translations, :phrase
+      translations
+    end
+
     private
 
     def remove_invalid_translations_from_target
