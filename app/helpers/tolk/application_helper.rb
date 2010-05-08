@@ -18,14 +18,11 @@ module Tolk
       value
     end
 
-
     def tolk_locale_selection
       existing_locale_names = Tolk::Locale.all.map(&:name)
-      pairs = Tolk::Locale::MAPPING.to_a.map(&:reverse)
-      pairs = pairs.sort_by(&:first)
-      pairs.reject do |pair|
-        existing_locale_names.include? pair.last
-      end
+
+      pairs = Tolk::Locale::MAPPING.to_a.map(&:reverse).sort_by(&:first)
+      pairs.reject {|pair| existing_locale_names.include?(pair.last) }
     end
   end
 end
