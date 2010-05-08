@@ -13,8 +13,6 @@ class CreateTolkTables < ActiveRecord::Migration
       t.datetime :created_at
       t.datetime :updated_at
     end
-    
-    add_index :tolk_phrases, :key, :unique => true
 
     create_table :tolk_translations do |t|
       t.integer  :phrase_id
@@ -25,7 +23,7 @@ class CreateTolkTables < ActiveRecord::Migration
       t.datetime :created_at
       t.datetime :updated_at
     end
-    
+
     add_index :tolk_translations, [:phrase_id, :locale_id], :unique => true
   end
 
@@ -33,6 +31,7 @@ class CreateTolkTables < ActiveRecord::Migration
     remove_index :tolk_translations, :column => [:phrase_id, :locale_id]
     remove_index :tolk_phrases, :column => :key
     remove_index :tolk_locales, :column => :name
+
     drop_table :tolk_translations
     drop_table :tolk_phrases
     drop_table :tolk_locales
