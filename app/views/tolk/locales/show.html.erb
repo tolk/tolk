@@ -13,12 +13,7 @@
 <% end %>
 
 <div class="search">
-  <% form_tag "/tolk/search", :method => :get do %>
-    <%= hidden_field_tag :locale, @locale.name %>
-    Search for an English phrase:
-    <%= text_field_tag :q, params[:q] %>
-    <%= submit_tag "Search", :name => nil %>
-  <% end %>
+  <%= render :partial => "tolk/searches/form", :locals => { :locale => @locale } %>
 </div>
 
 <div class="translations">
