@@ -24,5 +24,10 @@ module Tolk
       pairs = Tolk::Locale::MAPPING.to_a.map(&:reverse).sort_by(&:first)
       pairs.reject {|pair| existing_locale_names.include?(pair.last) }
     end
+
+    def scope_selector_for(locale)
+      select_tag 'scope', options_for_select([[Tolk::Locale.primary_locale.language_name, "origin"],
+                                              [locale.language_name, "target"]], params[:scope])
+    end
   end
 end
