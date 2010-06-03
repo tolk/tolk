@@ -1,59 +1,25 @@
-= 2.3.12, released 2009-12-01
+== "agnostic" branch
 
-* make view helpers "HTML safe" for Rails 2.3.5 with rails_xss plugin
-
-= 2.3.11, released 2009-06-02
-
-* fix `enable_actionpack`
-
-= 2.3.10, released 2009-05-21
-
-* count_by_sql: don't use table alias with any adapters starting with "oracle"
-* Add back "AS count_table" alias to `paginate_by_sql` counter SQL
-
-= 2.3.9, released 2009-05-29
-
-* remove "AS count_table" alias from `paginate_by_sql` counter SQL
-* Rails 2.3.2 compat: monkeypatch Rails issue #2189 (count breaks has_many :through)
-* fix generation of page URLs that contain the "@" character
-* check for method existance in a ruby 1.8- and 1.9-compatible way
-* load will_paginate view helpers even if ActiveRecord is not loaded
-
-== 2.3.8, released 2009-03-09
-
-* Rails 2.3 compat: query parameter parsing with Rack
-
-== 2.3.7, released 2009-02-09
-
-* Removed all unnecessary &block variables since they cause serious memory damage and lots of subsequent gc runs.
-
-== 2.3.6, released 2008-10-26
-
-* Rails 2.2 fix: stop using `extract_attribute_names_from_match` inernal AR method, it no longer exists
-
-== 2.3.5, released 2008-10-07
-
-* update the backported named_scope implementation for Rails versions older than 2.1
-* break out of scope of paginated_each() yielded block when used on named scopes
-* fix paginate(:from)
-
-== 2.3.4, released 2008-09-16
-
-* Removed gem dependency to Active Support (causes trouble with vendored rails).
-* Rails 2.1: fix a failing test and a deprecation warning.
-* Cope with scoped :select when counting.
-
-== 2.3.3, released 2008-08-29
-
-* Ensure that paginate_by_sql doesn't change the original SQL query.
-* RDoc love (now live at http://gitrdoc.com/mislav/will_paginate/tree/master)
-* Rename :prev_label to :previous_label for consistency. old name still functions but is deprecated
-* ActiveRecord 2.1: Remove :include option from count_all query when it's possible.
-
-== 2.3.2, released 2008-05-16
-
-* Fixed LinkRenderer#stringified_merge by removing "return" from iterator block
-* Ensure that 'href' values in pagination links are escaped URLs
+* added Sequel support
+* added an initialization hook for Merb
+* refactored URL generation
+* BACKWARDS INCOMPATIBLE: refactored LinkRenderer; also markup changes
+    <span class="current">1</span> is now <em>1</em>
+    a.prev_page -> a.previous_page (for consistency)
+* "prev_label" -> "previous_label"
+* ported view tests to specs
+* setup Autotest
+* added per_page=(limit) attribute writer to set default per_page
+* Remove :include option from count_all query when possible (Rails 2.1)
+* added WP::ViewHelpers::ActionView and LinkRenderer
+* specs for ViewHelpers::Base and LinkRendererBase
+* created LinkRendererBase that implements windowed visible page numbers logic
+* created WP::ViewHelpers::Base abstract module that implements generic view helpers
+* ported finder tests to specs
+* added WP::Finders::DataMapper
+* added WP::Finders::ActiveRecord mixin for ActiveRecord::Base
+* created WP::Finders::Base abstract module that implements generic pagination logic
+* removed dependency to ActiveSupport
 
 == 2.3.1, released 2008-05-04
 
@@ -84,14 +50,14 @@
     gem install mislav-will_paginate
     
 * extract reusable pagination testing stuff into WillPaginate::View
-* rethink the page URL construction mechanizm to be more bulletproof when
+* rethink the page URL construction mechanism to be more bulletproof when
   combined with custom routing for page parameter
 * test that anchor parameter can be used in pagination links
 
 == 2.2.2, released 2008-04-21
 
 * Add support for page parameter in custom routes like "/foo/page/2"
-* Change output of "page_entries_info" on single-page collection and erraneous
+* Change output of "page_entries_info" on single-page collection and erroneous
   output with empty collection as reported by Tim Chater
   
 == 2.2.1, released 2008-04-08

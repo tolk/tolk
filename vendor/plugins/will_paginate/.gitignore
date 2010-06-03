@@ -1,0 +1,4 @@
+.bundle
+doc
+*.gem
+coverage
