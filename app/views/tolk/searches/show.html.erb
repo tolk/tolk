@@ -14,7 +14,7 @@
 
 <div class="translations">
   <% if @phrases.any? %>
-     <% form_for @locale do |locale_form| %>
+     <%= form_for @locale do |locale_form| %>
       <table class="translations">
         <tr>
           <th class="translation"><%= @locale.language_name -%></th>
@@ -47,7 +47,7 @@
       </div>
     <% end %>
     <div class="paginate">
-      <%= will_paginate @phrases, :renderer => Tolk::LinkRenderer %>
+      <%= will_paginate @phrases %>
     </div>
   <% else %>
     <p style="text-align: left">No search results.</p>

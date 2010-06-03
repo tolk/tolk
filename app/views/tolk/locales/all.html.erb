@@ -13,7 +13,7 @@
 
 <div class="translations">
 <% if @phrases.any? %>
-  <% form_for @locale do |locale_form| %>
+  <%= form_for @locale do |locale_form| %>
         <table class="translations">
       <tr>
         <th class="translation"><%= @locale.language_name -%></th>
@@ -53,7 +53,7 @@
       <p><%= locale_form.submit "Save changes" %></p>
     </div>
     <div class="paginate">
-      <%= will_paginate @phrases, :renderer => Tolk::LinkRenderer %>
+      <%= will_paginate @phrases %>
     </div>
   <% end %>
 <% else %>
