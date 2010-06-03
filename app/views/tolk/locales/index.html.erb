@@ -19,7 +19,7 @@
   <p>No locales yet.</p>
 
 <% end %>
-<% form_for(Tolk::Locale.new) do |f| %>
+<%= form_for(Tolk::Locale.new) do |f| %>
 <div class="submit">
   <%= f.error_messages %>
   <p>
