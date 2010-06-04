@@ -22,4 +22,13 @@ namespace :tolk do
       puts "#{bt.phrase.key} - #{bt.text}"
     end
   end
+
+  desc "Copies required assets from tolk to application's public/ directory"
+  task :import_assets do
+    tolk_assets = File.expand_path(File.join(File.dirname(__FILE__), '../../public/tolk'))
+    command = "cp -R #{tolk_assets} #{Rails.root}/public/"
+    puts command
+    system(command)
+  end
+
 end
