@@ -13,7 +13,7 @@ module Tolk
           @phrases = @locale.phrases_without_translation(params[:page])
         end
         format.atom { @phrases = @locale.phrases_without_translation(params[:page], :per_page => 50) }
-        format.yml { render :text => @locale.to_hash.ya2yaml(:syck_compatible => true) }
+        format.yaml { render :text => @locale.to_hash.ya2yaml(:syck_compatible => true) }
       end
     end
 
