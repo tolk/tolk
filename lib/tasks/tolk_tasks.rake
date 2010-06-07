@@ -1,4 +1,13 @@
 namespace :tolk do
+  desc "Add database tables, copy over the assets, and import existing translations"
+  task :setup => :environment do
+    Rake::Task['tolk:import_assets'].invoke
+    system("rails generate tolk_migration")
+    Rake::Task['db:migrate'].invoke
+    Rake::Task['tolk:sync'].invoke
+    Rake::Task['tolk:import'].invoke
+  end
+  
   desc "Sync Tolk with the default locale's yml file"
   task :sync => :environment do
     Tolk::Locale.sync!
