@@ -8,6 +8,7 @@ module Tolk
 
     serialize :text
     validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
+    validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
     validates_uniqueness_of :phrase_id, :scope => :locale_id
 
@@ -53,6 +54,23 @@ module Tolk
       end
     end
 
+    def self.detect_variables(search_in)
+      case search_in
+        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten)
+        when Array then search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
+        when Hash then search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
+        else Set[]
+      end
+    end
+
+    def variables
+      self.class.detect_variables(text)
+    end
+
+    def variables_match?
+      self.variables == primary_translation.variables
+    end
+
     private
 
     def set_explicit_nil
@@ -89,5 +107,14 @@ module Tolk
       true
     end
 
+    def check_matching_variables
+      unless variables_match?
+        if primary_translation.variables.empty?
+          self.errors.add(:text, "The original does not contain variables, so they should not be included.")
+        else
+          self.errors.add(:text, "The translation should contain the variables #{variables.to_a.to_sentence}.")
+        end
+      end
+    end
   end
 end
