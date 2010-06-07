@@ -1,24 +1,14 @@
-Tolk is a Rails engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
+Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
 
 * Installation & Setup
 
-To install :
+To install add the following to your Gemfile:
 
-  $ script/plugin install git://github.com/dhh/tolk.git
+  gem 'tolk'
 
-To setup :
+To setup just run:
 
-  1) Generate tolk migration and migrate your database :
-
-  $ script/generate tolk_migration
-  $ rake db:migrate
-
-  2) Setup Tolk assets by creating a symlink to tolk/public/tolk inside your application's public directory :
-
-  $ cd public
-  $ ln -s ../vendor/plugins/tolk/public/tolk tolk
-
-  And you're all set!
+  $ rake tolk:setup
 
 * Usage
 
