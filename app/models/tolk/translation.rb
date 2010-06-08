@@ -56,7 +56,7 @@ module Tolk
 
     def self.detect_variables(search_in)
       case search_in
-        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten)
+        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten) 
         when Array then search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         when Hash then search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         else Set[]
