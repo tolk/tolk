@@ -60,6 +60,23 @@ class FormatTest < ActiveSupport::TestCase
     success.save!
     assert_equal [1, 2], success.text
   end
+  
+  def test_creating_translations_fails_with_unmatching_variables
+    # Check that variable detection works correctly
+    assert_equal Set['hello', 'world'], ph('variables').translations.primary.variables
+    assert_equal Set['more', 'variables'], ph('variables_in_struct').translations.primary.variables
+
+    # Allow different ordering and multiple occurences of variables
+    assert @spanish.translations.build(:text => '{{world}} y {{hello}} y {{hello}} y {{world}}', :phrase => ph('variables')).valid?
+
+    # Do not allow missing or wrong variables
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => 'Hola', :phrase => ph('variables')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => '{{other}} variable', :phrase => ph('variables')) }
+
+    # Do not allow variables if the origin does not contain any
+    assert_equal Set[], ph('string').translations.primary.variables
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => 'Hola {{mundo}}', :phrase => ph('string')) }
+  end
 
   def test_creating_translations_with_nil_values
     # implicit nil value
