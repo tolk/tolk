@@ -5,6 +5,7 @@ require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 
 ActiveSupport::TestCase.fixture_path = Rails.root.to_s + "/../fixtures"
+ActiveSupport::TestCase.use_transactional_fixtures = true
 
 ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.perform_deliveries = true
@@ -20,8 +21,8 @@ Capybara.default_selector = :css
 # Run any available migrations
 # A bit of hacks, find a nicer way
 FileUtils.rm(Dir[File.expand_path("../dummy/db/test.sqlite3", __FILE__)])
-FileUtils.rm(Dir[File.expand_path("../dummy/db/migrate/*.blog.rb", __FILE__)])
-ActiveRecord::Migration.copy File.expand_path("../dummy/db/migrate/", __FILE__), { :blog => File.expand_path("../../db/migrate/", __FILE__) }
+FileUtils.rm(Dir[File.expand_path("../dummy/db/migrate/*.tolk.rb", __FILE__)])
+ActiveRecord::Migration.copy File.expand_path("../dummy/db/migrate/", __FILE__), { :tolk => File.expand_path("../../db/migrate/", __FILE__) }
 ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 
 # Load support files
