@@ -41,6 +41,7 @@ module Tolk
     end
 
     def text=(value)
+      value = value.to_s if value.kind_of?(Fixnum)
       super unless value.to_s == text
     end
 
@@ -86,7 +87,6 @@ module Tolk
           rescue ArgumentError
             nil
           end
-
         end
 
         self.text = nil if primary_translation.text.class != self.text.class

@@ -98,7 +98,7 @@ class FormatTest < ActiveSupport::TestCase
     @spanish.translations_attributes = [
       {"locale_id" => @spanish.id, "phrase_id" => ph('string_array').id, "text" => 'invalid format'},
       {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'spanish string'},
-      {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'bla'}
+      {"locale_id" => @spanish.id, "phrase_id" => ph('number').id, "text" => '2'}
     ]
 
     assert_difference('Tolk::Translation.count', 2) { @spanish.save }
