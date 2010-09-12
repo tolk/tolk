@@ -4,7 +4,7 @@ module Tolk
 
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
-    serialize :text
+    serialize :text, :previous_text
     validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
     validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
