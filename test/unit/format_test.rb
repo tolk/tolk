@@ -7,7 +7,7 @@ class FormatTest < ActiveSupport::TestCase
     Tolk::Translation.delete_all
     Tolk::Phrase.delete_all
 
-    Tolk::Locale.locales_config_path = RAILS_ROOT + "/test/locales/formats/"
+    Tolk::Locale.locales_config_path = Rails.root.join("../locales/formats")
 
     I18n.backend.reload!
     I18n.load_path = [Tolk::Locale.locales_config_path + 'en.yml']
@@ -98,7 +98,7 @@ class FormatTest < ActiveSupport::TestCase
     @spanish.translations_attributes = [
       {"locale_id" => @spanish.id, "phrase_id" => ph('string_array').id, "text" => 'invalid format'},
       {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'spanish string'},
-      {"locale_id" => @spanish.id, "phrase_id" => ph('number').id, "text" => '2'}
+      {"locale_id" => @spanish.id, "phrase_id" => ph('string').id, "text" => 'bla'}
     ]
 
     assert_difference('Tolk::Translation.count', 2) { @spanish.save }

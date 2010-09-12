@@ -11,7 +11,7 @@ module Tolk
     end
 
     def ensure_no_primary_locale
-      redirect_to tolk_locales_path if @locale.primary?
+      redirect_to tolk.locales_path if @locale.primary?
     end
   end
 end

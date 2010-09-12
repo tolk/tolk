@@ -21,7 +21,6 @@
 <% end %>
 <%= form_for(Tolk::Locale.new) do |f| %>
 <div class="submit">
-  <%= f.error_messages %>
   <p>
     <%= f.label "Add a new Locale" %>
     <select id="select_tolk_locale_name" name="tolk_locale[name]">

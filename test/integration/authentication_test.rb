@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class AuthenticationTest < ActionController::IntegrationTest
+  self.fixture_path = Rails.root.to_s + "/../fixtures"
+  fixtures :all
+
   def setup
     Tolk::ApplicationController.authenticator = proc do
       authenticate_or_request_with_http_basic {|user_name, password| user_name == 'lifo' && password == 'pass' }

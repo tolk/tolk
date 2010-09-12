@@ -2,6 +2,7 @@ require 'test_helper'
 require 'fileutils'
 
 class TranslationTest < ActiveSupport::TestCase
+  fixtures :tolk_translations
 
   def setup
     Tolk::Locale.primary_locale(true)
@@ -11,7 +12,7 @@ class TranslationTest < ActiveSupport::TestCase
     translation = Tolk::Translation.new :phrase => tolk_translations(:hello_world_da).phrase, :locale => tolk_translations(:hello_world_da).locale
     translation.text = "Revised Hello World"
     assert translation.invalid?
-    assert translation.errors.on(:phrase_id)
+    assert translation.errors[:phrase_id]
   end
   
   test "translation is not changed when text is assigned an equal value in numberic form" do

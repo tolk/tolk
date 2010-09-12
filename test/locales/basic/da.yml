@@ -1,6 +1,6 @@
 --- 
 da: 
   cozy: Hyggeligt
+  hello_world: "Hej Verden"
   nested: 
-    hello_world: Nedarvet Hej Verden
-  hello_world: Hej Verden
+    hello_world: "Nedarvet Hej Verden"

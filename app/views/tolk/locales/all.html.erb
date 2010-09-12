@@ -4,7 +4,7 @@
 <h3 class="switch">Completed translations <span>(<%= link_to 'See phrases missing translation', @locale %>)</span></h3>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
-  <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
+  <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
 <% end %>
 
 <div class="search">

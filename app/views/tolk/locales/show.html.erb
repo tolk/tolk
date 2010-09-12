@@ -3,13 +3,13 @@
 <% end %>
 
 <% content_for :head do %>
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk_locale_path(@locale, :format => 'atom') -%>" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk.locale_path(@locale, :format => 'atom') -%>" />
 <% end %>
 
-<h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', all_tolk_locale_path(@locale) %>)</span></h3>
+<h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', tolk.all_locale_path(@locale) %>)</span></h3>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
-  <span class="notice">Some phrases have changed. <%= link_to "Update translations", updated_tolk_locale_path(@locale) %>.</span>
+  <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
 <% end %>
 
 <div class="search">

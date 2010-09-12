@@ -1,22 +1,28 @@
+# Configure Rails Envinronment
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
 
-require "webrat"
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require "rails/test_help"
 
-Webrat.configure do |config|
-  config.mode = :rails
-end
+ActiveSupport::TestCase.fixture_path = Rails.root.to_s + "/../fixtures"
 
-class Hash
-  undef :ya2yaml
-end
+ActionMailer::Base.delivery_method = :test
+ActionMailer::Base.perform_deliveries = true
+ActionMailer::Base.default_url_options[:host] = "test.com"
 
-class ActiveSupport::TestCase
-  self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false
+Rails.backtrace_cleaner.remove_silencers!
 
-  fixtures :all
+# Configure capybara for integration testing
+require "capybara/rails"
+Capybara.default_driver   = :selenium
+Capybara.default_selector = :css
 
-  self.fixture_class_names = {:tolk_locales => 'Tolk::Locale', :tolk_phrases => 'Tolk::Phrase', :tolk_translations => 'Tolk::Translation'}
-end
+# Run any available migrations
+# A bit of hacks, find a nicer way
+FileUtils.rm(Dir[File.expand_path("../dummy/db/test.sqlite3", __FILE__)])
+FileUtils.rm(Dir[File.expand_path("../dummy/db/migrate/*.blog.rb", __FILE__)])
+ActiveRecord::Migration.copy File.expand_path("../dummy/db/migrate/", __FILE__), { :blog => File.expand_path("../../db/migrate/", __FILE__) }
+ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
+
+# Load support files
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }

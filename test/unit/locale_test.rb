@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class LocaleTest < ActiveSupport::TestCase
+  fixtures :all
+
   test "turning locale without nested phrases into a hash" do
     assert_equal({ "se" => { "hello_world" => "Hejsan Verdon" } }, tolk_locales(:se).to_hash)
   end
@@ -60,19 +62,19 @@ class LocaleTest < ActiveSupport::TestCase
     Tolk::Locale.primary_locale(true)
 
     begin
-      FileUtils.mkdir_p(File.join(Rails.root, "tmp/locales"))
-      Tolk::Locale.dump_all(File.join(Rails.root, "tmp/locales"))
+      FileUtils.mkdir_p(Rails.root.join("../../tmp/locales"))
+      Tolk::Locale.dump_all(Rails.root.join("../../tmp/locales"))
 
       %w( da se ).each do |locale|
         assert_equal \
-          File.read(File.join(Rails.root, "test/locales/basic/#{locale}.yml")),
-          File.read(File.join(Rails.root, "tmp/locales/#{locale}.yml"))
+          File.read(Rails.root.join("../locales/basic/#{locale}.yml")),
+          File.read(Rails.root.join("../../tmp/locales/#{locale}.yml"))
       end
 
       # Make sure dump doesn't generate en.yml
-      assert ! File.exists?(File.join(Rails.root, "tmp/locales/en.yml"))
+      assert ! File.exists?(Rails.root.join("../../tmp/locales/en.yml"))
     ensure
-      FileUtils.rm_rf(File.join(Rails.root, "tmp/locales"))
+      FileUtils.rm_rf(Rails.root.join("../../tmp/locales"))
     end
   end
 

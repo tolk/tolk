@@ -1,1 +1,4 @@
 tmp/**/*
+test/dummy/db/migrate/*.tolk.rb
+Gemfile.lock
+.bundle
