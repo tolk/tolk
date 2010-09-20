@@ -3,7 +3,7 @@ en:
   string: I am just a stupid string :(
   variables: "String with variables {{hello}} and %{world}"
   variables_in_struct:
-    zero: "Without variable"
+    none: "Without variable"
     one: "With {{variables}}"
     other: "With even %{more} {{variables}}"
   number_array: [1, 2, 3]
