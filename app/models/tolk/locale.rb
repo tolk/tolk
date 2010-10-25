@@ -47,7 +47,8 @@ module Tolk
       'tr'    => 'Turkish',
       'uk'    => 'Ukrainian',
       'vi'    => 'Vietnamese',
-      'zh'    => 'Chinese'
+      'zh-CN' => 'Chinese (Simplified)',
+      'zh-TW' => 'Chinese (Traditional)'
     }
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
