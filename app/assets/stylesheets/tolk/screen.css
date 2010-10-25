@@ -130,8 +130,7 @@ ul.locales {
 }
 
 ul.locales li {
-  /*width: 230px;*/
-  width: 150px;
+  width: 300px;
   display: block;
   float: left;
   margin: 0 10px 10px 0;
