@@ -79,9 +79,11 @@ div#head span.home {
 }
 
 div#head span.locale {
-  color: #fff;
-  font-weight: bold;
   background: #444;
+}
+
+div#head span.locale a {
+  color: #fff;
 }
 
 div#head span:first-child {

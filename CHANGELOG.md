@@ -1,3 +1,6 @@
+* Tolk 1.3.0 [not yet released]
+  * Improved header (bquorning)
+
 * Tolk 1.2.0 [May 16th, 2012]
   * Adding search within key (ZenCocoon)
   * Update for Rails 3.2.3 whitelist attributes compatibility
