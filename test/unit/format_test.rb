@@ -22,18 +22,18 @@ class FormatTest < ActiveSupport::TestCase
   def test_all_formats_are_loaded_properly
     # TODO : Investigate why the fuck does this test fail
     # assert_equal 1, @en['number']
-    assert_equal 'I am just a stupid string :(', @en['string']
-    assert_equal [1, 2, 3], @en['number_array']
-    assert_equal ['sun', 'moon'], @en['string_array']
+    assert_equal 'I am just a stupid string :(', @en.get('string')
+    assert_equal [1, 2, 3], @en.get('number_array')
+    assert_equal ['sun', 'moon'], @en.get('string_array')
   end
 
   def test_pluaralization
     result = {'other' => 'Hello'}
-    assert_equal result, @en['pluralization']
+    assert_equal result, @en.get('pluralization')
 
-    assert ! @en['not_pluralization']
-    assert_equal 'World', @en['not_pluralization.other']
-    assert_equal 'fifo', @en['not_pluralization.lifo']
+    assert ! @en.get('not_pluralization')
+    assert_equal 'World', @en.get('not_pluralization.other')
+    assert_equal 'fifo', @en.get('not_pluralization.lifo')
   end
 
   # def test_specail_activerecord_keys_and_prefixes
@@ -60,7 +60,7 @@ class FormatTest < ActiveSupport::TestCase
     success.save!
     assert_equal [1, 2], success.text
   end
-  
+
   def test_creating_translations_fails_with_unmatching_variables
     # Check that variable detection works correctly
     assert_equal Set['hello', 'world'], ph('variables').translations.primary.variables
@@ -105,9 +105,9 @@ class FormatTest < ActiveSupport::TestCase
 
     @spanish.reload
 
-    assert_equal 'spanish string', @spanish['string']
-    assert_equal '2', @spanish['number']
-    assert ! @spanish['string_array']
+    assert_equal 'spanish string', @spanish.get('string')
+    assert_equal '2', @spanish.get('number')
+    assert ! @spanish.get('string_array')
   end
 
   def test_bulk_update_saves_unchanged_record

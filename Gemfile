@@ -1,13 +1,13 @@
 source "http://rubygems.org"
 
-gem "rails", :git => "http://github.com/rails/rails.git"
-gem "arel", :git => "http://github.com/rails/arel.git"
+#gem "rails", "3.1.0.beta1"
+gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'will_paginate', :git => 'https://github.com/JackDanger/will_paginate.git'
+gem 'kaminari', :git => "https://github.com/amatsuda/kaminari.git"
 gem "ya2yaml"
 
+gem "capybara", :git => "https://github.com/jnicklas/capybara.git"
 gem "factory_girl_rails"
-gem "capybara", ">= 0.3.9"
 gem "sqlite3-ruby", :require => "sqlite3"
 gem "mocha"
 

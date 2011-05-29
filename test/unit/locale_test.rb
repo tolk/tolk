@@ -8,10 +8,10 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "turning locale with nested phrases into a hash" do
-    assert_equal({ "en" => { 
+    assert_equal({ "en" => {
       "number"=>{"human"=>{"format"=>{"precision"=>1}}},
-      "hello_world" => "Hello World", 
-      "nested" => { 
+      "hello_world" => "Hello World",
+      "nested" => {
         "hello_world" => "Nested Hello World",
         "hello_country" => "Nested Hello Country"
       }

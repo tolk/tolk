@@ -616,3 +616,6 @@ Rendered /Users/drogus/.rvm/gems/ruby-1.9.2-p0@rails/bundler/gems/rails-7e4852f8
  WHERE type = 'table' AND NOT name = 'sqlite_sequence'
   [1m[36mTolk::Translation Load (0.4ms)[0m  [1mSELECT "tolk_translations"."id" FROM "tolk_translations" WHERE ("tolk_translations"."phrase_id" IS NULL) AND ("tolk_translations"."locale_id" IS NULL) LIMIT 1[0m
   [1m[35mTolk::Translation Load (0.3ms)[0m  SELECT "tolk_translations"."id" FROM "tolk_translations" WHERE ("tolk_translations"."phrase_id" IS NULL) AND ("tolk_translations"."locale_id" IS NULL) LIMIT 1
+  [1m[36mTolk::Locale Load (0.2ms)[0m  [1mSELECT "tolk_locales".* FROM "tolk_locales" LIMIT 1[0m
+  [1m[35mTolk::Phrase Load (0.2ms)[0m  SELECT "tolk_phrases".* FROM "tolk_phrases" WHERE "tolk_phrases"."key" = 'id' LIMIT 1
+  [1m[36mTolk::Locale Load (0.2ms)[0m  [1mSELECT "tolk_locales".* FROM "tolk_locales" LIMIT 1[0m

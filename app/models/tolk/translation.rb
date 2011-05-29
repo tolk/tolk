@@ -4,7 +4,7 @@ module Tolk
 
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
-    serialize :text, :previous_text
+    serialize :text
     validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
     validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
@@ -12,6 +12,8 @@ module Tolk
 
     belongs_to :phrase, :class_name => 'Tolk::Phrase'
     belongs_to :locale, :class_name => 'Tolk::Locale'
+    validates_presence_of :locale_id
+
 
     attr_accessor :force_set_primary_update
     before_save :set_primary_updated
@@ -55,7 +57,7 @@ module Tolk
 
     def self.detect_variables(search_in)
       case search_in
-        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten) 
+        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten)
         when Array then search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         when Hash then search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         else Set[]

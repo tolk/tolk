@@ -12,7 +12,8 @@
     <%= javascript_include_tag :defaults %>
   <% end %>
 
-  <%= stylesheet_link_tag "/tolk/reset", "/tolk/screen" %>
+  <%= stylesheet_link_tag "tolk/reset" %>
+  <%= stylesheet_link_tag "tolk/screen" %>
   <%= yield :head %>
 </head>
 
@@ -23,7 +24,7 @@
     </div>
     <%= yield %>
   </div>
-  
+
   <script type="text/javascript">
     $$('td textarea').each(function(element) {
       element.setStyle({height: element.up('td').measure('height')+'px'});
