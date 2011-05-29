@@ -13,7 +13,6 @@ Gem::Specification.new do |s|
   s.add_dependency('ya2yaml', '~> 0.26')
 
   s.files = Dir['README', 'MIT-LICENSE', 'config/routes.rb', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
-  s.has_rdoc = false
 
   s.require_path = 'lib'
 end
