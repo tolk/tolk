@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem "rails", :git => "http://github.com/rails/rails.git"
 gem "arel", :git => "http://github.com/rails/arel.git"
 
-gem 'will_paginate', :git => 'http://github.com/mislav/will_paginate.git', :branch => 'rails3'
+gem 'will_paginate', :git => 'https://github.com/JackDanger/will_paginate.git'
 gem "ya2yaml"
 
 gem "factory_girl_rails"
