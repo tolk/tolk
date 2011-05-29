@@ -2,6 +2,6 @@ require 'rails'
 
 module Tolk
   class Engine < Rails::Engine
-    namespace Tolk
+    isolate_namespace Tolk
   end
 end
