@@ -7,7 +7,7 @@ namespace :tolk do
     Rake::Task['tolk:sync'].invoke
     Rake::Task['tolk:import'].invoke
   end
-  
+
   desc "Sync Tolk with the default locale's yml file"
   task :sync => :environment do
     Tolk::Locale.sync!
@@ -30,14 +30,6 @@ namespace :tolk do
     bad_translations.each do |bt|
       puts "#{bt.phrase.key} - #{bt.text}"
     end
-  end
-
-  desc "Copies required assets from tolk to application's public/ directory"
-  task :import_assets do
-    tolk_assets = File.expand_path(File.join(File.dirname(__FILE__), '../../public/tolk'))
-    command = "cp -R #{tolk_assets} #{Rails.root}/public/"
-    puts command
-    system(command)
   end
 
 end
