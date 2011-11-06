@@ -53,7 +53,7 @@
       <p><%= locale_form.submit "Save changes" %></p>
     </div>
     <div class="paginate">
-      <%= paginate @phrases %>
+      <%= will_paginate @phrases %>
     </div>
   <% end %>
 <% else %>

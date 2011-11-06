@@ -9,7 +9,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
 
   def test_adding_missing_translations_and_updating_translations
     Tolk::Locale::MAPPING['xx'] = "Pirate"
-    
+
     locale = add_locale("Pirate")
     assert locale.translations.empty?
 
@@ -41,7 +41,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     select name, :from => "select_tolk_locale_name"
     click_button 'Add'
 
-    Tolk::Locale.find_by_name!(Tolk::Locale::MAPPING.index(name))
+    Tolk::Locale.find_by_name!(Tolk::Locale::MAPPING.key(name))
   end
 
   def setup_locales

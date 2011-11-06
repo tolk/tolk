@@ -49,7 +49,7 @@
       </div>
     <% end %>
     <div class="paginate">
-      <%= paginate @phrases %>
+      <%= will_paginate @phrases %>
     </div>
   <% else %>
     <p style="text-align: left">There aren't any missing or updated phrases that need translation.</p>
