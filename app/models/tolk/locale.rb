@@ -1,6 +1,6 @@
 module Tolk
   class Locale < ActiveRecord::Base
-    set_table_name "tolk_locales"
+    self.table_name = "tolk_locales"
 
     MAPPING = {
       'ar'    => 'Arabic',
