@@ -1,3 +1,5 @@
+require 'tolk/application_controller'
+
 module Tolk
   class ApplicationController < ActionController::Base
     helper :all
