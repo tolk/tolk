@@ -37,7 +37,7 @@
               <% if params[:q].present? -%>
                 <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
               <% else -%>
-                <%= format_i18n_value(phrase.translations.primary.text) -%>
+                <%= format_i18n_value(phrase.translations.primary.text).html_safe -%>
               <% end -%>
               <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
