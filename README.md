@@ -4,6 +4,7 @@ This is not the official tolk repository.
 The original tolk repositery can be found here: http://github.com/dhh/tolk
 
 # Tolk
+[![Build Status](https://secure.travis-ci.org/tolk/tolk.png?branch=master)][travis]
 
 Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
 
