@@ -1,4 +1,10 @@
+# Caution
+
+This is not the official tolk repository.
+The original tolk repositery can be found here: http://github.com/dhh/tolk
+
 # Tolk
+
 Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
 
 ## Installation & Setup
