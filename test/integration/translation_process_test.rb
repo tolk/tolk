@@ -16,7 +16,8 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     # Adding a new translation
     pirate_path = tolk.locale_path(locale)
     visit pirate_path
-    fill_in 'translations[][text]', :with => "Dead men don't bite"
+
+    fill_in_first_translation :with => "Dead men don't bite"
     click_button 'Save changes'
 
     assert_equal current_path, pirate_path
@@ -26,7 +27,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     click_link 'See completed translations'
     assert page.has_content?("Dead men don't bite")
 
-    fill_in 'translations[][text]', :with => "Arrrr!"
+    fill_in_first_translation :with => "Arrrr!"
     click_button 'Save changes'
 
     assert_equal current_path, tolk.all_locale_path(locale)
@@ -35,6 +36,13 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
   end
 
   private
+
+  def fill_in_first_translation(with_hash)
+    within(:xpath, '//table[@class = "translations"]//tr[2]/td[@class = "translation"][1]') do
+      fill_in 'translations[][text]', with_hash
+    end
+    
+  end
 
   def add_locale(name)
     visit tolk.root_path
