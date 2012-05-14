@@ -1,10 +1,10 @@
 # Caution
 
-This is not the official tolk repository.
+This is not (yet) the official tolk repository.
 The original tolk repositery can be found here: http://github.com/dhh/tolk
 
 # Tolk
-![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)
+[![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](travis-ci.org/#!/tolk/tolk)
 
 [![Dependency Status](https://gemnasium.com/tolk/tolk.png?travis)](https://gemnasium.com/tolk/tolk)
 
