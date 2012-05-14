@@ -1,7 +1,7 @@
 # encoding: UTF-8
 require 'rake'
-require 'rake/rdoctask'
-require 'rake/gempackagetask'
+require 'rdoc/task'
+require 'rubygems/package_task'
 
 require 'rake/testtask'
 
@@ -30,7 +30,7 @@ spec = Gem::Specification.new do |s|
   s.version = "2.0.0.beta"
 end
 
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
 end
 
 desc "Install the gem #{spec.name}-#{spec.version}.gem"
