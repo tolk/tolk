@@ -22,7 +22,7 @@ To setup just run:
 
 ## Usage
 
-Tolk treats I18n.default_locale as the master source of strings to be translated. If you want the master source to be different from I18n.default_locale, you can override it by setting Tolk::Locale.primary_locale_name. Developers are expected to make all the changes to the master locale file ( en.yml by default ) and treat all the other locale.yml files as readonly files.
+Tolk treats `I18n.default_locale` as the master source of strings to be translated. If you want the master source to be different from `I18n.default_locale`, you can override it by setting `Tolk::Locale.primary_locale_name`. Developers are expected to make all the changes to the master locale file ( en.yml by default ) and treat all the other locale.yml files as readonly files.
 
 As tolk stores all the keys and translated strings in the database, you need to ask Tolk to update it's database from the primary yml file :
 
@@ -58,7 +58,7 @@ You can even download the yml file using Tolk web interface by appending '.yml' 
 
 If you want to authenticate users who can access Tolk, you need to provide <tt>Tolk::ApplicationController.authenticator</tt> proc. For example :
 
-```bash
+```ruby
   # config/initializers/tolk.rb
   Tolk::ApplicationController.authenticator = proc {
     authenticate_or_request_with_http_basic do |user_name, password|
@@ -73,7 +73,7 @@ Authenticator proc will be run from a before filter in controller context.
 
 Tolk speaks YAML for non strings values. If you want to enter a nil values, you could just enter '~'. Similarly, for an Array value, you could enter :
 
-```bash
+```yml
   ---
   - Sun
   - Mon
