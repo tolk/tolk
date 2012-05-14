@@ -8,7 +8,7 @@ gem "ya2yaml"
 group 'test' do
   gem "capybara", :git => "https://github.com/jnicklas/capybara.git"
   gem "factory_girl_rails"
-  gem "sqlite3-ruby", :require => "sqlite3"
+  gem "sqlite3"
   gem "mocha"
   gem 'launchy'
 end
