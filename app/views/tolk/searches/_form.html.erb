@@ -4,5 +4,7 @@
   <%= scope_selector_for(@locale) %>
   phrase:
   <%= text_field_tag :q, params[:q] %>
+  within key:
+  <%= text_field_tag :k, params[:k] %>
   <%= submit_tag "Search", :name => nil %>
 <% end %>

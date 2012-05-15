@@ -35,6 +35,22 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     assert_equal 'Arrrr!', locale.translations(true).first.text
   end
 
+  def test_search_phrase_within_key
+    Tolk::Locale::MAPPING['xx'] = "Pirate"
+    locale = add_locale("Pirate")
+    assert locale.translations.empty?
+
+    # Adding a new translation
+    pirate_path = tolk.locale_path(locale)
+    visit pirate_path
+    
+    fill_in 'q', :with => 'hello_country'
+    fill_in 'k', :with => 'nested'
+    
+    click_button 'Search'
+    assert_equal 1, page.has_selector?('td.translation').size
+  end
+  
   private
 
   def fill_in_first_translation(with_hash)
