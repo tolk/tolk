@@ -5,3 +5,4 @@ test/dummy/tmp/*
 test/dummy/db/*.sqlite3
 Gemfile.lock
 .bundle
+*.gem
