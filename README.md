@@ -1,5 +1,6 @@
 # Tolk
 [![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](travis-ci.org/#!/tolk/tolk)
+
 [![Dependency Status](https://gemnasium.com/tolk/tolk.png?travis)](https://gemnasium.com/tolk/tolk)
 
 This is now the official tolk repository.
