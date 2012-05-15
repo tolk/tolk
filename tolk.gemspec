@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name        = 'tolk'
-  s.version     = '1.0'
+  s.version     = '1.1.0'
   s.summary     = 'Rails engine providing web interface for managing i18n yaml files'
   s.description = 'Tolk is a web interface for doing i18n translations packaged as an engine for Rails applications.'
 
-  s.author = 'David Heinemeier Hansson'
+  s.author = ['David Heinemeier Hansson', 'Emilio Tagua', 'Thomas Darde']
   s.email = 'david@loudthinking.com'
-  s.homepage = 'http://www.rubyonrails.org'
+  s.homepage = 'http://github.com/tolk/tolk'
 
   s.platform = Gem::Platform::RUBY
   s.add_dependency('will_paginate')
