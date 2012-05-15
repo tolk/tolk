@@ -2,7 +2,7 @@
 [![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](travis-ci.org/#!/tolk/tolk)
 [![Dependency Status](https://gemnasium.com/tolk/tolk.png?travis)](https://gemnasium.com/tolk/tolk)
 
-This is not now the official tolk repository.
+This is now the official tolk repository.
 
 Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
 
