@@ -20,6 +20,12 @@ To setup just run:
   $ rake tolk:setup
 ```
 
+and add tolk to your `config/routes.rb` file :
+
+```ruby
+  mount Tolk::Engine => "/tolk"
+```
+
 ## Usage
 
 Tolk treats `I18n.default_locale` as the master source of strings to be translated. If you want the master source to be different from `I18n.default_locale`, you can override it by setting `Tolk::Locale.primary_locale_name`. Developers are expected to make all the changes to the master locale file ( en.yml by default ) and treat all the other locale.yml files as readonly files.
