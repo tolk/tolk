@@ -10,11 +10,15 @@ Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty 
 
 To install add the following to your Gemfile:
 
+```ruby
   gem 'tolk'
+```
 
 To setup just run:
 
+```bash
   $ rake tolk:setup
+```
 
 ## Usage
 
