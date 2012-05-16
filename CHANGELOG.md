@@ -2,6 +2,7 @@
   * Improved header (bquorning)
   * Locales are ordered by name in locales/index
   * Tolk ignore files with name of type xxx.en.yml
+  * Default mapping use http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
   * Adding a config file for Tolk in the hosted application
     * Allow to config Mappings
     * Allow to config dump_path
