@@ -1,5 +1,5 @@
 # Tolk
-[![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](travis-ci.org/#!/tolk/tolk)
+[![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](http://travis-ci.org/#!/tolk/tolk)
 
 [![Dependency Status](https://gemnasium.com/tolk/tolk.png?travis)](https://gemnasium.com/tolk/tolk)
 
@@ -21,11 +21,7 @@ To setup just run:
   $ rake tolk:setup
 ```
 
-and add tolk to your `config/routes.rb` file :
-
-```ruby
-  mount Tolk::Engine => "/tolk"
-```
+and follow the guide !
 
 ## Usage
 

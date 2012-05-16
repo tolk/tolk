@@ -5,7 +5,7 @@ module Tolk
 
 
     class << self
-      # Application title, can be an array of two elements
+      # Mapping : a hash of the type { 'ar'    => 'Arabic' }
       attr_accessor :mapping
       
       def reset
