@@ -1,3 +1,8 @@
+* Tolk 1.2.0 [May 16th, 2012]
+  * Adding search within key (ZenCocoon)
+  * Update for Rails 3.2.3 whitelist attributes compatibility
+
+
 * Tolk 1.1.0 [May 15th, 2012]
   * Update for Rails 3.2 compatibility
   * Added Travis CI
