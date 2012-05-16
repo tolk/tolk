@@ -4,7 +4,7 @@ module Tolk
     before_filter :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
 
     def index
-      @locales = Tolk::Locale.secondary_locales
+      @locales = Tolk::Locale.secondary_locales.sort_by(&:language_name)
     end
   
     def show
