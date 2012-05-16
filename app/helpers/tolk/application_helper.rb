@@ -21,7 +21,7 @@ module Tolk
     def tolk_locale_selection
       existing_locale_names = Tolk::Locale.all.map(&:name)
 
-      pairs = Tolk::Locale::MAPPING.to_a.map(&:reverse).sort_by(&:first)
+      pairs = Tolk.config.mapping.to_a.map(&:reverse).sort_by(&:first)
       pairs.reject {|pair| existing_locale_names.include?(pair.last) }
     end
 
