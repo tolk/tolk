@@ -7,8 +7,13 @@ module Tolk
     class << self
       # Mapping : a hash of the type { 'ar'    => 'Arabic' }
       attr_accessor :mapping
+
+      # Dump locale path by default the locales folder (config/locales)
+      attr_accessor :dump_path
       
       def reset
+        @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
+        
         @mapping = {
           'ar'    => 'Arabic',
           'bs'    => 'Bosnian',

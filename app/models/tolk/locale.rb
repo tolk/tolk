@@ -4,6 +4,10 @@ module Tolk
   class Locale < ActiveRecord::Base
     self.table_name = "tolk_locales"
 
+    def self._dump_path
+      # Necessary to acces rails.root at runtime !
+      @dump_path ||= Tolk.config.dump_path.is_a?(Proc) ? instance_eval(&Tolk.config.dump_path) : Tolk.config.dump_path
+    end
 
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
     has_many :translations, :class_name => 'Tolk::Translation', :dependent => :destroy
@@ -13,7 +17,7 @@ module Tolk
 
     attr_accessible :name
     cattr_accessor :locales_config_path
-    self.locales_config_path = "#{Rails.root}/config/locales"
+    self.locales_config_path = self._dump_path
 
     cattr_accessor :primary_locale_name
     self.primary_locale_name = I18n.default_locale.to_s
@@ -163,6 +167,7 @@ module Tolk
     end
 
     private
+
 
     def remove_invalid_translations_from_target
       self.translations.target.dup.each do |t|

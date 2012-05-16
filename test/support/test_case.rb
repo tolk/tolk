@@ -1,4 +1,6 @@
 class ActiveSupport::TestCase
+  Tolk::Config.reset
+  
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
