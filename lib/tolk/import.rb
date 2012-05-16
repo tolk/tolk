@@ -8,8 +8,14 @@ module Tolk
 
       def import_secondary_locales
         locales = Dir.entries(self.locales_config_path)
-        locales = locales.reject {|l| ['.', '..'].include?(l) || !l.ends_with?('.yml') }.map {|x| x.split('.').first } - [Tolk::Locale.primary_locale.name]
-
+        
+        locale_block_filter = Proc.new { 
+          |l| ['.', '..'].include?(l) ||
+            !l.ends_with?('.yml') ||
+            l.match(/(.*\.){2,}/) # reject files of type xxx.en.yml
+        }
+        locales = locales.reject(&locale_block_filter).map {|x| x.split('.').first } 
+        locales = locales - [Tolk::Locale.primary_locale.name]
         locales.each {|l| import_locale(l) }
       end
 
