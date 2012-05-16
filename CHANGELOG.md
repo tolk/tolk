@@ -1,5 +1,6 @@
 * Tolk 1.3.0 [not yet released]
   * Improved header (bquorning)
+  * Adding a config file for Tolk in the hosted application
 
 * Tolk 1.2.0 [May 16th, 2012]
   * Adding search within key (ZenCocoon)
