@@ -11,6 +11,11 @@ module Tolk
             display("Using [#{override_if_present_value}] for question '#{wording}'") && override_if_present_value :
             ask("           ?  #{wording} Press <enter> for [#{default_value}] >", :yellow).presence || default_value
         end
+
+        def ask_boolean(wording, default_value = nil)
+          value = ask_for(wording, 'Y')
+          value = (value == 'Y')
+        end
       end
 
       module ClassMethods

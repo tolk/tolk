@@ -20,9 +20,10 @@ module Tolk
       routes = File.open(Rails.root.join("config/routes.rb")).try :read
       initializer = (File.open(Rails.root.join("config/initializers/tolk.rb")) rescue nil).try :read
 
-      display "Hello, Tolk installer will help you sets things up!", :blue
+      display "Hello, Tolk installer will help you sets things up!", :black
       unless initializer
-        template "initializer.erb", "config/initializers/tolk.rb"
+        install_generator = ask_boolean("Do you wan't to install the optional configuration file (to change mappings, locales dump location etc..) ?")
+        template "initializer.erb", "config/initializers/tolk.rb" if install_generator
       else
         display "You already have a config file. You're updating, heh? I'm generating a new 'tolk.rb.example' that you can review."
         template "initializer.erb", "config/initializers/tolk.rb.example"
@@ -32,8 +33,8 @@ module Tolk
       migration_template 'migration.rb', 'db/migrate/create_tolk_tables.rb' rescue display $!.message
 
       namespace = ask_for("Where do you want to mount tolk?", "tolk", _namespace)
-      gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\'/, ''
       gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\', :as => \'tolk\'/, ''
+      gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\'/, ''
       route("mount Tolk::Engine => '/#{namespace}', :as => 'tolk'")
 
       display "Job's done: migrate, start your server and visit '/#{namespace}'!", :blue
