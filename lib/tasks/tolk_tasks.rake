@@ -1,8 +1,7 @@
 namespace :tolk do
   desc "Update locale"
   task :update_locale, [:old_name, :new_name] => :environment do |t, args|
-    old_name = args[:old_name]
-    new_name = args[:new_name]
+    old_name, new_name = args[:old_name], args[:new_name]
     puts Tolk::Locale.rename(old_name, new_name)
   end
 
