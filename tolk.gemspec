@@ -15,6 +15,10 @@ Gem::Specification.new do |s|
   s.add_dependency('will_paginate')
   s.add_dependency('ya2yaml', '~> 0.26')
 
+  if File.exists?('UPGRADING')
+    s.post_install_message = File.read("UPGRADING")
+  end
+
   s.files = Dir['README', 'MIT-LICENSE', 'config/routes.rb', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
 
   s.require_path = 'lib'

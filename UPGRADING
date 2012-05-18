@@ -1,0 +1,5 @@
+##################################
+# Tolk, if upgrading from pre-1.3.
+##################################
+  - A configuration file is now available, run tolk:setup.
+  - Mapping has been updated, use update_locale rake task if necessary.
