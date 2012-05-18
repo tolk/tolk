@@ -166,6 +166,20 @@ module Tolk
       translations
     end
 
+    def self.rename(old_name, new_name)
+      if old_name.blank? || new_name.blank?
+        "You need to provide both names, aborting."
+      else
+        if locale = find_by_name(old_name)
+          locale.name = new_name
+          locale.save
+          "Locale ' #{old_name}' was renamed '#{new_name}'"
+        else
+          "Locale with name '#{old_name}' not found."
+        end
+      end
+    end
+    
     private
 
 

@@ -1,4 +1,11 @@
 namespace :tolk do
+  desc "Update locale"
+  task :update_locale, [:old_name, :new_name] => :environment do |t, args|
+    old_name = args[:old_name]
+    new_name = args[:new_name]
+    puts Tolk::Locale.rename(old_name, new_name)
+  end
+
   desc "Add database tables, copy over the assets, and import existing translations"
   task :setup => :environment do
     system 'rails g tolk:install'
