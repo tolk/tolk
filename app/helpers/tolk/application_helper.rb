@@ -1,7 +1,7 @@
 module Tolk
   module ApplicationHelper
     def format_i18n_value(value)
-      h(yaml_value(value)).gsub(/\n/, '<br />')
+      h(yaml_value(value)).gsub(/\n/, '<br />').html_safe
     end
 
     def format_i18n_text_area_value(value)
