@@ -22,6 +22,7 @@ module Tolk
       def import_locale(locale_name)
         locale = Tolk::Locale.find_or_create_by_name(locale_name)
         data = locale.read_locale_file
+        return unless data
 
         phrases = Tolk::Phrase.all
         count = 0
@@ -46,7 +47,14 @@ module Tolk
       locale_file = "#{self.locales_config_path}/#{self.name}.yml"
       raise "Locale file #{locale_file} does not exists" unless File.exists?(locale_file)
 
-      self.class.flat_hash(YAML::load(IO.read(locale_file))[self.name])
+      puts "[INFO] Reading #{locale_file} for locale #{self.name}"
+      begin
+        self.class.flat_hash(YAML::load(IO.read(locale_file))[self.name])
+      rescue
+        puts "[ERROR] File #{locale_file} expected to declare #{self.name} locale, but it does not. Skipping this file."
+        nil
+      end
+
     end
 
   end
