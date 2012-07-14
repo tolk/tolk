@@ -48,7 +48,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     fill_in 'k', :with => 'nested'
     
     click_button 'Search'
-    assert_equal 1, page.has_selector?('td.translation').size
+    assert_equal true, page.has_selector?('td.translation', :count => 1)
   end
   
   private
