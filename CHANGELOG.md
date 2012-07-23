@@ -1,4 +1,7 @@
-* Tolk 1.3.0 [not yet released]
+* Tolk 1.3.2
+  * fixed a crash and made tests passing (gshilin)
+
+* Tolk 1.3.0
   * Improved header (bquorning)
   * Locales are ordered by name in locales/index
   * Tolk ignore files with name of type xxx.en.yml
