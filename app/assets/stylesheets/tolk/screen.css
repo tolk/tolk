@@ -288,6 +288,11 @@ table.translations .highlight {
   background-color: yellow;
 }
 
+table.translations .phrase .carriage_return {
+	color: #2fadcf;
+	font-weight: bold;
+}
+
 /*-------------------------------------------------
 Pagination
 -------------------------------------------------*/
