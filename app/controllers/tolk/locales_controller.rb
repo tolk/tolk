@@ -40,7 +40,7 @@ module Tolk
     private
 
     def find_locale
-      @locale = Tolk::Locale.find_by_name!(params[:id])
+      @locale = Tolk::Locale.where('UPPER(name) = UPPER(?)', params[:id]).first!
     end
   end
 end
