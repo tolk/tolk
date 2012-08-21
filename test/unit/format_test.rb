@@ -27,11 +27,19 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal ['sun', 'moon'], @en.get('string_array')
   end
 
-  def test_pluaralization
-    result = {'other' => 'Hello'}
+  def test_pluralization
+    result = {
+      "none"  => "none",
+      "zero"  => "zero",
+      "one"   => "one",
+      "two"   => "two",
+      "few"   => "few",
+      "many"  => "many",
+      "other" => "other"
+    }
     assert_equal result, @en.get('pluralization')
 
-    assert ! @en.get('not_pluralization')
+    assert_nil @en.get('not_pluralization')
     assert_equal 'World', @en.get('not_pluralization.other')
     assert_equal 'fifo', @en.get('not_pluralization.lifo')
   end

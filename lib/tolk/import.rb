@@ -8,13 +8,13 @@ module Tolk
 
       def import_secondary_locales
         locales = Dir.entries(self.locales_config_path)
-        
-        locale_block_filter = Proc.new { 
+
+        locale_block_filter = Proc.new {
           |l| ['.', '..'].include?(l) ||
             !l.ends_with?('.yml') ||
             l.match(/(.*\.){2,}/) # reject files of type xxx.en.yml
         }
-        locales = locales.reject(&locale_block_filter).map {|x| x.split('.').first } 
+        locales = locales.reject(&locale_block_filter).map {|x| x.split('.').first }
         locales = locales - [Tolk::Locale.primary_locale.name]
         locales.each {|l| import_locale(l) }
       end
@@ -32,9 +32,13 @@ module Tolk
 
           if phrase
             translation = locale.translations.new(:text => value, :phrase => phrase)
-            count = count + 1 if translation.save
+            if translation.save
+              count = count + 1
+            elsif translation.errors[:variables].present?
+              puts "[WARN] Key '#{key}' from '#{locale_name}.yml' could not be saved: #{translation.errors[:variables].first}"
+            end
           else
-            puts "[ERROR] Key '#{key}' was found in #{locale_name}.yml but #{Tolk::Locale.primary_language_name} translation is missing"
+            puts "[ERROR] Key '#{key}' was found in '#{locale_name}.yml' but #{Tolk::Locale.primary_language_name} translation is missing"
           end
         end
 

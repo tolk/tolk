@@ -64,7 +64,8 @@ module Tolk
         self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
       end
 
-      PLURALIZATION_KEYS = ['none', 'one', 'two', 'few', 'many', 'other']
+      # http://cldr.unicode.org/index/cldr-spec/plural-rules - TODO: usage of 'none' isn't standard-conform
+      PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
       def pluralization_data?(data)
         keys = data.keys.map(&:to_s)
         keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
