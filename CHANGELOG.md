@@ -1,3 +1,6 @@
+* Tolk 1.3.3
+  * fixed a incompatible character encoding error
+
 * Tolk 1.3.2
   * fixed a crash and made tests passing (gshilin)
 
