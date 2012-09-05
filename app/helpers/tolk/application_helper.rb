@@ -5,7 +5,7 @@ module Tolk
     end
 
     def format_i18n_text_area_value(value)
-      yaml_value(value)
+      yaml_value(value).to_s.force_encoding("UTF-8")
     end
 
     def yaml_value(value)
