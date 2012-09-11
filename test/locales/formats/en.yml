@@ -9,7 +9,13 @@ en:
   number_array: [1, 2, 3]
   string_array: ['sun', 'moon']
   pluralization:
-    other: Hello
+    none: none
+    zero: zero
+    one: one
+    two: two
+    few: few
+    many: many
+    other: other
   not_pluralization:
     other: World
     lifo: fifo
