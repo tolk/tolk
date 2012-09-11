@@ -57,11 +57,19 @@ module Tolk
     end
 
     def self.detect_variables(search_in)
-      case search_in
+      variables = case search_in
         when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten)
         when Array then search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         when Hash then search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
         else Set[]
+      end
+
+      # delete special i18n variable used for pluralization itself (might not be used in all values of
+      # the pluralization keys, but is essential to use pluralization at all)
+      if search_in.is_a?(Hash) && Tolk::Locale.pluralization_data?(search_in)
+        variables.delete_if {|v| v == 'count' }
+      else
+        variables
       end
     end
 
@@ -110,10 +118,10 @@ module Tolk
 
     def check_matching_variables
       unless variables_match?
-        if primary_translation.variables.empty? || primary_translation.variables.class == Set
-          self.errors.add(:text, "The original does not contain variables, so they should not be included.")
+        if primary_translation.variables.empty?
+          self.errors.add(:variables, "The primary translation does not contain substitutions, so this should neither.")
         else
-          self.errors.add(:text, "The translation should contain the variables #{primary_translation.to_a.to_sentence}.")
+          self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
         end
       end
     end
