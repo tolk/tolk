@@ -5,7 +5,8 @@ module Tolk
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
     serialize :text
-    validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil }
+    serialize :previous_text
+    validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
     validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
     validates_uniqueness_of :phrase_id, :scope => :locale_id
@@ -27,6 +28,10 @@ module Tolk
     attr_accessor :explicit_nil
     before_validation :set_explicit_nil
 
+    def boolean?
+      text.is_a?(TrueClass) || text.is_a?(FalseClass)
+    end
+
     def up_to_date?
       not out_of_date?
     end
@@ -45,7 +50,19 @@ module Tolk
 
     def text=(value)
       value = value.to_s if value.kind_of?(Fixnum)
-      super unless value.to_s == text
+      if primary_translation.boolean?
+        value = case value.to_s.downcase.strip
+        when 'true'
+          true
+        when 'false'
+          false
+        else
+          nil
+        end
+        super(value) unless value == text
+      else
+        super unless value.to_s == text
+      end
     end
 
     def value
@@ -100,7 +117,18 @@ module Tolk
           end
         end
 
-        self.text = nil if primary_translation.text.class != self.text.class
+        if primary_translation.boolean?
+          self.text = case self.text.to_s.strip
+          when 'true'
+            true
+          when 'false'
+            false
+          else
+            nil
+          end
+        elsif primary_translation.text.class != self.text.class
+          self.text = nil
+        end
       end
 
       true
