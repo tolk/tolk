@@ -29,7 +29,7 @@ module Tolk
     before_validation :set_explicit_nil
 
     def boolean?
-      text.is_a?(TrueClass) || text.is_a?(FalseClass)
+      text.is_a?(TrueClass) || text.is_a?(FalseClass) || text == 't' || text == 'f'
     end
 
     def up_to_date?
@@ -50,16 +50,17 @@ module Tolk
 
     def text=(value)
       value = value.to_s if value.kind_of?(Fixnum)
-      if primary_translation.boolean?
+      if primary_translation && primary_translation.boolean?
         value = case value.to_s.downcase.strip
-        when 'true'
+        when 'true', 't'
           true
-        when 'false'
+        when 'false', 'f'
           false
         else
+          self.explicit_nil = true
           nil
         end
-        super(value) unless value == text
+        super unless value == text
       else
         super unless value.to_s == text
       end
@@ -68,6 +69,8 @@ module Tolk
     def value
       if text.is_a?(String) && /^\d+$/.match(text)
         text.to_i
+      elsif (primary_translation || self).boolean?
+        %w[true t].member?(text.to_s.downcase.strip)
       else
         text
       end

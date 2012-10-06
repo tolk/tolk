@@ -37,6 +37,14 @@ class TranslationTest < ActiveSupport::TestCase
     assert_equal(1, tolk_translations(:human_format_precision_en).value)
   end
 
+  test "translation with true value" do
+    assert_equal(true, tolk_translations(:number_currency_format_significant_da).value)
+  end
+
+  test "translation with false value" do
+    assert_equal(false, tolk_translations(:number_currency_format_significant_en).value)
+  end
+
   test "translation with hash value" do
     hash = {:foo => "bar"}
     assert_equal(hash, Tolk::Translation.new(:text => hash).value)
