@@ -17,3 +17,7 @@ cozy:
 human_format_precision:
   id: 5
   key: number.human.format.precision
+
+number_currency_format_significant:
+  id: 6
+  key: number.currency.format.significant
