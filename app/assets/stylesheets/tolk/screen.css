@@ -3,20 +3,20 @@ Defaults
 -------------------------------------------------*/
 
 acronym, abbr {
-  font-variant: small-caps; 
-  text-transform: lowercase; 
+  font-variant: small-caps;
+  text-transform: lowercase;
   font-weight: bold;
 }
 
-.center {text-align: center;}	
-.large {font-size: larger;}	
+.center {text-align: center;}
+.large {font-size: larger;}
 .small {font-size: smaller;}
 strong {font-weight: bold;}
 em {font-style: italic;}
 
-.clear {clear: both;}				 
-.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }		 
-.clearfix { display: inline-block; }		 
+.clear {clear: both;}
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.clearfix { display: inline-block; }
 .clearfix{ display: block; }
 
 a {color: #888;}
@@ -28,8 +28,8 @@ Layout
 
 body {
   font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", sans-serif;
-  background: #e5e5e5; 
-  color: #333;   
+  background: #e5e5e5;
+  color: #333;
   margin: 0;
   padding: 0;
   font-size: 14px;
@@ -288,7 +288,7 @@ table.translations .highlight {
   background-color: yellow;
 }
 
-table.translations .phrase .carriage_return {
+table.translations .phrase .carriage_return, table.translations .phrase .boolean {
 	color: #2fadcf;
 	font-weight: bold;
 }

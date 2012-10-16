@@ -35,6 +35,7 @@
               <% else -%>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
               <% end -%>
+              <%= boolean_warning if phrase.translations.primary.boolean? -%>
               <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
           </tr>

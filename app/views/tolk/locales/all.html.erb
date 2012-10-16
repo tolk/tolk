@@ -31,6 +31,7 @@
                 <div class="updated">
                   <span class="key">Updated</span>
                   <%= format_i18n_value(phrase.translations.primary.text) -%>
+                  <%= boolean_warning if phrase.translations.primary.boolean? -%>
                 </div>
                 <div class="original">
                   <span class="key">Original</span>
@@ -38,6 +39,7 @@
                 </div>
               <% else %>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
+                <%= boolean_warning if phrase.translations.primary.boolean? -%>
               <% end %>
 
               <span class="key"><%= phrase.key %></span>
