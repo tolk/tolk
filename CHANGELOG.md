@@ -1,3 +1,6 @@
+* Tolk 1.3.4
+  * fixed a boolean flags entry
+
 * Tolk 1.3.3
   * fixed a incompatible character encoding error
 
