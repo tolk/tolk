@@ -1,5 +1,5 @@
 <%= form_tag tolk.search_path, :method => :get do %>
-  <%= hidden_field_tag :locale, locale.name %>
+  <%= hidden_field_tag :tolk_locale, locale.name %>
   Search for
   <%= scope_selector_for(@locale) %>
   phrase:
