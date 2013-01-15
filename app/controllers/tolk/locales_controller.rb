@@ -37,6 +37,12 @@ module Tolk
       redirect_to :action => :index
     end
 
+    def dump_all
+      Tolk::Locale.dump_all
+      I18n.reload!
+      redirect_to request.referrer
+    end
+
     private
 
     def find_locale
