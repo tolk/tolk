@@ -86,6 +86,25 @@ div#head span.locale a {
   color: #fff;
 }
 
+div#head span.locale form.button_to {
+  display: inline;
+}
+
+div#head span.locale form.button_to div {
+  display: inline;
+}
+
+div#head span.locale form.button_to div input {
+  color: #fff;
+  background: none;
+  border: 0;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 18px;
+  color: #2fadcf;
+  cursor: pointer;
+}
+
 div#head span:first-child {
   padding-left: 12px;
   -webkit-border-top-left-radius: 10px;
