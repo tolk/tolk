@@ -1,3 +1,8 @@
+* Tolk 1.3.5
+  * Fixed CVE-2013-0156 (Lawrence Pit)
+  * Added possibility to refresh locale ui (ck3g)
+  * Namespace locale parameter (laurense)
+
 * Tolk 1.3.4
   * fixed a boolean flags entry
 
