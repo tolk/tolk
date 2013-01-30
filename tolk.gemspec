@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
   s.add_dependency('will_paginate')
-  s.add_dependency('ya2yaml', '~> 0.26')
+  s.add_dependency('safe_yaml')
 
   if File.exists?('UPGRADING')
     s.post_install_message = File.read("UPGRADING")

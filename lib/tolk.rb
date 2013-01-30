@@ -1,5 +1,5 @@
 require 'will_paginate'
-require 'ya2yaml'
+require 'safe_yaml'
 require 'tolk/config'
 require 'tolk/engine'
 require 'tolk/sync'
