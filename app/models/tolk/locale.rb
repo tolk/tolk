@@ -180,16 +180,16 @@ module Tolk
         end
       end
     end
-    
+
     private
 
 
     def remove_invalid_translations_from_target
       self.translations.target.dup.each do |t|
-         unless t.valid?
+        unless t.valid?
           self.translations.target.delete(t)
         else
-          t.updated_at = Time.current # Silly hax to fool autosave into saving the record
+          t.updated_at_will_change!
         end
       end
 

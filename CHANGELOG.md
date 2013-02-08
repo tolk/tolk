@@ -2,6 +2,7 @@
   * Fixed CVE-2013-0156 (Lawrence Pit)
   * Added possibility to refresh locale ui (ck3g)
   * Namespace locale parameter (laurense)
+  * Removed an old Hax which delayed this release for 1 week...
 
 * Tolk 1.3.4
   * fixed a boolean flags entry
