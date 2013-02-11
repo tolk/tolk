@@ -38,7 +38,6 @@ module Tolk
 
       def sync_phrases(translations)
         primary_locale = self.primary_locale
-        secondary_locales = self.secondary_locales
 
         # Handle deleted phrases
         translations.present? ? Tolk::Phrase.destroy_all(["tolk_phrases.key NOT IN (?)", translations.keys]) : Tolk::Phrase.destroy_all
@@ -54,12 +53,7 @@ module Tolk
 
           if translation.changed? && !translation.new_record?
             # Set the primary updated flag if the primary translation has changed and it is not a new record.
-            secondary_locales.each do |locale|
-              if existing_translation = existing_phrase.translations.detect {|t| t.locale_id == locale.id }
-                existing_translation.force_set_primary_update = true
-                existing_translation.save!
-              end
-            end
+            existing_phrase.translations.update_all({ :primary_updated => true }, Tolk::Translation.arel_table[:locale_id].not_eq(primary_locale.id))
           end
 
           translation.primary = true
