@@ -55,7 +55,7 @@ module Tolk
         secondary_locales.each do |locale|
           File.open("#{to}/#{locale.name}.yml", "w+") do |file|
             data = locale.to_hash
-            data.respond_to?(:ya2yaml) ? file.write(data.ya2yaml(:syck_compatible => true)) : YAML.dump(locale.to_hash, file)
+            data.respond_to?(:ya2yaml) ? file.write(data.ya2yaml(:syck_compatible => true)) : file.write(YAML.dump(hs).force_encoding file.external_encoding.name)
           end
         end
       end
