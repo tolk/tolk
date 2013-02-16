@@ -182,7 +182,7 @@ class SyncTest < ActiveSupport::TestCase
 
     yaml = ['Saturday', 'Sunday'].to_yaml
     spanish_weekends = spanish.translations.create!(:text => yaml, :phrase => Tolk::Phrase.first)
-    assert_equal YAML.load(yaml), spanish_weekends.text
+    assert_equal YAML.safe_load(yaml), spanish_weekends.text
   end
 
   def test_dump_all_after_sync
@@ -198,7 +198,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.dump_all(tmpdir)
 
     spanish_file = "#{tmpdir}/es.yml"
-    data = YAML::load(IO.read(spanish_file))['es']
+    data = YAML::safe_load(IO.read(spanish_file))['es']
     assert_equal ['hello_world'], data.keys
     assert_equal 'hola', data['hello_world']
   ensure
