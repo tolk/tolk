@@ -6,7 +6,7 @@ module Tolk
     def index
       @locales = Tolk::Locale.secondary_locales.sort_by(&:language_name)
     end
-  
+
     def show
       respond_to do |format|
         format.html do
@@ -41,6 +41,22 @@ module Tolk
       Tolk::Locale.dump_all
       I18n.reload!
       redirect_to request.referrer
+    end
+
+    def stats
+      @locales = Tolk::Locale.secondary_locales.sort_by(&:language_name)
+
+      respond_to do |format|
+        format.json do
+          stats = @locales.collect do |locale|
+            [locale.name, {
+              :missing => locale.count_phrases_without_translation,
+              :updated => locale.updated_at
+            }]
+          end
+          render :json => Hash[stats]
+        end
+      end
     end
 
     private
