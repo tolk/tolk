@@ -124,8 +124,7 @@ class FormatTest < ActiveSupport::TestCase
     @spanish.save!
 
     spanish_string = @spanish.translations.first
-    spanish_string.force_set_primary_update = true
-    spanish_string.save!
+    spanish_string.update_column(:primary_updated, true)
     assert spanish_string.primary_updated?
 
     @spanish.reload
