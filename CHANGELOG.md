@@ -1,6 +1,11 @@
+* Tolk 1.3.6
+  * Better sync (@elDub)
+  * Better safe_yaml warnings support (@mangelajo)
+  * Better safe_yaml warnings support (@mangelajo)
+
 * Tolk 1.3.5
   * Fixed CVE-2013-0156 (Lawrence Pit)
-  * Added possibility to refresh locale ui (ck3g)
+  * Added possibility to refresh locale ui (@ck3g)
   * Namespace locale parameter (laurense)
   * Removed an old Hax which delayed this release for 1 week...
 
