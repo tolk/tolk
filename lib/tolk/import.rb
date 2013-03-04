@@ -53,7 +53,7 @@ module Tolk
 
       puts "[INFO] Reading #{locale_file} for locale #{self.name}"
       begin
-        self.class.flat_hash(YAML::load(IO.read(locale_file))[self.name])
+        self.class.flat_hash(YAML::safe_load(IO.read(locale_file))[self.name])
       rescue
         puts "[ERROR] File #{locale_file} expected to declare #{self.name} locale, but it does not. Skipping this file."
         nil
