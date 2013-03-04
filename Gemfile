@@ -6,7 +6,7 @@ gem 'will_paginate'
 gem 'safe_yaml'
 
 group 'test' do
-  gem "capybara", :git => "https://github.com/jnicklas/capybara.git"
+  gem 'capybara-webkit'
   gem "factory_girl_rails"
   gem "sqlite3"
   gem "mocha"
