@@ -3,6 +3,5 @@ test/dummy/db/migrate/*.tolk.rb
 test/dummy/log/*
 test/dummy/tmp/*
 test/dummy/db/*.sqlite3
-Gemfile.lock
 .bundle
 *.gem
