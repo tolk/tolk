@@ -5,8 +5,6 @@ require 'tolk/engine'
 require 'tolk/sync'
 require 'tolk/import'
 
-SafeYAML::OPTIONS[:suppress_warnings] = true
-
 module Tolk
   # Setup Tolk
   def self.config(&block)
