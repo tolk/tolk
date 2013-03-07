@@ -1,3 +1,9 @@
+* Tolk 1.3.7
+  * Removing a js warning of scriptaculous
+  * Adding Gemfile.lock for tests to pass
+  * Use safe_load (Larry Lv)
+  * Remove warning of safe_yaml
+
 * Tolk 1.3.6
   * Better sync (@elDub)
   * Better safe_yaml warnings support (@mangelajo)
