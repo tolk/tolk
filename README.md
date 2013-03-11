@@ -45,9 +45,9 @@ Upon visiting http://your_app.com/tolk - you will be presented with different op
   $ rake tolk:dump_all
 ```
 
-This will generate yml files for all non primary locales and put them in #{Rails.root}/config/locales/ directory by default.
+This will generate yml files for all non primary locales and put them in `#{Rails.root}/config/locales/` directory by default.
 
-You can use the dump_all method defined in Tolk::Locale directly and pass directory path as the argument if you want the generated files to be at a different location :
+You can use the dump_all method defined in `Tolk::Locale` directly and pass directory path as the argument if you want the generated files to be at a different location :
 
 ```bash
   $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
