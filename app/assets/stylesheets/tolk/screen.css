@@ -267,7 +267,7 @@ table.translations th {
   padding: 12px 8px;
   border-bottom: 1px solid #e5e5e5;
   vertical-align: top;
-  width: 50%;
+  width: 48%;
 }
 
 table.translations th {
@@ -277,6 +277,10 @@ table.translations th {
   text-transform: uppercase;
   color: #999;
   padding-bottom: 2px;
+}
+
+table.translations th.actions {
+  width: 50px;
 }
 
 table.translations textarea.locale {
@@ -297,6 +301,16 @@ table.translations span.key {
 
 table.translations td.translation {
   padding: 10px 8px;
+}
+
+table.translations td.actions {
+  width: 50px;
+  text-align: center;
+}
+
+table.translations td.actions a {
+  font-weight: bold;
+  text-decoration: none;
 }
 
 table.translations tr.active td {
