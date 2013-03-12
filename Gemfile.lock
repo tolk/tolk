@@ -93,7 +93,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     rubyzip (0.9.9)
-    safe_yaml (0.8.4)
+    safe_yaml (0.8.5)
     selenium-webdriver (2.31.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
