@@ -313,12 +313,32 @@ table.translations td.actions a {
   text-decoration: none;
 }
 
+table.translations td.actions .warning {
+  font-weight: bold;
+  font-size: 25px;
+  color: orange;
+  padding: 2px 4px;
+  display: none;
+  cursor: default;
+}
+
 table.translations tr.active td {
   background: #edf9fe;
 }
 
 table.translations .highlight {
   background-color: yellow;
+}
+
+table.translations .original {
+  display: none;
+}
+
+table.translations .interpolation {
+  color: #2fadcf;
+  font-family: Courier;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 table.translations .phrase .carriage_return, table.translations .phrase .boolean {
