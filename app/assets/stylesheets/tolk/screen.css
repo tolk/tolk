@@ -355,8 +355,8 @@ table.translations .interpolation {
 }
 
 table.translations .phrase .carriage_return, table.translations .phrase .boolean {
-	color: #2fadcf;
-	font-weight: bold;
+  color: #2fadcf;
+  font-weight: bold;
 }
 
 /*-------------------------------------------------
