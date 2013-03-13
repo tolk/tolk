@@ -6,7 +6,7 @@ $(function () {
       , token_text = text;
 
     token_text = text.replace(interpolation, function (match) {
-      return '<span class="interpolation">' + match + '</span>';
+      return '<span class="interpolation"  title="Don\'t translate this word">' + match + '</span>';
     });
 
     $(this).html(token_text);
