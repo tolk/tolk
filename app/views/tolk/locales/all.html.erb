@@ -59,7 +59,7 @@
       <% end %>
     </table>
     <div class="table_submit">
-      <p><%= locale_form.submit "Save changes" %></p>
+      <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
     </div>
     <div class="paginate">
       <%= will_paginate @phrases %>
