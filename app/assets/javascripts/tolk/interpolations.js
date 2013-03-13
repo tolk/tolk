@@ -13,11 +13,11 @@ $(function () {
   });
 
   $(".translations textarea").bind("focus", function () {
-    $(this).toggleClass('active');
+    $(this).parents("tr").toggleClass('active');
   });
 
   $(".translations textarea").bind("blur", function () {
-    $(this).toggleClass('active');
+    $(this).parents("tr").toggleClass('active');
 
     var row = $(this).parents("tr")
       , original_text = row.find(".phrase .original").text()
