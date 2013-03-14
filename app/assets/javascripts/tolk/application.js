@@ -1,4 +1,3 @@
-//= require tolk/prototype.js
-//= require tolk/effects.js
-//= require tolk/controls.js
-//= require tolk/dragdrop.js
+//= require tolk/layout.js
+//= require tolk/actions.js
+//= require tolk/interpolations.js

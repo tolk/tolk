@@ -14,6 +14,7 @@
         <table class="translations">
       <tr>
         <th class="translation"><%= @locale.language_name -%></th>
+        <th class="actions"></th>
         <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
       </tr>
       <% @phrases.each do |phrase| %>
@@ -24,6 +25,10 @@
               <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
               <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text), :class => 'locale',
                                 :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
+            </td>
+            <td class="actions">
+              <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
+              <span class="warning" title="Interpolation keys don't match">⚠</span>
             </td>
             <td class="phrase">
 
@@ -38,7 +43,12 @@
                   <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
                 </div>
               <% else %>
-                <%= format_i18n_value(phrase.translations.primary.text) -%>
+                <div class="original">
+                  <%= format_i18n_value(phrase.translations.primary.text) -%>
+                </div>
+                <div class="value">
+                  <%= format_i18n_value(phrase.translations.primary.text) -%>
+                </div>
                 <%= boolean_warning if phrase.translations.primary.boolean? -%>
               <% end %>
 
@@ -49,7 +59,7 @@
       <% end %>
     </table>
     <div class="table_submit">
-      <p><%= locale_form.submit "Save changes" %></p>
+      <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
     </div>
     <div class="paginate">
       <%= will_paginate @phrases %>
