@@ -10,10 +10,10 @@ module Tolk
 
       # Dump locale path by default the locales folder (config/locales)
       attr_accessor :dump_path
-      
+
       def reset
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
-        
+
         @mapping = {
           'ar'    => 'Arabic',
           'bs'    => 'Bosnian',
@@ -44,7 +44,7 @@ module Tolk
           'nl'    => 'Dutch',
           'no'    => 'Norwegian',
           'pl'    => 'Polish',
-          'pt-br' => 'Portuguese (Brazilian)',
+          'pt-BR' => 'Portuguese (Brazilian)',
           'pt-PT' => 'Portuguese (Portugal)',
           'ro'    => 'Romanian',
           'ru'    => 'Russian',
