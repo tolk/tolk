@@ -12,8 +12,14 @@ module Tolk
         format.html do
           @phrases = @locale.phrases_without_translation(params[:page])
         end
+
         format.atom { @phrases = @locale.phrases_without_translation(params[:page], :per_page => 50) }
-        format.yaml { render :text => @locale.to_hash.ya2yaml(:syck_compatible => true) }
+
+        format.yaml do
+          data = @locale.to_hash
+          render :text => data.respond_to?(:ya2yaml) ? data.ya2yaml(:syck_compatible => true) : YAML.dump(data).force_encoding("UTF-8")
+        end
+
       end
     end
 
