@@ -27,8 +27,8 @@ $(function () {
       , not_match;
 
     not_match = translated_text.length > 0 &&
-                $(original_interpolations).not(translated_interpolations).length !== 0 &&
-                $(translated_interpolations).not(original_interpolations).length !== 0;
+                ($(original_interpolations).not(translated_interpolations).length !== 0 ||
+                 $(translated_interpolations).not(original_interpolations).length !== 0);
 
     row.find(".actions .warning").toggle(not_match);
 
