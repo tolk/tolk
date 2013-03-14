@@ -5,8 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Tolk</title>
 
-  <%= javascript_include_tag "tolk/application" %>
   <%= stylesheet_link_tag "tolk/application" %>
+
   <%= yield :head %>
 </head>
 
@@ -18,10 +18,7 @@
     <%= yield %>
   </div>
 
-  <script type="text/javascript">
-    $$('td textarea').each(function(element) {
-      element.setStyle({height: element.up('td').getStyle('height')});
-    });
-  </script>
+  <%= javascript_include_tag "tolk/libraries" %>
+  <%= javascript_include_tag "tolk/application" %>
 </body>
 </html>
