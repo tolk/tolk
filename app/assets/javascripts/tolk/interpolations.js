@@ -2,8 +2,8 @@ $(function () {
   var interpolation = new RegExp("%{\\w+}", "g");
 
   $(".phrase .value").each(function () {
-    var text = $(this).text()
-      , token_text = text;
+    var text = $('<div/>').text($(this).text()).html()
+      , token_text;
 
     token_text = text.replace(interpolation, function (match) {
       return '<span class="interpolation"  title="Don\'t translate this word">' + match + '</span>';
