@@ -45,15 +45,40 @@ Upon visiting http://your_app.com/tolk - you will be presented with different op
   $ rake tolk:dump_all
 ```
 
-This will generate yml files for all non primary locales and put them in #{Rails.root}/config/locales/ directory by default.
+This will generate yml files for all non primary locales and put them in `#{Rails.root}/config/locales/` directory by default.
 
-You can use the dump_all method defined in Tolk::Locale directly and pass directory path as the argument if you want the generated files to be at a different location :
+You can use the dump_all method defined in `Tolk::Locale` directly and pass directory path as the argument if you want the generated files to be at a different location :
 
 ```bash
   $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
 ```
 
-You can even download the yml file using Tolk web interface by appending '.yml' to the locale url. E.g http://your_app.com/tolk/locales/de.yml
+You can even download the yml file using Tolk web interface by appending `.yml` to the locale url. E.g `http://your_app.com/tolk/locales/de.yml`
+
+You can ask statistics about missing or updated translations to be tracked for third party tools in `http://your_app.com/tolk/stats.json` endpoint.
+
+```json
+{
+  "ar":
+    {
+      "missing":2928,
+      "updated":17,
+      "updated_at":"2013-03-04T12:44:03Z"
+    }
+  ,"ca":
+    {
+      "missing":1377,
+      "updated":1,
+      "updated_at":"2013-03-04T13:06:46Z"
+    }
+  ,"fr":
+    {
+      "missing":735,
+      "updated":5,
+      "updated_at":"2013-03-04T13:15:51Z"
+    }
+}
+```
 
 ## Authentication
 

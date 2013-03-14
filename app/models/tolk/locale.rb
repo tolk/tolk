@@ -89,6 +89,10 @@ module Tolk
       Tolk::Phrase.count - existing_ids.count
     end
 
+    def count_phrases_with_updated_translation(page = nil)
+      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => true).count
+    end
+
     def phrases_without_translation(page = nil, options = {})
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
