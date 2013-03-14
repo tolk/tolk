@@ -24,7 +24,7 @@ $(function () {
     $(this).addClass("dirty");
   });
 
-  $("input.save").click(function () {
+  $("input.save, input.apply").click(function () {
     window.onbeforeunload = null;
   });
 
