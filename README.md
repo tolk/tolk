@@ -53,7 +53,7 @@ You can use the dump_all method defined in `Tolk::Locale` directly and pass dire
   $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
 ```
 
-You can even download the yml file using Tolk web interface by appending `.yml` to the locale url. E.g `http://your_app.com/tolk/locales/de.yml`
+You can even download the yml file using Tolk web interface by appending `.yaml` to the locale url. E.g `http://your_app.com/tolk/locales/de.yaml`
 
 You can ask statistics about missing or updated translations to be tracked for third party tools in `http://your_app.com/tolk/stats.json` endpoint.
 
