@@ -1,3 +1,11 @@
+* Tolk 1.3.8
+  * Update safe_yaml to 0.8.5
+  * Fixed download locale yml file (@fcsonline)
+  * Added interpolations keys validations (@fcsonline)
+  * Added an alert when leave the page with non saved data (@fcsonline)
+  * Added statistics endpoint (@fcsonline)
+  * Fixed Portuguese Brazilian locale code (@fcsonline)
+
 * Tolk 1.3.7
   * Removing a js warning of scriptaculous
   * Adding Gemfile.lock for tests to pass
