@@ -93,7 +93,7 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     rubyzip (0.9.9)
-    safe_yaml (0.8.5)
+    safe_yaml (0.8.6)
     selenium-webdriver (2.31.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
@@ -125,6 +125,6 @@ DEPENDENCIES
   launchy
   mocha
   rails (= 3.2.11)
-  safe_yaml (>= 0.8)
+  safe_yaml (>= 0.8.6)
   sqlite3
   will_paginate
