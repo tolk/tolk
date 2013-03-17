@@ -1,5 +1,5 @@
 * Tolk 1.3.8
-  * Update safe_yaml to 0.8.5
+  * Update safe_yaml to 0.8.6, fixes issue : invalid value for Float(): "." (#29)
   * Fixed download locale yml file (@fcsonline)
   * Added interpolations keys validations (@fcsonline)
   * Added an alert when leave the page with non saved data (@fcsonline)
