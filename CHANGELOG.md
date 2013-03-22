@@ -1,3 +1,6 @@
+* Tolk 1.3.9
+  * Activate deserialize_symbols option of SafeYaml, if not, Rails date_select will be broken...
+
 * Tolk 1.3.8
   * Update safe_yaml to 0.8.6, fixes issue : invalid value for Float(): "." (#29)
   * Fixed download locale yml file (@fcsonline)
