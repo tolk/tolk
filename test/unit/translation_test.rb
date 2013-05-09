@@ -28,6 +28,11 @@ class TranslationTest < ActiveSupport::TestCase
     assert_equal("Hello World", tolk_translations(:hello_world_en).value)
   end
 
+  test "translation with string value with leading and trailing whitespace" do
+    text = "\t          Hello World   \r\n"
+    assert_equal(text.strip, Tolk::Translation.new(:text => text).value)
+  end
+
   test "translation with string value with variables" do
     text = "{{attribute}} {{message}}"
     assert_equal(text, Tolk::Translation.new(:text => text).value)
