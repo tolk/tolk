@@ -61,6 +61,7 @@ module Tolk
         end
         super unless value == text
       else
+        value = value.strip if value.is_a?(String)
         super unless value.to_s == text
       end
     end
