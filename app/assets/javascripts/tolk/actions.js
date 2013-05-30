@@ -5,23 +5,18 @@ $(function () {
     e.preventDefault();
 
     var row = $(this).parents("tr")
-      , original = row.find(".phrase .original").text();
+      , original_text = row.find(".original textarea").val();
 
-    row.find(".translation textarea").addClass("dirty").val(original.trim());
-
-    // Bind the dirty callback after copy
-    window.onbeforeunload = confirm;
+    row.find(".translation textarea").val(original_text.trim()).trigger("change");
   });
 
   // avoid lose data
-  $(".translations textarea").bind("blur", function () {
-    if ($(this).is(".dirty")) {
-      window.onbeforeunload = confirm;
-    }
+  $(".translations textarea").bind("keydown", function () {
+    window.onbeforeunload = confirm;
   });
 
-  $(".translations textarea").bind("keydown", function () {
-    $(this).addClass("dirty");
+  $(".translations textarea").bind("change", function () {
+    window.onbeforeunload = confirm;
   });
 
   $("input.save, input.apply").click(function () {

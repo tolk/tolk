@@ -241,7 +241,7 @@ span.notice {
   display: inline-block;
 }
 
-div.original {
+div.previous {
   color: #999;
   margin: 5px 0;
   padding: 1px 8px 4px;
@@ -252,7 +252,7 @@ div.updated {
   padding: 1px 8px 4px;
 }
 
-table.translations div.original span.key {
+table.translations div.previous span.key {
   margin: 0 0 -2px;
   padding: 0;
 }
@@ -332,7 +332,7 @@ table.translations td.actions .warning {
   color: orange;
   padding: 2px 4px;
   display: none;
-  cursor: default;
+  cursor: help;
 }
 
 table.translations tr.active td {
@@ -343,20 +343,21 @@ table.translations .highlight {
   background-color: yellow;
 }
 
-table.translations .original {
+table.translations .original textarea {
   display: none;
 }
 
-table.translations .interpolation {
+table.translations .original .interpolation, 
+table.translations .original .carriage_return,
+table.translations .original .boolean  {
   color: #2fadcf;
-  font-family: Courier;
+  font-family: Courier, monospace;
   font-weight: bold;
-  cursor: pointer;
+  cursor: help;
 }
 
-table.translations .phrase .carriage_return, table.translations .phrase .boolean {
-  color: #2fadcf;
-  font-weight: bold;
+table.translations .original .carriage_return:before {
+  content: "¶";
 }
 
 /*-------------------------------------------------

@@ -34,18 +34,16 @@
               <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
               <span class="warning" title="Interpolation keys don't match">⚠</span>
             </td>
-            <td class="phrase">
-              <div class="original">
+            <td class="original">
+              <%= text_area_tag :"translations[][original_text]", format_i18n_text_area_value(phrase.translations.primary.text), :disabled => true %>
+
+              <% if params[:q].present? -%>
+                <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
+              <% else -%>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
-              </div>
-              <div class="value">
-                <% if params[:q].present? -%>
-                  <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
-                <% else -%>
-                  <%= format_i18n_value(phrase.translations.primary.text) -%>
-                <% end -%>
-                <%= boolean_warning if phrase.translations.primary.boolean? -%>
-              </div>
+              <% end -%>
+              <%= boolean_warning if phrase.translations.primary.boolean? -%>
+
               <span class="key" title="<%= phrase.key %>"><%= truncate(phrase.key, :length => 100) %></span>
             </td>
           </tr>
