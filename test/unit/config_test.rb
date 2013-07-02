@@ -4,7 +4,7 @@ require 'fileutils'
 class ConfigTest < ActiveSupport::TestCase
   test "config default values" do
     assert_equal Proc, Tolk.config.dump_path.class
-    assert_equal "#{Rails.root}/config/locales", Tolk::Locale._dump_path
+    assert_equal "#{Rails.root}/config/locales", Tolk::Export.dump_path
     assert Tolk.config.mapping.keys.include?('ar')
     assert_equal 'Arabic',Tolk.config.mapping['ar']
   end
