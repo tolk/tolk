@@ -4,6 +4,7 @@ require 'tolk/config'
 require 'tolk/engine'
 require 'tolk/sync'
 require 'tolk/import'
+require 'tolk/export'
 
 module Tolk
   # Setup Tolk
