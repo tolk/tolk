@@ -30,25 +30,21 @@
               <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
               <span class="warning" title="Interpolation keys don't match">⚠</span>
             </td>
-            <td class="phrase">
-
+            <td class="original">
+              <%= text_area_tag :"translations[][original_text]", format_i18n_text_area_value(phrase.translations.primary.text), :disabled => true %>
+              
               <% if action_name == 'updated' %>
                 <div class="updated">
                   <span class="key">Updated</span>
                   <%= format_i18n_value(phrase.translations.primary.text) -%>
                   <%= boolean_warning if phrase.translations.primary.boolean? -%>
                 </div>
-                <div class="original">
-                  <span class="key">Original</span>
+                <div class="previous">
+                  <span class="key">Previous</span>
                   <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
                 </div>
               <% else %>
-                <div class="original">
-                  <%= format_i18n_value(phrase.translations.primary.text) -%>
-                </div>
-                <div class="value">
-                  <%= format_i18n_value(phrase.translations.primary.text) -%>
-                </div>
+                <%= format_i18n_value(phrase.translations.primary.text) -%>
                 <%= boolean_warning if phrase.translations.primary.boolean? -%>
               <% end %>
 
