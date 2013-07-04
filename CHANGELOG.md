@@ -1,3 +1,8 @@
+* Tolk 1.3.10
+  * UI Improvments (@laurens)
+  * Export class refactoring (@modsognir)
+  * Text strip (@csaura)
+
 * Tolk 1.3.9
   * Activate deserialize_symbols option of SafeYaml, if not, Rails date_select will be broken...
 
