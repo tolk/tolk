@@ -51,7 +51,7 @@ module Tolk
         all - [primary_locale]
       end
 
-      def dump_all(to = nil, exporter = Tolk::Export)
+      def dump_all(to = self.locales_config_path, exporter = Tolk::Export)
         secondary_locales.each do |locale|
           exporter.dump(name: locale.name, data: locale.to_hash, destination: to)
         end
