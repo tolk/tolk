@@ -1,3 +1,6 @@
+* Tolk 1.3.11
+  * Bugkfix on tolk locale dump path
+
 * Tolk 1.3.10
   * UI Improvments (@laurens)
   * Export class refactoring (@modsognir)
