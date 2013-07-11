@@ -6,7 +6,7 @@ module Tolk
 
     serialize :text
     serialize :previous_text
-    validates_presence_of :text, :if => proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
+    validate :validate_text_not_nil, :if => proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
     validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
 
     validates_uniqueness_of :phrase_id, :scope => :locale_id
@@ -155,6 +155,11 @@ module Tolk
           self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
         end
       end
+    end
+    
+    def validate_text_not_nil
+      return unless text.nil?
+      errors.add :text, :blank
     end
   end
 end
