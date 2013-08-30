@@ -11,6 +11,9 @@ module Tolk
       # Dump locale path by default the locales folder (config/locales)
       attr_accessor :dump_path
 
+      # primary locale to not be overriden by default locale in development mode
+      attr_accessor :primary_locale_name
+
       def reset
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
 
