@@ -22,7 +22,7 @@ module Tolk
 
       display "Hello, Tolk installer will help you sets things up!", :black
       unless initializer
-        install_generator = ask_boolean("Do you wan't to install the optional configuration file (to change mappings, locales dump location etc..) ?")
+        install_generator = ask_boolean("Do you want to install the optional configuration file (to change mappings, locales dump location etc..) ?")
         template "initializer.erb", "config/initializers/tolk.rb" if install_generator
       else
         display "You already have a config file. You're updating, heh? I'm generating a new 'tolk.rb.example' that you can review."
