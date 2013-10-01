@@ -11,6 +11,7 @@ To install add the following to your Gemfile:
 
 ```ruby
   gem 'tolk'
+  gem 'protected_attributes'
 ```
 
 To setup just run:
