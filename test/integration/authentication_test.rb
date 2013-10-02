@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AuthenticationTest < ActionController::IntegrationTest
+class AuthenticationTest < ActionDispatch::IntegrationTest
   self.fixture_path = Rails.root.to_s + "/../fixtures"
   fixtures :all
 

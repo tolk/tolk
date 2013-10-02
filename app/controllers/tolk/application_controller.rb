@@ -9,7 +9,8 @@ module Tolk
     before_filter :authenticate
 
     def authenticate
-      self.authenticator.bind(self).call if self.authenticator && self.authenticator.respond_to?(:call)
+#      self.authenticator.bind(self).call if self.authenticator && self.authenticator.respond_to?(:call)
+      instance_exec(nil, &self.authenticator) if self.authenticator && self.authenticator.respond_to?(:instance_exec)
     end
 
     def ensure_no_primary_locale
