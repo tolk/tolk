@@ -11,7 +11,12 @@ module Tolk
       # Dump locale path by default the locales folder (config/locales)
       attr_accessor :dump_path
 
+      # exclude locales tokens from gems 
+      attr_accessor :exclude_gems_token
+
       def reset
+        @exclude_gems_token = false
+
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
 
         @mapping = {

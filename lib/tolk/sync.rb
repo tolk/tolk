@@ -10,7 +10,14 @@ module Tolk
       end
 
       def load_translations
-        I18n.backend.send :init_translations unless I18n.backend.initialized? # force load
+        if Tolk.config.exclude_gems_token
+          # bypass default init_translations
+          I18n.backend.reload! if I18n.backend.initialized?
+          I18n.backend.instance_variable_set(:@initialized, true)
+          I18n.backend.load_translations(Dir[Rails.root.join('config', 'locales', "*.{rb,yml}")])
+        else
+          I18n.backend.send :init_translations unless I18n.backend.initialized? # force load 
+        end
         translations = flat_hash(I18n.backend.send(:translations)[primary_locale.name.to_sym])
         filter_out_i18n_keys(translations.merge(read_primary_locale_file))
       end
