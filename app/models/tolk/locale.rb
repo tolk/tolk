@@ -20,7 +20,7 @@ module Tolk
     self.locales_config_path = self._dump_path
 
     cattr_accessor :primary_locale_name
-    self.primary_locale_name = I18n.default_locale.to_s
+    self.primary_locale_name = Tolk.config.primary_locale_name || I18n.default_locale.to_s
 
     include Tolk::Sync
     include Tolk::Import
