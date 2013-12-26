@@ -1,3 +1,6 @@
+* Tolk 1.4.00
+  * Upgraded to work with Rails 4
+
 * Tolk 1.3.11
   * Bugkfix on tolk locale dump path
 

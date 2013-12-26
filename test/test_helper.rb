@@ -2,7 +2,7 @@
 ENV["RAILS_ENV"] = "test"
 
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
-ActiveRecord::IdentityMap.enabled = false
+#ActiveRecord::IdentityMap.enabled = false
 require "rails/test_help"
 
 ActiveSupport::TestCase.fixture_path = Rails.root.to_s + "/../fixtures"
