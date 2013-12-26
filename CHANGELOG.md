@@ -1,3 +1,10 @@
+* Tolk 1.3.12
+  * A few bugfixes
+  * libraries added to precompiled files (@ressu)
+  * set primary_locale correctly (@devolute)
+  * typo on the doc (jankeesw)
+  * don't allow nil translations (insales)
+
 * Tolk 1.3.11
   * Bugkfix on tolk locale dump path
 
