@@ -21,8 +21,10 @@ module Tolk
 
     attr_accessor :translation
 
+#scope :red, -> { where(color: 'red') } rather than scope :red, -> { { conditions: { color: 'red' } } }
+
     scope :containing_text, lambda { |query|
-      { :conditions => ["tolk_phrases.key LIKE ?", "%#{query}%"] }
+      where("tolk_phrases.key LIKE ?", "%#{query}%")
     }
   end
 end
