@@ -1,5 +1,5 @@
 * Tolk 1.4.00
-  * Upgraded to work with Rails 4
+  * Upgraded to work with Rails 4 (@jamesw)
 
 * Tolk 1.3.12
   * A few bugfixes
