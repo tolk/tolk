@@ -61,8 +61,6 @@ GEM
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     polyglot (0.3.3)
-    protected_attributes (1.0.5)
-      activemodel (>= 4.0.1, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -118,7 +116,6 @@ DEPENDENCIES
   factory_girl_rails
   launchy
   mocha
-  protected_attributes (~> 1.0.5)
   rails (= 4.0.2)
   safe_yaml (>= 0.8.6)
   selenium-webdriver
