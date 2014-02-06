@@ -15,7 +15,7 @@ module Tolk
     accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
     before_validation :remove_invalid_translations_from_target, :on => :update
 
-    attr_accessible :name
+    attr_accessible :name if Rails.version.to_f < 4
     cattr_accessor :locales_config_path
     self.locales_config_path = self._dump_path
 

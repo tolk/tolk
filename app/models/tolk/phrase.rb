@@ -2,7 +2,7 @@ module Tolk
   class Phrase < ActiveRecord::Base
     self.table_name = "tolk_phrases"
 
-    attr_accessible :key
+    attr_accessible :key if Rails.version.to_f < 4
 
     validates_uniqueness_of :key
 
