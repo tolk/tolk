@@ -11,6 +11,12 @@ module Tolk
       # Dump locale path by default the locales folder (config/locales)
       attr_accessor :dump_path
 
+      # Use one locale as a master for what phrases are avilable for other languages to translate
+      attr_accessor :master_translation_locale
+
+      # Disable apply changes button with text and disable controller dump_all
+      attr_accessor :disable_apply_changes_with
+
       def reset
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
 

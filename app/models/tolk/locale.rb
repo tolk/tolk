@@ -82,8 +82,15 @@ module Tolk
     end
 
     def count_phrases_without_translation
-      existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
-      Tolk::Phrase.count - existing_ids.count
+      if Tolk.config.master_translation_locale and Tolk.config.master_translation_locale!=self.name
+        master_translation_locale = Locale.where(:name=>Tolk.config.master_translation_locale).first
+        master_existing_ids = master_translation_locale.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+        mine_existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq.select{|i| master_existing_ids.include?(i)}
+        master_existing_ids.count-mine_existing_ids.count
+      else
+        existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+        Tolk::Phrase.count - existing_ids.count
+      end
     end
 
     def count_phrases_with_updated_translation(page = nil)
@@ -93,8 +100,14 @@ module Tolk
     def phrases_without_translation(page = nil, options = {})
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
 
-      existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
-      phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
+      if Tolk.config.master_translation_locale and Tolk.config.master_translation_locale!=self.name
+        master_translation_locale = Locale.where(:name=>Tolk.config.master_translation_locale).first
+        existing_ids = master_translation_locale.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq if master_translation_locale.present?
+        phrases = phrases(:conditions => ['tolk_phrases.id IN (?)', existing_ids]) if existing_ids.present?
+      else
+        existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+        phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
+      end
 
       result = phrases.paginate({:page => page, :per_page => Phrase.per_page}.merge(options))
       ActiveRecord::Associations::Preloader.new result, :translations

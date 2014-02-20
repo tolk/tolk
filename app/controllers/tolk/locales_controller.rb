@@ -44,8 +44,10 @@ module Tolk
     end
 
     def dump_all
-      Tolk::Locale.dump_all
-      I18n.reload!
+      unless Tolk.config.disable_apply_changes_with
+        Tolk::Locale.dump_all
+        I18n.reload!
+      end
       redirect_to request.referrer
     end
 
