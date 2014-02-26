@@ -15,8 +15,6 @@ module Tolk
     belongs_to :locale, :class_name => 'Tolk::Locale'
     validates_presence_of :locale_id
 
-    attr_accessible :phrase_id, :locale_id, :text, :primary_updated, :previous_text, :locale, :phrase
-
     before_save :set_primary_updated
 
     before_save :set_previous_text
@@ -156,7 +154,7 @@ module Tolk
         end
       end
     end
-    
+
     def validate_text_not_nil
       return unless text.nil?
       errors.add :text, :blank

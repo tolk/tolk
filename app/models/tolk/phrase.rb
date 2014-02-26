@@ -2,8 +2,6 @@ module Tolk
   class Phrase < ActiveRecord::Base
     self.table_name = "tolk_phrases"
 
-    attr_accessible :key
-
     validates_uniqueness_of :key
 
     cattr_accessor :per_page

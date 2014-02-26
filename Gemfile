@@ -1,10 +1,9 @@
 source "http://rubygems.org"
 
-gem "rails", "4.0.0"
+gem "rails", "4.0.2"
 
 gem 'will_paginate'
 gem 'safe_yaml', '>= 0.8.6'
-gem 'protected_attributes'
 
 group 'test' do
   gem 'capybara'

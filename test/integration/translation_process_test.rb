@@ -43,21 +43,21 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     # Adding a new translation
     pirate_path = tolk.locale_path(locale)
     visit pirate_path
-    
+
     fill_in 'q', :with => 'hello_country'
     fill_in 'k', :with => 'nested'
-    
+
     click_button 'Search'
     assert_equal true, page.has_selector?('td.translation', :count => 1)
   end
-  
+
   private
 
   def fill_in_first_translation(with_hash)
     within(:xpath, '//table[@class = "translations"]//tr[2]/td[@class = "translation"][1]') do
       fill_in 'translations[][text]', with_hash
     end
-    
+
   end
 
   def add_locale(name)
