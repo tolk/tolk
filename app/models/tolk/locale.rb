@@ -85,7 +85,7 @@ module Tolk
       if Tolk.config.master_translation_locale and Tolk.config.master_translation_locale!=self.name
         master_translation_locale = Locale.where(:name=>Tolk.config.master_translation_locale).first
         master_existing_ids = master_translation_locale.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
-        mine_existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq.select{|i| master_existing_ids.include?(i)}
+        mine_existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
         master_existing_ids.count-mine_existing_ids.count
       else
         existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
@@ -99,11 +99,15 @@ module Tolk
 
     def phrases_without_translation(page = nil, options = {})
       phrases = Tolk::Phrase.scoped(:order => 'tolk_phrases.key ASC')
-
+      Rails.logger.debug("phrases count #{phrases.count}")
       if Tolk.config.master_translation_locale and Tolk.config.master_translation_locale!=self.name
         master_translation_locale = Locale.where(:name=>Tolk.config.master_translation_locale).first
-        existing_ids = master_translation_locale.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq if master_translation_locale.present?
-        phrases = phrases(:conditions => ['tolk_phrases.id IN (?)', existing_ids]) if existing_ids.present?
+        master_existing_ids = master_translation_locale.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq if master_translation_locale.present?
+        Rails.logger.debug("master_existing_ids count #{master_existing_ids.count}")
+        mine_existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+        Rails.logger.debug("mine_existing_ids count #{mine_existing_ids.count}")
+        phrases = Tolk::Phrase.scoped.where(['tolk_phrases.id IN (?)', master_existing_ids-mine_existing_ids]) if master_existing_ids.present?
+        Rails.logger.debug("Phrases count #{phrases.count}")
       else
         existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
         phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?)', existing_ids]) if existing_ids.present?
