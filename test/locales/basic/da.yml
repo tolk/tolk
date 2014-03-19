@@ -1,9 +1,9 @@
 ---
 da:
+  cozy: Hyggeligt
   hello_world: Hej Verden
   nested:
     hello_world: Nedarvet Hej Verden
-  cozy: Hyggeligt
   number:
     currency:
       format:

@@ -50,10 +50,8 @@ module Tolk
         all - [primary_locale]
       end
 
-      def dump_all(to = self.locales_config_path, exporter = Tolk::Export)
-        secondary_locales.each do |locale|
-          exporter.dump(name: locale.name, data: locale.to_hash, destination: to)
-        end
+      def dump_all(*args)
+        secondary_locales.each { |locale| locale.dump(*args) }
       end
 
       def special_key_or_prefix?(prefix, key)
@@ -66,6 +64,10 @@ module Tolk
         keys = data.keys.map(&:to_s)
         keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
       end
+    end
+
+    def dump(to = self.locales_config_path, exporter = Tolk::Export)
+      exporter.dump(name: name, data: to_hash, destination: to)
     end
 
     def has_updated_translations?
@@ -132,13 +134,15 @@ module Tolk
     end
 
     def to_hash
-      { name => translations.each_with_object({}) do |translation, locale|
-        if translation.phrase.key.include?(".")
-          locale.deep_merge!(unsquish(translation.phrase.key, translation.value))
-        else
-          locale[translation.phrase.key] = translation.value
+      data = translations.includes(:phrase).order(phrases.arel_table[:key]).
+        each_with_object({}) do |translation, locale|
+          if translation.phrase.key.include?(".")
+            locale.deep_merge!(unsquish(translation.phrase.key, translation.value))
+          else
+            locale[translation.phrase.key] = translation.value
+          end
         end
-      end }
+      { name => data }
     end
 
     def to_param
