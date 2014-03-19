@@ -14,7 +14,18 @@ class LocaleTest < ActiveSupport::TestCase
         "hello_world" => "Nested Hello World",
         "hello_country" => "Nested Hello Country"
       },
-      "number"=>{"human"=>{"format"=>{"precision"=>1}},"currency"=>{"format"=>{"significant"=>false}}}
+      "number" => {
+        "human" => {
+          "format" => {
+            "precision" => 1
+          }
+        },
+        "currency" => {
+          "format" => {
+            "significant" => false
+          }
+        }
+      }
     }}, tolk_locales(:en).to_hash)
   end
 
