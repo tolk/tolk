@@ -1,3 +1,3 @@
 module Tolk
-  VERSION = "1.4.00"
+  VERSION = "1.5.0"
 end
