@@ -128,8 +128,8 @@ module Tolk
 
       phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
 
-      found_translations_ids = Tolk::Locale.primary_locale.translations.all(:conditions => ["tolk_translations.text LIKE ?", "%#{query}%"], :select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
-      existing_ids = self.translations.all(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
+      found_translations_ids = Tolk::Locale.primary_locale.translations.where(["tolk_translations.text LIKE ?", "%#{query}%"]).to_a.map(&:phrase_id).uniq
+      existing_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
 #      phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       phrases = phrases.where(['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       result = phrases.paginate({:page => page}.merge(options))
@@ -138,7 +138,7 @@ module Tolk
     end
 
     def to_hash
-      data = translations.includes(:phrase).order(phrases.arel_table[:key]).
+      data = translations.includes(:phrase).references(:phrases).order(phrases.arel_table[:key]).
         each_with_object({}) do |translation, locale|
           if translation.phrase.key.include?(".")
             locale.deep_merge!(unsquish(translation.phrase.key, translation.value))
@@ -205,9 +205,7 @@ module Tolk
     end
 
     def find_phrases_with_translations(page, conditions = {})
-      result = Tolk::Phrase.paginate(:page => page,
-        :conditions => { :'tolk_translations.locale_id' => self.id }.merge(conditions),
-        :joins => :translations, :order => 'tolk_phrases.key ASC')
+      result = Tolk::Phrase.where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).joins(:translations).order('tolk_phrases.key ASC').paginate(:page => page)
 
       result.each do |phrase|
         phrase.translation = phrase.translations.for(self)

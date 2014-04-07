@@ -53,7 +53,7 @@ module Tolk
 
           if translation.changed? && !translation.new_record?
             # Set the primary updated flag if the primary translation has changed and it is not a new record.
-            existing_phrase.translations.update_all({ :primary_updated => true }, Tolk::Translation.arel_table[:locale_id].not_eq(primary_locale.id))
+            existing_phrase.translations.where(Tolk::Translation.arel_table[:locale_id].not_eq(primary_locale.id)).update_all({ :primary_updated => true })
           end
 
           translation.primary = true
