@@ -1,3 +1,9 @@
+* Tolk 1.5.00
+  * Remove all warning related to Rails 4
+  * Ability to dum a single locale (@raouldevil)
+  * Strong params (@jmccartie)
+
+
 * Tolk 1.4.00
   * Upgraded to work with Rails 4 (@jamesw)
 
