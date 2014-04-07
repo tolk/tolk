@@ -59,10 +59,10 @@ class SyncTest < ActiveSupport::TestCase
     assert t1.primary_updated?
     assert ! t2.primary_updated?
   end
-  
+
   def test_sync_marks_translations_for_review_when_the_primary_translation_has_changed
     Tolk::Locale.create!(:name => 'es')
-    
+
     phrase = Tolk::Phrase.create! :key => 'number.precision'
     english_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("en"))
     spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("es"))
@@ -74,7 +74,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.expects(:load_translations).returns({'number.precision' => "2"}).at_least_once
     Tolk::Locale.sync! and spanish_translation.reload
     assert spanish_translation.out_of_date?
-    
+
     spanish_translation.text = "2"
     spanish_translation.save! and spanish_translation.reload
     assert spanish_translation.up_to_date?
@@ -196,6 +196,26 @@ class SyncTest < ActiveSupport::TestCase
     tmpdir = Rails.root.join("../../tmp/sync/locales")
     FileUtils.mkdir_p(tmpdir)
     Tolk::Locale.dump_all(tmpdir)
+
+    spanish_file = "#{tmpdir}/es.yml"
+    data = YAML::safe_load(IO.read(spanish_file))['es']
+    assert_equal ['hello_world'], data.keys
+    assert_equal 'hola', data['hello_world']
+  ensure
+    FileUtils.rm_f(tmpdir)
+  end
+
+  def test_dump_locale_after_sync
+    spanish = Tolk::Locale.create!(:name => 'es')
+
+    Tolk::Locale.sync!
+
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
+    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+
+    tmpdir = Rails.root.join("../../tmp/sync/locales")
+    FileUtils.mkdir_p(tmpdir)
+    Tolk::Locale.dump_yaml('es', tmpdir)
 
     spanish_file = "#{tmpdir}/es.yml"
     data = YAML::safe_load(IO.read(spanish_file))['es']

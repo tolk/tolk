@@ -54,6 +54,10 @@ module Tolk
         secondary_locales.each { |locale| locale.dump(*args) }
       end
 
+      def dump_yaml(name, *args)
+          find_by_name(name).dump(*args)
+      end
+
       def special_key_or_prefix?(prefix, key)
         self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
       end
