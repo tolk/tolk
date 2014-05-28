@@ -1,3 +1,6 @@
+* Tolk 1.6.0.alpha1
+  * Preversion for rails 4.1
+
 * Tolk 1.5.01
   * Loose dependency on safe_yaml
 
