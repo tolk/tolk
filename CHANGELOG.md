@@ -1,3 +1,6 @@
+* Tolk 1.5.01
+  * Loose dependency on safe_yaml
+
 * Tolk 1.5.00
   * Remove all warning related to Rails 4
   * Ability to dum a single locale (@raouldevil)
