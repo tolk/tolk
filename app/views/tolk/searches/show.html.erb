@@ -19,7 +19,7 @@
         </tr>
         <% @phrases.each do |phrase| %>
 
-          <% if translation = phrase.translations.find_by_locale_id(@locale.id) || Tolk::Translation.new(:locale => @locale, :phrase => phrase) %>
+          <% if translation = phrase.translations.where(locale_id: @locale.id).first || Tolk::Translation.new(:locale => @locale, :phrase => phrase) %>
             <tr>
               <td class="translation">
                 <%= hidden_field_tag :"translations[][id]", translation.id, :id => "#{translation.object_id}_id" %>
@@ -40,7 +40,7 @@
                   <%= format_i18n_value(phrase.translations.primary.text) -%>
                 <% end -%>
                 <%= boolean_warning if phrase.translations.primary.boolean? -%>
-                
+
                 <span class="key" title="<%= phrase.key %>"><%= params[:k].present? ?
                 highlight(h(truncate(phrase.key, :length => 100)), params[:k]) :
                 h(truncate(phrase.key, :length => 100)) %></span>

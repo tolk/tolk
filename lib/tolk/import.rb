@@ -20,7 +20,7 @@ module Tolk
       end
 
       def import_locale(locale_name)
-        locale = Tolk::Locale.find_or_create_by_name(locale_name)
+        locale = Tolk::Locale.where(name: locale_name).first_or_create
         data = locale.read_locale_file
         return unless data
 
