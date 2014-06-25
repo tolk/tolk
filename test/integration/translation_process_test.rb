@@ -65,7 +65,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     select name, :from => "select_tolk_locale_name"
     click_button 'Add'
 
-    Tolk::Locale.find_by_name!(Tolk.config.mapping.key(name))
+    Tolk::Locale.where(name: Tolk.config.mapping.key(name)).first!
   end
 
   def setup_locales

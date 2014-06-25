@@ -64,8 +64,8 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.create!(:name => 'es')
 
     phrase = Tolk::Phrase.create! :key => 'number.precision'
-    english_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("en"))
-    spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.find_by_name("es"))
+    english_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "en").first)
+    spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "es").first)
 
     Tolk::Locale.expects(:load_translations).returns({'number.precision' => "1"}).at_least_once
     Tolk::Locale.sync! and spanish_translation.reload
@@ -93,7 +93,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.sync!
 
     # Created by sync!
-    primary_locale = Tolk::Locale.find_by_name!(Tolk::Locale.primary_locale_name)
+    primary_locale = Tolk::Locale.where(name: Tolk::Locale.primary_locale_name).first!
 
     assert_equal ["Hello World", "Nested Hello Country"], primary_locale.translations.map(&:text).sort
     assert_equal ["hello_world", "nested.hello_country"], Tolk::Phrase.all.map(&:key).sort
@@ -145,7 +145,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.expects(:load_translations).returns({"hello_world" => "Hello Super World"}).at_least_once
     Tolk::Locale.sync!
 
-    primary_locale = Tolk::Locale.find_by_name!(Tolk::Locale.primary_locale_name)
+    primary_locale = Tolk::Locale.where(name: Tolk::Locale.primary_locale_name).first!
 
     assert_equal ['Hello Super World'], primary_locale.translations.map(&:text)
     assert_equal ['hello_world'], Tolk::Phrase.all.map(&:key).sort

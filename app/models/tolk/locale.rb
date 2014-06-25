@@ -38,7 +38,7 @@ module Tolk
         @_primary_locale = nil if reload
         @_primary_locale ||= begin
           raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
-          find_or_create_by(name: self.primary_locale_name)
+          where(name: self.primary_locale_name).first_or_create
         end
       end
 
@@ -55,7 +55,7 @@ module Tolk
       end
 
       def dump_yaml(name, *args)
-          find_by_name(name).dump(*args)
+        where(name: name).first.dump(*args)
       end
 
       def special_key_or_prefix?(prefix, key)
@@ -162,7 +162,7 @@ module Tolk
     end
 
     def get(key)
-      if phrase = Tolk::Phrase.find_by_key(key)
+      if phrase = Tolk::Phrase.where(key: key).first
         t = self.translations.where(:phrase_id => phrase.id).first
         t.text if t
       end
@@ -179,7 +179,7 @@ module Tolk
       if old_name.blank? || new_name.blank?
         "You need to provide both names, aborting."
       else
-        if locale = find_by_name(old_name)
+        if locale = where(name: old_name).first
           locale.name = new_name
           locale.save
           "Locale ' #{old_name}' was renamed '#{new_name}'"
