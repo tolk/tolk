@@ -5,7 +5,9 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
 
 rvm:
+  - 1.9.3
   - 2.0.0
+  - 2.1
 
 env:
   - RAILS_VERSION="~> 4.0.0"
