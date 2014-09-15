@@ -75,7 +75,7 @@ module Tolk
     end
 
     def has_updated_translations?
-      translations.count(:conditions => {:'tolk_translations.primary_updated' => true}) > 0
+      translations.where('tolk_translations.primary_updated' => true).count > 0
     end
 
     def phrases_with_translation(page = nil)
