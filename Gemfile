@@ -1,18 +1,8 @@
 source "http://rubygems.org"
 
-gem "rails", "4.0.2"
+gemspec
 
-gem 'will_paginate'
-gem 'safe_yaml', '>= 0.8.6'
-
-group 'test' do
-  gem 'capybara'
-  gem "factory_girl_rails"
-  gem "sqlite3"
-  gem "mocha"
-  gem 'launchy'
-  gem 'selenium-webdriver'
-end
+gem "rails", ENV['RAILS_VERSION']
 
 group 'development' do
   if RUBY_VERSION < '1.9'

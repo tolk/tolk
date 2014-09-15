@@ -13,8 +13,17 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/tolk/tolk'
 
   s.platform = Gem::Platform::RUBY
-  s.add_dependency('will_paginate')
-  s.add_dependency('safe_yaml', ">= 0.8")
+
+  s.add_runtime_dependency 'will_paginate'
+  s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
+
+  s.add_development_dependency 'capybara', '2.2.1'
+  s.add_development_dependency 'factory_girl_rails'
+  s.add_development_dependency 'sqlite3'
+  s.add_development_dependency 'mocha'
+  s.add_development_dependency 'launchy'
+  s.add_development_dependency 'selenium-webdriver'
+
   if File.exists?('UPGRADING')
     s.post_install_message = File.read("UPGRADING")
   end

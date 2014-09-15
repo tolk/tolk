@@ -1,7 +1,18 @@
 language: ruby
-bundler_args: --without development
+
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+
 rvm:
+  - 1.9.3
   - 2.0.0
+  - 2.1
+
+env:
+  - RAILS_VERSION="~> 4.0.0"
+  - RAILS_VERSION="~> 4.1.0"
+
+matrix:
+  allow_failures:
+    - env: RAILS_VERSION="~> 4.1.0"
