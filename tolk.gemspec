@@ -14,6 +14,9 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
 
+  s.required_ruby_version = '>= 1.9.3'
+
+  s.add_runtime_dependency 'rails', '~> 4.0.0'
   s.add_runtime_dependency 'will_paginate'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
 
