@@ -3,7 +3,13 @@
 
 This is now the official tolk repository.
 
-Tolk is a Rails 3 engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
+Tolk is a Rails engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
+
+## Requirements
+
+Tolk requires Rails 4.0.
+
+For Rails 3.2 support, please use Tolk 1.3.12.
 
 ## Installation & Setup
 
