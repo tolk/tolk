@@ -1,3 +1,7 @@
+* Tolk 1.6.0 (unreleased)
+  * Rails 4.1 is needed
+  * Updating preloader calls (@AlexStein)
+
 * Tolk 1.5.02
   * Ruby and gem requirements are much cleaner (@zoombody)
   * Rails version support is more clear (@zoombody)

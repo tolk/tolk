@@ -102,6 +102,8 @@ module Tolk
       phrases = phrases.where('tolk_phrases.id NOT IN (?)', existing_ids) if existing_ids.present?
 
       result = phrases.paginate({:page => page, :per_page => Phrase.per_page}.merge(options))
+      ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+
       result
     end
 
@@ -132,6 +134,8 @@ module Tolk
 #      phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       phrases = phrases.where(['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       result = phrases.paginate({:page => page}.merge(options))
+      ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+
       result
     end
 
@@ -169,6 +173,7 @@ module Tolk
     def translations_with_html
       translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND
         tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
+      ActiveRecord::Associations::Preloader.new().preload(translations, :phrase)
       translations
     end
 
