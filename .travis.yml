@@ -12,7 +12,3 @@ rvm:
 env:
   - RAILS_VERSION="~> 4.0.0"
   - RAILS_VERSION="~> 4.1.0"
-
-matrix:
-  allow_failures:
-    - env: RAILS_VERSION="~> 4.1.0"
