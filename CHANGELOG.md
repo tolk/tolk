@@ -1,3 +1,8 @@
+* Tolk 1.5.02
+  * Ruby and gem requirements are much cleaner (@zoombody)
+  * Rails version support is more clear (@zoombody)
+  * Tests are also cleaner ! (@zoombody)
+
 * Tolk 1.5.01
   * Loose dependency on safe_yaml
 
