@@ -182,9 +182,9 @@ module Tolk
       translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND
         tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
       if Rails.version =~ /^4\.0/
-        ActiveRecord::Associations::Preloader.new result, :translations
+        ActiveRecord::Associations::Preloader.new translations, :phrase
       else
-        ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+        ActiveRecord::Associations::Preloader.new().preload(translations, :phrase)
       end
       translations
     end
@@ -225,6 +225,11 @@ module Tolk
         phrase.translation = phrase.translations.for(self)
       end
 
+      if Rails.version =~ /^4\.0/
+        ActiveRecord::Associations::Preloader.new result, :translations
+      else
+        ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+      end
 
       result
     end
