@@ -19,7 +19,11 @@ module Tolk
     end
 
     def self.dump(payload)
-      ::YAML.dump(payload)
+      if payload.respond_to?(:ya2yaml)
+        payload.ya2yaml(:syck_compatible => true)
+      else
+        ::YAML.dump(payload)
+      end
     end
   end
 end

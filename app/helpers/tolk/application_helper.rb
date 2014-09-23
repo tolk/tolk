@@ -21,7 +21,7 @@ module Tolk
     def yaml_value(value)
       if value.present?
         unless value.is_a?(String) || value.is_a?(TrueClass) || value.is_a?(FalseClass)
-          value = value.respond_to?(:ya2yaml) ? value.ya2yaml(:syck_compatible => true) : value.to_yaml
+          value = Tolk::YAML.dump(value)
         end
       end
 

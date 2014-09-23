@@ -17,12 +17,7 @@ module Tolk
 
         format.yaml do
           data = @locale.to_hash
-          yaml = if data.respond_to?(:ya2yaml)
-            data.ya2yaml(:syck_compatible => true)
-          else
-            Tolk::YAML.dump(data).force_encoding("UTF-8")
-          end
-          render :text => yaml
+          render :text => Tolk::YAML.dump(data)
         end
 
       end
