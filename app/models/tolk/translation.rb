@@ -112,7 +112,7 @@ module Tolk
       if primary_translation.present?
         if self.text.is_a?(String) && !primary_translation.text.is_a?(String)
           self.text = begin
-            SafeYAML.load(self.text.strip)
+            SafeYAML.load(self.text.strip, Tolk::SAFE_YAML_OPTIONS)
           rescue ArgumentError
             nil
           end

@@ -15,4 +15,9 @@ module Tolk
       Tolk::Config
     end
   end
+
+  SAFE_YAML_OPTIONS = SafeYAML::Deep.freeze({
+    :default_mode => :safe,
+    :deserialize_symbols => true
+  })
 end
