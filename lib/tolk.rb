@@ -5,6 +5,7 @@ require 'tolk/engine'
 require 'tolk/sync'
 require 'tolk/import'
 require 'tolk/export'
+require 'tolk/yaml'
 
 module Tolk
   # Setup Tolk
@@ -15,9 +16,4 @@ module Tolk
       Tolk::Config
     end
   end
-
-  SAFE_YAML_OPTIONS = SafeYAML::Deep.freeze({
-    :default_mode => :safe,
-    :deserialize_symbols => true
-  })
 end

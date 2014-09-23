@@ -13,7 +13,7 @@ module Tolk
         yml = if data.respond_to?(:ya2yaml)
           data.ya2yaml(:syck_compatible => true)
         else
-          YAML.dump(data).force_encoding(file.external_encoding.name)
+          Tolk::YAML.dump(data).force_encoding(file.external_encoding.name)
         end
         file.write(yml)
       end
