@@ -1,5 +1,7 @@
-# encoding: utf-8
-require File.expand_path('../lib/tolk/version', __FILE__)
+$:.push File.expand_path("../lib", __FILE__)
+
+# Maintain your gem's version:
+require "tolk/version"
 
 Gem::Specification.new do |s|
   s.name        = 'tolk'
