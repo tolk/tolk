@@ -1,7 +1,25 @@
-# encoding: UTF-8
-require 'rake'
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
+end
+
 require 'rdoc/task'
-require 'rubygems/package_task'
+
+RDoc::Task.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title    = 'Tolk'
+  rdoc.options << '--line-numbers' << '--inline-source'
+  rdoc.rdoc_files.include('README.rdoc')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
+APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
+load 'rails/tasks/engine.rake'
+
+
+
+Bundler::GemHelper.install_tasks
 
 require 'rake/testtask'
 
@@ -12,28 +30,5 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = false
 end
 
-task :default => :test
 
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Tolk'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.rdoc')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-spec = Gem::Specification.new do |s|
-  s.name = "tolk"
-  s.summary = "Rails engine providing web interface for managing i18n yaml files"
-  s.description = "Tolk is a web interface for doing i18n translations packaged as an engine for Rails applications."
-  s.files =  FileList["[A-Z]*", "lib/**/*"]
-  s.version = "2.0.0.beta"
-end
-
-Gem::PackageTask.new(spec) do |pkg|
-end
-
-desc "Install the gem #{spec.name}-#{spec.version}.gem"
-task :install do
-  system("gem install pkg/#{spec.name}-#{spec.version}.gem --no-ri --no-rdoc")
-end
+task default: :test

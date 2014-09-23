@@ -1,9 +1,9 @@
+.bundle/
+pkg/
 tmp/**/*
-test/dummy/db/migrate/*.tolk.rb
+test/dummy/db/*.sqlite3
+test/dummy/db/*.sqlite3-journal
 test/dummy/log/*
 test/dummy/tmp/*
-test/dummy/db/*.sqlite3
 Gemfile.lock
-.bundle
-*.gem
 .ruby-version
