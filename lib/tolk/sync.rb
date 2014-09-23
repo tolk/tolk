@@ -17,7 +17,7 @@ module Tolk
 
       def read_primary_locale_file
         primary_file = "#{self.locales_config_path}/#{self.primary_locale_name}.yml"
-        File.exists?(primary_file) ? flat_hash(YAML::safe_load(IO.read(primary_file))[self.primary_locale_name]) : {}
+        File.exists?(primary_file) ? flat_hash(SafeYAML.load(IO.read(primary_file))[self.primary_locale_name]) : {}
       end
 
       def flat_hash(data, prefix = '', result = {})
