@@ -10,12 +10,7 @@ module Tolk
 
     def dump
       File.open("#{destination}/#{name}.yml", "w+") do |file|
-        yml = if data.respond_to?(:ya2yaml)
-          data.ya2yaml(:syck_compatible => true)
-        else
-          YAML.dump(data).force_encoding(file.external_encoding.name)
-        end
-        file.write(yml)
+        file.write(Tolk::YAML.dump(data))
       end
     end
 
