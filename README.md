@@ -1,5 +1,5 @@
 # Tolk
-[![Travis](https://secure.travis-ci.org/tolk/tolk.png?branch=master)](http://travis-ci.org/#!/tolk/tolk)
+[![Build Status](https://travis-ci.org/tolk/tolk.svg?branch=master)](https://travis-ci.org/tolk/tolk)
 
 This is now the official tolk repository.
 
