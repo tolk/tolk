@@ -3,10 +3,8 @@ language: ruby
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - bundle exec rake db:setup
 
-script:
-  - bundle exec rake db:migrate RAILS_ENV=test
-  - bundle exec rake
 rvm:
   - 1.9.3
   - 2.0.0
