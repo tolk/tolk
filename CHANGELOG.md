@@ -1,3 +1,6 @@
+* Tolk 1.3.13
+  * Explicitly depend on Rails 3.1 or 3.2
+
 * Tolk 1.3.12
   * A few bugfixes
   * libraries added to precompiled files (@ressu)

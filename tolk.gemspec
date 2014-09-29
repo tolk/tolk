@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.homepage = 'http://github.com/tolk/tolk'
 
   s.platform = Gem::Platform::RUBY
+  s.add_dependency('rails, '>= 3.1', '< 4.0')
   s.add_dependency('will_paginate')
   s.add_dependency('safe_yaml', "~> 0.8")
   if File.exists?('UPGRADING')
