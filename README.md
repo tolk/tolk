@@ -7,8 +7,6 @@ Tolk is a Rails engine designed to facilitate the translators doing the dirty wo
 
 Tolk is compatible with Rails 4.0 and 4.1
 
-For Rails 3.2 support, please use Tolk 1.3.12.
-
 ## Installation & Setup
 
 To install add the following to your Gemfile:
