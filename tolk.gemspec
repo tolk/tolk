@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['David Heinemeier Hansson', 'Piotr Sarnacki', 'Emilio Tagua', 'Thomas Darde', 'Ferran Basora']
   s.email = 'david@loudthinking.com'
-  s.homepage = 'http://github.com/tolk/tolk'
+  s.homepage = 'https://github.com/tolk/tolk'
 
   s.platform = Gem::Platform::RUBY
 
