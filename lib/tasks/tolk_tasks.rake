@@ -25,7 +25,8 @@ namespace :tolk do
   end
 
   desc "Generate a single yml file for a specific locale"
-  task :dump_yaml, [:locale] => :environment do
+  task :dump_yaml, [:locale] => :environment do |t, args|
+    locale = args[:locale]
     Tolk::Locale.dump_yaml(locale)
   end
 
@@ -42,5 +43,4 @@ namespace :tolk do
       puts "#{bt.phrase.key} - #{bt.text}"
     end
   end
-
 end

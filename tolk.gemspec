@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['David Heinemeier Hansson', 'Piotr Sarnacki', 'Emilio Tagua', 'Thomas Darde', 'Ferran Basora']
   s.email = 'david@loudthinking.com'
-  s.homepage = 'http://github.com/tolk/tolk'
+  s.homepage = 'https://github.com/tolk/tolk'
 
   s.platform = Gem::Platform::RUBY
 
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'will_paginate'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
 
-  s.add_development_dependency 'capybara', '2.2.1'
+  s.add_development_dependency 'capybara', '~> 2.4.4'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'selenium-webdriver'

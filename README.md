@@ -7,8 +7,6 @@ Tolk is a Rails engine designed to facilitate the translators doing the dirty wo
 
 Tolk is compatible with Rails 4.0, 4.1, and 4.2.
 
-For Rails 3.2 support, please use Tolk 1.3.12.
-
 ## Installation & Setup
 
 To install add the following to your Gemfile:
@@ -47,7 +45,7 @@ Upon visiting http://your_app.com/tolk - you will be presented with different op
 
 
 ```bash
-  $ rake tolk:dump_yml["the_target_locale"]
+  $ rake tolk:dump_yaml["the_target_locale"]
 ```
 
 This command will generate a single yml file for a specified locale. The locale ISO code should be given in string format as the only argument ("en-us" or "en-gb" for example).
