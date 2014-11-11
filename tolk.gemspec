@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'will_paginate'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
 
-  s.add_development_dependency 'capybara', '2.2.1'
+  s.add_development_dependency 'capybara', '~> 2.4.4'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'mocha'
   s.add_development_dependency 'selenium-webdriver'
