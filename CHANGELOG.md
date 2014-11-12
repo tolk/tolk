@@ -1,3 +1,7 @@
+* Tolk (unreleased)
+ * Rails 4.2 compatibility (@dnrce)
+ * Fixed parameter handling in dump_yaml task (@grk)
+
 * Tolk 1.6.0
   * Rails 4.0 and 4.1 compatibility (@grk @zoombody)
   * Cleanup for the gem and safe_yaml, makes tolk a better citizen (@grk)
