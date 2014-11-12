@@ -1,7 +1,7 @@
 # Rubygem deployment
 
+* Ensure changelog is up to date
 * Update version in version.rb
-* Update changelog in version.rb
-* Tag Repository in git
-* `gem build tolk.gemspec`
-* `gem push tolk-1.X.0.gem`
+* Update version in changelog
+* Commit changes to master
+* `rake release`
