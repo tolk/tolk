@@ -64,7 +64,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.create!(:name => 'es')
 
     phrase = Tolk::Phrase.create! :key => 'number.precision'
-    english_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "en").first)
+    phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "en").first)
     spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "es").first)
 
     Tolk::Locale.expects(:load_translations).returns({'number.precision' => "1"}).at_least_once
@@ -191,7 +191,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    spanish.translations.create!(:text => 'hola', :phrase => phrase)
 
     tmpdir = Rails.root.join("../../tmp/sync/locales")
     FileUtils.mkdir_p(tmpdir)
@@ -211,7 +211,7 @@ class SyncTest < ActiveSupport::TestCase
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    spanish.translations.create!(:text => 'hola', :phrase => phrase)
 
     tmpdir = Rails.root.join("../../tmp/sync/locales")
     FileUtils.mkdir_p(tmpdir)
