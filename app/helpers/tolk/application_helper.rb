@@ -1,5 +1,9 @@
+require 'tolk/pagination'
+
 module Tolk
   module ApplicationHelper
+    include Tolk::Pagination::ViewHelper
+
     def format_i18n_value(value)
       value = h(yaml_value(value))
       value = highlight_linebreaks(value)

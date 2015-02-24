@@ -1,7 +1,10 @@
 require 'tolk/application_controller'
+require 'tolk/pagination'
 
 module Tolk
   class ApplicationController < ActionController::Base
+    include Tolk::Pagination::Methods
+
     helper :all
     protect_from_forgery
 

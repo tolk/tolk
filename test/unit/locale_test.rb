@@ -38,7 +38,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "paginating phrases without translations" do
-    Tolk::Phrase.per_page = 2
+    Tolk::Phrase.paginates_per(2)
     locale = tolk_locales(:se)
 
     page1 = locale.phrases_without_translation
@@ -55,7 +55,7 @@ class LocaleTest < ActiveSupport::TestCase
   end
 
   test "paginating phrases with translations" do
-    Tolk::Phrase.per_page = 5
+    Tolk::Phrase.paginates_per(5)
     locale = tolk_locales(:en)
 
     page1 = locale.phrases_with_translation

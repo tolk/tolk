@@ -15,6 +15,14 @@ To install add the following to your Gemfile:
   gem 'tolk'
 ```
 
+Also add either [`kaminari`](https://github.com/amatsuda/kaminari) or [`will_paginate`](https://github.com/mislav/will_paginate):
+
+```ruby
+gem 'kaminari'
+# OR
+gem 'will_paginate'
+```
+
 To setup just run:
 
 ```bash
