@@ -44,7 +44,7 @@ module Tolk
         primary_locale = self.primary_locale
 
         # Handle deleted phrases
-        translations.present? ? Tolk::Phrase.destroy_all(["tolk_phrases.key NOT IN (?)", translations.keys]) : Tolk::Phrase.destroy_all
+        translations.present? ? Tolk::Phrase.destroy_all(['"tolk_phrases"."key" NOT IN (?)', translations.keys]) : Tolk::Phrase.destroy_all
 
         phrases = Tolk::Phrase.all
 

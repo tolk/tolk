@@ -22,7 +22,7 @@ module Tolk
 #scope :red, -> { where(color: 'red') } rather than scope :red, -> { { conditions: { color: 'red' } } }
 
     scope :containing_text, lambda { |query|
-      where("tolk_phrases.key LIKE ?", "%#{query}%")
+      where('"tolk_phrases"."key" LIKE ?', "%#{query}%")
     }
   end
 end
