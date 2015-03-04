@@ -96,7 +96,7 @@ module Tolk
     end
 
     def phrases_without_translation(page = nil, options = {})
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
+      phrases = Tolk::Phrase.all.order('"tolk_phrases"."key" ASC')
 
       existing_ids = self.translations(:select => 'tolk_translations.phrase_id').map(&:phrase_id).uniq
       phrases = phrases.where('tolk_phrases.id NOT IN (?)', existing_ids) if existing_ids.present?
@@ -121,7 +121,7 @@ module Tolk
         self.translations.containing_text(query)
       end
 
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
+      phrases = Tolk::Phrase.all.order('"tolk_phrases"."key" ASC')
       phrases = phrases.containing_text(key_query)
 
       phrases = phrases.where('tolk_phrases.id IN(?)', translations.map(&:phrase_id).uniq)
@@ -131,7 +131,7 @@ module Tolk
     def search_phrases_without_translation(query, page = nil, options = {})
       return phrases_without_translation(page, options) unless query.present?
 
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
+      phrases = Tolk::Phrase.all.order('"tolk_phrases"."key" ASC')
 
       found_translations_ids = Tolk::Locale.primary_locale.translations.where(["tolk_translations.text LIKE ?", "%#{query}%"]).to_a.map(&:phrase_id).uniq
       existing_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
@@ -179,8 +179,8 @@ module Tolk
     end
 
     def translations_with_html
-      translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND
-        tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
+      translations = self.translations.all(:conditions => 'tolk_translations.text LIKE "%>%" AND
+        "tolk_translations"."text" LIKE "%<%" AND "tolk_phrases"."key" NOT LIKE "%_html"', :joins => :phrase)
       if Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new translations, :phrase
       else
@@ -219,7 +219,7 @@ module Tolk
     end
 
     def find_phrases_with_translations(page, conditions = {})
-      result = Tolk::Phrase.where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).joins(:translations).order('tolk_phrases.key ASC').paginate(:page => page)
+      result = Tolk::Phrase.where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).joins(:translations).order('"tolk_phrases"."key" ASC').paginate(:page => page)
 
       result.each do |phrase|
         phrase.translation = phrase.translations.for(self)
