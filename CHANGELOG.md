@@ -1,3 +1,6 @@
+* HEAD
+ * Make Tolk able to use either Kaminari or will_paginate (@lime)
+
 * Tolk 1.7.0
  * Rails 4.2 compatibility (@dnrce)
  * Fixed parameter handling in dump_yaml task (@grk)
