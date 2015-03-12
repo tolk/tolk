@@ -33,6 +33,8 @@ and follow the guide !
 
 ## Usage
 
+### Setup and import
+
 Tolk treats `I18n.default_locale` as the master source of strings to be translated. If you want the master source to be different from `I18n.default_locale`, you can override it by setting `Tolk::Locale.primary_locale_name`. Developers are expected to make all the changes to the master locale file ( en.yml by default ) and treat all the other locale.yml files as readonly files.
 
 As tolk stores all the keys and translated strings in the database, you need to ask Tolk to update it's database from the primary yml file :
@@ -52,11 +54,16 @@ If you already have data in your non primary locale files, you will need to impo
 Upon visiting http://your_app.com/tolk - you will be presented with different options like creating new locale or providing translations for the existing locales. Once done with translating all the pending strings, you are can write back the new locales to filesystem :
 
 
+### Dumping locales to file
+
+When dumping locales from the database into yml files you have two options:
+
+
 ```bash
   $ rake tolk:dump_yaml["the_target_locale"]
 ```
 
-This command will generate a single yml file for a specified locale. The locale ISO code should be given in string format as the only argument ("en-us" or "en-gb" for example).
+This will generate a single yml file for a specified locale. The locale ISO code should be given in string format as the only argument ("en-us" or "en-gb" for example).
 
 
 ```bash
@@ -72,6 +79,8 @@ You can use the dump_all method defined in `Tolk::Locale` directly and pass dire
 ```
 
 You can even download the yml file using Tolk web interface by appending `.yaml` to the locale url. E.g `http://your_app.com/tolk/locales/de.yaml`
+
+### Translation statistics
 
 You can ask statistics about missing or updated translations to be tracked for third party tools in `http://your_app.com/tolk/stats.json` endpoint.
 
