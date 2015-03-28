@@ -1,4 +1,5 @@
-* HEAD
+* Tolk 1.8.0
+ * Allow to exclude locales from other gems in config ! (@tsai146)
  * Make Tolk able to use either Kaminari or will_paginate (@lime)
 
 * Tolk 1.7.0
