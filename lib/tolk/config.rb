@@ -17,8 +17,13 @@ module Tolk
       # exclude locales tokens from gems
       attr_accessor :exclude_gems_token
 
+      # reject files of type xxx.en.yml when syncing locales
+      attr_accessor :block_xxx_en_yml_locale_files
+
       def reset
         @exclude_gems_token = false
+
+        @block_xxx_en_yml_locale_files = true # keep compat with older versions
 
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
 
