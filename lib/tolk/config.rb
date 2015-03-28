@@ -14,7 +14,12 @@ module Tolk
       # primary locale to not be overriden by default locale in development mode
       attr_accessor :primary_locale_name
 
+      # exclude locales tokens from gems
+      attr_accessor :exclude_gems_token
+
       def reset
+        @exclude_gems_token = false
+
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
 
         @mapping = {
