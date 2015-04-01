@@ -20,7 +20,7 @@ module Tolk
             locale_block_filter = Proc.new {
               |l| ['.', '..'].include?(l) ||
                 !l.ends_with?('.yml') ||
-                l.match(/(.*\.){2,}/) # reject files of type xxx.en.yml
+                l.split("/").last.match(/(.*\.){2,}/) # reject files of type xxx.en.yml
             }
             translations_files =  translations_files.reject(&locale_block_filter)
           end
