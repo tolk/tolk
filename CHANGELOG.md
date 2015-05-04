@@ -1,3 +1,7 @@
+
+* Tolk 1.9.2
+ * Fix for initializer in the gemfile (@lime)
+
 * Tolk 1.9.0
  * Allow not to sync files of type devise.fr.yml (only translate your work via tolk)
 
