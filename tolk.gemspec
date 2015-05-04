@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
     s.post_install_message = File.read("UPGRADING")
   end
 
-  s.files = Dir['README', 'MIT-LICENSE', 'config/routes.rb', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
+  s.files = Dir['README', 'MIT-LICENSE', 'config/**/*', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
 
   s.require_path = 'lib'
 end
