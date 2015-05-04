@@ -1,4 +1,3 @@
-
 * Tolk 1.9.3
  * Fix for a wrong order of requires (@wpp)
 
@@ -8,6 +7,8 @@
 * Tolk 1.9.0
  * Allow not to sync files of type devise.fr.yml (only translate your work via tolk)
 
+* Tolk 1.8.1
+ * Backport for fix #108 (@lime)
 
 * Tolk 1.8.0
  * Allow to exclude locales from other gems in config ! (@tsai146)
