@@ -5,6 +5,7 @@ require 'tolk/sync'
 require 'tolk/import'
 require 'tolk/export'
 require 'tolk/yaml'
+require 'tolk/pagination'
 
 module Tolk
   # Setup Tolk
