@@ -1,4 +1,7 @@
 
+* Tolk 1.9.3
+ * Fix for a wrong order of requires (@wpp)
+
 * Tolk 1.9.2
  * Fix for initializer in the gemfile (@lime)
 
