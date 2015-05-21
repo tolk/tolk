@@ -1,5 +1,3 @@
-require 'tolk/pagination'
-
 module Tolk
   module ApplicationHelper
     include Tolk::Pagination::ViewHelper
