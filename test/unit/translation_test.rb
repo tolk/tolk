@@ -33,6 +33,15 @@ class TranslationTest < ActiveSupport::TestCase
     assert_equal(text.strip, Tolk::Translation.new(:text => text).value)
   end
 
+  test "translation with string value with leading and trailing whitespace but with strip_texts config disabled" do
+    Tolk.config.strip_texts = false
+
+    text = "\t          Hello World   \r\n"
+    assert_equal(text, Tolk::Translation.new(:text => text).value)
+
+    Tolk.config.strip_texts = true
+  end
+
   test "translation with string value with variables" do
     text = "{{attribute}} {{message}}"
     assert_equal(text, Tolk::Translation.new(:text => text).value)
