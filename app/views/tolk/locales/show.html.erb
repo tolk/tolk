@@ -2,7 +2,10 @@
   <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk.locale_path(@locale, :format => 'atom') -%>" />
 <% end %>
 
-<h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', tolk.all_locale_path(@locale) %>)</span></h3>
+<header>
+  <h1 class="switch">Missing translations (<%= @locale.count_phrases_without_translation %>)</h1>
+  <p><%= link_to 'See completed translations', tolk.all_locale_path(@locale) %></p>
+</header>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
@@ -49,8 +52,8 @@
           </tr>
         <% end %>
       </table>
-      <div class="table_submit">
-        <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
+      <div class="actions">
+        <%= locale_form.submit "Save" %>
       </div>
     <% end %>
     <div class="paginate">
