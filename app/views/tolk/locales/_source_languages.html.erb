@@ -1,0 +1,8 @@
+Source language:
+<% Tolk::Locale.where.not(name: @locale.name).each do |locale| %>
+  <% if locale.id == params[:source].to_i || (params[:source].nil? && locale.name == I18n.default_locale.to_s) %>
+    <%= locale.language_name %>&nbsp;
+  <% else %>
+    <%= link_to locale.language_name, locale_path(locale) %>&nbsp;
+  <% end %>
+<% end %>

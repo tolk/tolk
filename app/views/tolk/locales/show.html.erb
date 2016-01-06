@@ -3,17 +3,13 @@
 <% end %>
 
 <header>
-  <h1 class="switch">Missing translations (<%= @locale.count_phrases_without_translation %>)</h1>
+  <h1 class="switch">Missing <%= @locale.language_name %> Translations (<%= @locale.count_phrases_without_translation %>)</h1>
   <p><%= link_to 'See completed translations', tolk.all_locale_path(@locale) %></p>
 </header>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
 <% end %>
-
-<div class="source">
-  <%= render :partial => "tolk/locales/source_form" %>
-</div>
 
 <div class="search">
   <%= render :partial => "tolk/searches/form", :locals => { :locale => @locale } %>
@@ -26,7 +22,7 @@
         <tr>
           <th class="translation"><%= @locale.language_name -%></th>
           <th class="actions"></th>
-          <th class="key"><%= @source_language_name -%></th>
+          <th class="key"><%= render :partial => "tolk/locales/source_languages" %></th>
         </tr>
         <% @phrases.each do |phrase| %>
           <tr>

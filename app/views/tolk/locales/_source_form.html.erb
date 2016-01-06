@@ -1,6 +1,0 @@
-<% select_tag_values = Tolk::Locale.where.not(name: @locale.name).collect {|locale| [locale.name.upcase, locale.id] } %>
-<%= form_tag '', :method => :get do %>
-  Source language:
-  <%= select_tag(:source, options_for_select(select_tag_values, selected: params[:source])) %>
-  <%= submit_tag "Select", :name => nil %>
-<% end %>
