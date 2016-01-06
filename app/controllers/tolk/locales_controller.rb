@@ -15,6 +15,12 @@ module Tolk
     end
 
     def show
+      # hotfix
+      # todo: rewrite to use Ability instead of this redirect
+      if @current_user.manager? && @current_user.language.locale_shortcut != @locale.name
+        redirect_to locale_path(@current_user.language.locale_shortcut)
+      end
+
       respond_to do |format|
         format.html do
           @phrases = @locale.phrases_without_translation(params[pagination_param])
