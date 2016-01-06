@@ -46,7 +46,7 @@
 
               <% if params[:q].present? -%>
                 <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
-              <% elsif %>
+              <% elsif params[:source].present? %>
                 <%= format_i18n_value(phrase.translations.where(locale_id: params[:source]).first.try(:text)) -%>
               <% else -%>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
