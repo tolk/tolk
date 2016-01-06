@@ -11,6 +11,10 @@
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
 <% end %>
 
+<div class="source">
+  <%= render :partial => "tolk/locales/source_form" %>
+</div>
+
 <div class="search">
   <%= render :partial => "tolk/searches/form", :locals => { :locale => @locale } %>
 </div>
@@ -22,7 +26,7 @@
         <tr>
           <th class="translation"><%= @locale.language_name -%></th>
           <th class="actions"></th>
-          <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+          <th class="key"><%= @source_language_name -%></th>
         </tr>
         <% @phrases.each do |phrase| %>
           <tr>
@@ -42,6 +46,8 @@
 
               <% if params[:q].present? -%>
                 <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
+              <% elsif %>
+                <%= format_i18n_value(phrase.translations.where(locale_id: params[:source]).first.try(:text)) -%>
               <% else -%>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
               <% end -%>
