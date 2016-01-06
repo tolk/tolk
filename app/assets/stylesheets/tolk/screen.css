@@ -391,3 +391,7 @@ div.paginate .disabled {
   color: #ccc;
   border-color: #eee;
 }
+
+table.translations th a {
+  color: #999;
+}
