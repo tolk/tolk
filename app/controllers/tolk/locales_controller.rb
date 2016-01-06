@@ -7,6 +7,10 @@ module Tolk
     authorize_resource
 
     def index
+      # hotfix
+      # todo: rewrite to use Ability instead of this redirect
+      redirect_to locale_path(@current_user.language.locale_shortcut) if @current_user.manager?
+
       @locales = Tolk::Locale.secondary_locales.sort_by(&:language_name)
     end
 
