@@ -37,18 +37,6 @@ body {
   text-align: left;
 }
 
-div#container {
-  margin: 2% 4%;
-  padding: 25px;
-  background: #fff;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  box-shadow: 0px 0px 15px rgba(00,00,00,0.5);
-  -moz-box-shadow: 0px 0px 15px rgba(00,00,00,0.5);
-  -webkit-box-shadow: 0px 0px 15px rgba(00,00,00,0.5);
-}
-
 div#head {
   margin: -25px -25px 0;
   background: #111;
@@ -232,6 +220,10 @@ div.translations {
   text-align: center;
 }
 
+div.translations div.actions {
+  text-align: left;
+}
+
 span.notice {
   background: #ffc;
   color: #666;
@@ -347,7 +339,7 @@ table.translations .original textarea {
   display: none;
 }
 
-table.translations .original .interpolation, 
+table.translations .original .interpolation,
 table.translations .original .carriage_return,
 table.translations .original .boolean  {
   color: #2fadcf;
@@ -399,3 +391,13 @@ div.paginate .disabled {
   color: #ccc;
   border-color: #eee;
 }
+
+table.translations th a {
+  color: #999;
+}
+
+table.translations th a:hover {
+  background-color: white;
+  text-decoration: none;
+}
+

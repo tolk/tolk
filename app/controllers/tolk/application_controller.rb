@@ -1,5 +1,5 @@
 module Tolk
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
     include Tolk::Pagination::Methods
 
     helper :all

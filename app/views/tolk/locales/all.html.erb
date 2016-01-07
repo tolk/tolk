@@ -1,4 +1,7 @@
-<h3 class="switch">Completed translations <span>(<%= link_to 'See phrases missing translation', @locale %>)</span></h3>
+<header>
+  <h1 class="switch">Completed translations</h1>
+  <p><%= link_to 'See missing translation', @locale %></p>
+</header>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
@@ -32,7 +35,7 @@
             </td>
             <td class="original">
               <%= text_area_tag :"translations[][original_text]", format_i18n_text_area_value(phrase.translations.primary.text), :disabled => true %>
-              
+
               <% if action_name == 'updated' %>
                 <div class="updated">
                   <span class="key">Updated</span>
@@ -54,8 +57,8 @@
         <% end %>
       <% end %>
     </table>
-    <div class="table_submit">
-      <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
+    <div class="actions">
+      <%= locale_form.submit "Save" %>
     </div>
     <div class="paginate">
       <%= tolk_paginate @phrases %>

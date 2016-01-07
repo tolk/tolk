@@ -2,7 +2,10 @@
   <link rel="alternate" type="application/rss+xml" title="RSS" href="<%= tolk.locale_path(@locale, :format => 'atom') -%>" />
 <% end %>
 
-<h3 class="switch">Phrases missing translation (<%= @locale.count_phrases_without_translation %>) <span>(<%= link_to 'See completed translations', tolk.all_locale_path(@locale) %>)</span></h3>
+<header>
+  <h1 class="switch">Missing <%= @locale.language_name %> Translations (<%= @locale.count_phrases_without_translation %>)</h1>
+  <p><%= link_to 'See completed translations', tolk.all_locale_path(@locale) %></p>
+</header>
 
 <% if @locale.has_updated_translations? && action_name != 'updated' %>
   <span class="notice">Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.</span>
@@ -19,7 +22,7 @@
         <tr>
           <th class="translation"><%= @locale.language_name -%></th>
           <th class="actions"></th>
-          <th class="key"><%= Tolk::Locale.primary_language_name -%></th>
+          <th class="key"><%= render :partial => "tolk/locales/source_languages" %></th>
         </tr>
         <% @phrases.each do |phrase| %>
           <tr>
@@ -39,6 +42,8 @@
 
               <% if params[:q].present? -%>
                 <%= highlight(format_i18n_value(phrase.translations.primary.text), params[:q]) -%>
+              <% elsif params[:source].present? %>
+                <%= format_i18n_value(phrase.translations.where(locale_id: params[:source]).first.try(:text)) -%>
               <% else -%>
                 <%= format_i18n_value(phrase.translations.primary.text) -%>
               <% end -%>
@@ -49,8 +54,8 @@
           </tr>
         <% end %>
       </table>
-      <div class="table_submit">
-        <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
+      <div class="actions">
+        <%= locale_form.submit "Save" %>
       </div>
     <% end %>
     <div class="paginate">
