@@ -20,8 +20,13 @@ module Tolk
       # reject files of type xxx.en.yml when syncing locales
       attr_accessor :block_xxx_en_yml_locale_files
 
+      # strip translation texts automatically
+      attr_accessor :strip_texts
+
       def reset
         @exclude_gems_token = false
+
+        @strip_texts = true
 
         @block_xxx_en_yml_locale_files = true # keep compat with older versions
 

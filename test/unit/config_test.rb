@@ -7,5 +7,6 @@ class ConfigTest < ActiveSupport::TestCase
     assert_equal "#{Rails.root}/config/locales", Tolk::Export.dump_path
     assert Tolk.config.mapping.keys.include?('ar')
     assert_equal 'Arabic',Tolk.config.mapping['ar']
+    assert_equal true, Tolk.config.strip_texts
   end
 end

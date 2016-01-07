@@ -103,6 +103,9 @@ Tolk.config do |config|
 
   config.primary_locale_name = 'de'
   # primary locale to not be overriden by default locale in development mode.
+
+  config.strip_texts = false
+  # Don't strip translation texts automatically
 end
 ```
 
