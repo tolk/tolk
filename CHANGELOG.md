@@ -1,3 +1,5 @@
+ * Rails 5.0 beta support
+
 * Tolk 1.9.3
  * Fix for a wrong order of requires (@wpp)
 

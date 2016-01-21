@@ -5,7 +5,7 @@ Tolk is a Rails engine designed to facilitate the translators doing the dirty wo
 
 ## Requirements
 
-Tolk is compatible with Rails 4.0, 4.1, and 4.2.
+Tolk is compatible with Rails 4.0, 4.1, 4.2, and 5.0.beta.
 
 ## Installation & Setup
 
