@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
 
 
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 
   s.add_runtime_dependency 'rails', '>= 4.0', '< 5.1'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
