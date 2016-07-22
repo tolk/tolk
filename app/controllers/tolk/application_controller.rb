@@ -6,7 +6,7 @@ module Tolk
     protect_from_forgery
 
     cattr_accessor :authenticator
-    before_filter :authenticate
+    before_action :authenticate
 
     def authenticate
 #      self.authenticator.bind(self).call if self.authenticator && self.authenticator.respond_to?(:call)
