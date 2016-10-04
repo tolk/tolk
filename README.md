@@ -76,7 +76,7 @@ This will generate yml files for all non primary locales and put them in `#{Rail
 You can use the dump_all method defined in `Tolk::Locale` directly and pass directory path as the argument if you want the generated files to be at a different location:
 
 ```bash
-  $ script/runner "Tolk::Locale.dump_all('/Users/lifo')"
+  $ rails runner "Tolk::Locale.dump_all('/Users/lifo')"
 ```
 
 You can even download the yml file using Tolk web interface by appending `.yaml` to the locale url. E.g `http://your_app.com/tolk/locales/de.yaml`
