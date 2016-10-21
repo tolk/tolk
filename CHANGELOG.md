@@ -1,3 +1,6 @@
+* Tolk 2.0.0
+ * Release
+
 * Tolk 2.0.0-pre
  * Rails 5.0 support @dncre, @NomNomCameron
  * Drop ruby 1.9.3
