@@ -36,6 +36,8 @@ module Tolk
     cattr_accessor :special_keys
     self.special_keys = ['activerecord.models']
 
+    PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
+
     class << self
       def primary_locale(reload = false)
         @_primary_locale = nil if reload
@@ -66,7 +68,7 @@ module Tolk
       end
 
       # http://cldr.unicode.org/index/cldr-spec/plural-rules - TODO: usage of 'none' isn't standard-conform
-      PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
+
       def pluralization_data?(data)
         keys = data.keys.map(&:to_s)
         keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
