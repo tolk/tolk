@@ -20,6 +20,7 @@ env:
   - RAILS_VERSION="~> 4.1.0"
   - RAILS_VERSION="~> 4.2.0"
   - RAILS_VERSION="~> 5.0.0"
+  - RAILS_VERSION="~> 5.1.0"
 
 matrix:
   exclude:
