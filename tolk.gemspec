@@ -22,10 +22,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rails', '>= 4.0'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
 
-  s.add_development_dependency 'capybara', '~> 2.4.4'
+  s.add_development_dependency 'capybara', '~> 2.14'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'mocha', '>= 1.0'
-  s.add_development_dependency 'selenium-webdriver'
+  s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'will_paginate'
 
 
