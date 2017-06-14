@@ -46,7 +46,7 @@ module Tolk
     end
 
     def text=(value)
-      value = value.to_s if value.kind_of?(Fixnum)
+      value = value.to_s if value.kind_of?(Integer)
       if primary_translation && primary_translation.boolean?
         value = case value.to_s.downcase.strip
         when 'true', 't'
