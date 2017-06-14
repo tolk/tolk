@@ -162,3 +162,8 @@ Tolk speaks YAML for non strings values. If you want to enter a nil values, you 
 ```
 
 And Tolk will take care of generating the appropriate entry in the YAML file.
+
+
+# Launch test locally
+
+bin/rails test
