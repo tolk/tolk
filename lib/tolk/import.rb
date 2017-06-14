@@ -49,7 +49,7 @@ module Tolk
 
     def read_locale_file
       locale_file = "#{self.locales_config_path}/#{self.name}.yml"
-      raise "Locale file #{locale_file} does not exists" unless File.exists?(locale_file)
+      raise "Locale file #{locale_file} does not exists" unless File.exist?(locale_file)
 
       puts "[INFO] Reading #{locale_file} for locale #{self.name}"
       begin

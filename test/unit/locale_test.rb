@@ -85,7 +85,7 @@ class LocaleTest < ActiveSupport::TestCase
       end
 
       # Make sure dump doesn't generate en.yml
-      assert ! File.exists?(Rails.root.join("../../tmp/locales/en.yml"))
+      assert ! File.exist?(Rails.root.join("../../tmp/locales/en.yml"))
     ensure
       FileUtils.rm_rf(Rails.root.join("../../tmp/locales"))
     end
