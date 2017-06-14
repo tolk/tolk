@@ -20,7 +20,9 @@ class AuthenticationTest < ActionDispatch::IntegrationTest
   end
 
   test "successful authentication" do
-    get '/tolk', nil, 'HTTP_AUTHORIZATION' => encode_credentials('lifo', 'pass')
+    env = Hash.new
+    env['HTTP_AUTHORIZATION'] = encode_credentials('lifo', 'pass')
+    get '/tolk', params: nil, env: env
     assert_response :success
   end
 
