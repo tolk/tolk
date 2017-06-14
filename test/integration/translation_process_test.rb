@@ -25,14 +25,14 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
 
     # Updating the translation added above
     click_link 'See completed translations'
-    assert page.has_content?("Dead men don't bite")
+    assert page.has_text?(:all, "Dead men don't bite")
 
     fill_in_first_translation :with => "Arrrr!"
     click_button 'Save changes'
 
     assert_equal current_path, tolk.all_locale_path(locale)
     assert_equal 1, locale.translations.count
-    assert_equal 'Arrrr!', locale.translations(true).first.text
+    assert_equal 'Arrrr!', locale.translations.reload.first.text
   end
 
   def test_search_phrase_within_key

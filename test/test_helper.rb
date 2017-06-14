@@ -18,4 +18,7 @@ ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 
 # Configure capybara for integration testing
 Capybara.default_driver   = :poltergeist
-Capybara.default_selector = :css
+options = {js_errors: false}
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, options)
+end
