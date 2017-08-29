@@ -11,7 +11,7 @@ $(function () {
   }));
 
   // Google Translate action
-  $('document').live('click', '.gtranslate', (function (e) {
+  $(document).live('click', '.gtranslate', (function (e) {
     console.log('called GT action')
     e.preventDefault();
 
