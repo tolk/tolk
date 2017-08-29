@@ -1,17 +1,17 @@
 $(function () {
 
   // Copy text action
-  $(".translations.actions.copy").click(function (e) {
+  $(document).on('click', '.translations .actions .copy', (function (e) {
     e.preventDefault();
 
     var row = $(this).parents("tr")
       , original_text = row.find(".original textarea").val();
 
     row.find(".translation textarea").val(original_text.trim()).trigger("change");
-  });
+  }));
 
   // Google Translate action
-  $(document).on('click', '.translations .actions . gtranslate', (function (e) {
+  $(document).on('click', '.translations .actions .gtranslate', (function (e) {
     console.log('called GT action')
     e.preventDefault();
 
