@@ -1,7 +1,7 @@
 $(function () {
 
   // Copy text action
-  $(document).on('click', '.copy', (function (e) {
+  $(document).live('click', '.copy', (function (e) {
     e.preventDefault();
 
     var row = $(this).parents("tr")
@@ -11,7 +11,7 @@ $(function () {
   }));
 
   // Google Translate action
-  $(document).on('click', '.gtranslate', (function (e) {
+  $('document').live('click', '.gtranslate', (function (e) {
     console.log('called GT action')
     e.preventDefault();
 
