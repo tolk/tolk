@@ -1,7 +1,7 @@
 $(function () {
 
   // Copy text action
-  $(document).live('click', '.copy', (function (e) {
+  $(document).on('click', '.copy', (function (e) {
     e.preventDefault();
 
     var row = $(this).parents("tr")
@@ -10,29 +10,25 @@ $(function () {
     row.find(".translation textarea").val(original_text.trim()).trigger("change");
   }));
 
-  // Google Translate action
-  $(document).live('click', '.gtranslate', (function (e) {
-    console.log('called GT action')
+  // Google Translate action (NEW)
+  $(document).on('click', '.gtranslate', (function (e) {
     e.preventDefault();
 
-    var row = $(this).parents("tr")
-      , origText = row.find(".original textarea").val()
+    var origText = $(this).parents("tr").find(".original textarea").val()
       , origLang = 'en'
-      , destLang = func() {
+      , destLang = function() {
       var url = window.location.pathname;
-      return url.substr(url.length-1);
+      return url.substr(url.length-3).slice(0,2);
     };
 
-    function gTranslate(text) {
+    destText = function() {
       var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
       + 'en' + "&tl=" + destLang + "&dt=t&q=" + encodeURI(origText);
       var response = $.getJSON(url);
-      return response;
+      return response[0][0][0];
     };
 
-    destText = gTranslate(origText);
-    row.find(".translation textarea").val(destText.trim()).trigger("change");
-    console.log('completed GT action')
+    $(this).parents('tr').find(".translation textarea").val(destText.trim()).trigger("change");
   }));
 
   // avoid lose data
