@@ -33,7 +33,7 @@
             <td class="actions">
               <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
               <span class="warning" title="Interpolation keys don't match">⚠</span>
-              <a class="gtranslate" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate">&clubs;</a><br>
+              <a class="gtranslate" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate"><%= image_tag "google_icon.png" %></a><br>
             </td>
             <td class="original">
               <%= text_area_tag :"translations[][original_text]", format_i18n_text_area_value(phrase.translations.primary.text), :disabled => true %>
