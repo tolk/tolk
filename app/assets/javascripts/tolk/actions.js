@@ -1,7 +1,7 @@
 $(function () {
 
   // Copy text action
-  $(document).on('click', '.copy', (function (e) {
+  $('.translations .actions .copy').click(function (e) {
     e.preventDefault();
 
     var row = $(this).parents("tr")
@@ -11,15 +11,11 @@ $(function () {
   }));
 
   // Google Translate action (NEW)
-  $(document).on('click', '.gtranslate', (function (e) {
+  $('.gtranslate').click(function (e) {
     e.preventDefault();
 
-    var origText = $(this).parents("tr").find(".original textarea").val()
-      , origLang = 'en'
-      , destLang = function() {
-      var url = window.location.pathname;
-      return url.substr(url.length-3).slice(0,2);
-    };
+    var origText = $(this).parent(".actions").next('.original').find("textarea").val();
+    var destLang = $(this).data('locale');
 
     destText = function() {
       var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
@@ -29,7 +25,7 @@ $(function () {
     };
 
     $(this).parents('tr').find(".translation textarea").val(destText.trim()).trigger("change");
-  }));
+  });
 
   // avoid lose data
   $(".translations textarea").bind("keydown", function () {
