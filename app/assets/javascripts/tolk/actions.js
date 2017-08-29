@@ -11,7 +11,7 @@ $(function () {
   });
 
   // Google Translate action
-  $(".translations.actions.gtranslate").click(function (e) {
+  $(document).on('click', '.translations .actions . gtranslate', (function (e) {
     console.log('called GT action')
     e.preventDefault();
 
@@ -33,7 +33,7 @@ $(function () {
     destText = gTranslate(origText);
     row.find(".translation textarea").val(destText.trim()).trigger("change");
     console.log('completed GT action')
-  });
+  }));
 
   // avoid lose data
   $(".translations textarea").bind("keydown", function () {
