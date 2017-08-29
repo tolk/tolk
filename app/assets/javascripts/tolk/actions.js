@@ -1,13 +1,27 @@
 $(function () {
 
   // Copy text action
-  $(".translations .actions .copy").click(function (e) {
+  $('.translations .actions .copy').click(function (e) {
     e.preventDefault();
 
     var row = $(this).parents("tr")
       , original_text = row.find(".original textarea").val();
 
     row.find(".translation textarea").val(original_text.trim()).trigger("change");
+  });
+
+  // Google Translate action (NEW)
+  $('.gtranslate').click(function (e) {
+    e.preventDefault();
+
+    var origText = $(this).parent(".actions").next('.original').find("textarea").val();
+    var destLang = $(this).data('locale');
+    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+ destLang + "&dt=t&q=" + encodeURI(origText);
+    var self = this;
+    $.getJSON(url, function(data) {
+      var destText = data[0][0][0];
+      $(self).parents('tr').find(".translation textarea").val(destText);
+    });
   });
 
   // avoid lose data
