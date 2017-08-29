@@ -16,15 +16,12 @@ $(function () {
 
     var origText = $(this).parent(".actions").next('.original').find("textarea").val();
     var destLang = $(this).data('locale');
-
-    destText = function() {
-      var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl="
-      + 'en' + "&tl=" + destLang + "&dt=t&q=" + encodeURI(origText);
-      var response = $.getJSON(url);
-      return response[0][0][0];
-    };
-
-    $(this).parents('tr').find(".translation textarea").val(destText.trim()).trigger("change");
+    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+ destLang + "&dt=t&q=" + encodeURI(origText);
+    var self = this;
+    $.getJSON(url, function(data) {
+      var destText = data[0][0][0];
+      $(self).parents('tr').find(".translation textarea").val(destText);
+    });
   });
 
   // avoid lose data
