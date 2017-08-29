@@ -8,7 +8,7 @@ $(function () {
       , original_text = row.find(".original textarea").val();
 
     row.find(".translation textarea").val(original_text.trim()).trigger("change");
-  }));
+  });
 
   // Google Translate action (NEW)
   $('.gtranslate').click(function (e) {
