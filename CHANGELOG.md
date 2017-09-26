@@ -1,36 +1,35 @@
 * Tolk 3.0.0
- * All tests passes
- * Remove support for ruby < 2.2.2
- * Remove support for ruby < 5.0
- # Rails 5.1 compatibility
-
-
+  * All tests passes
+  * Remove support for ruby < 2.2.2
+  * Remove support for rails < 5.0
+  * Rails 5.1 compatibility
+  
 * Tolk 2.0.0
- * Release
+  * Release
 
 * Tolk 2.0.0-pre
- * Rails 5.0 support @dnrce, @NomNomCameron
- * Drop ruby 1.9.3
+  * Rails 5.0 support @dnrce, @NomNomCameron
+  * Drop ruby 1.9.3
 
 * Tolk 1.9.3
- * Fix for a wrong order of requires (@wpp)
+  * Fix for a wrong order of requires (@wpp)
 
 * Tolk 1.9.2
- * Fix for initializer in the gemfile (@lime)
+  * Fix for initializer in the gemfile (@lime)
 
 * Tolk 1.9.0
- * Allow not to sync files of type devise.fr.yml (only translate your work via tolk)
+  * Allow not to sync files of type devise.fr.yml (only translate your work via tolk)
 
 * Tolk 1.8.1
- * Backport for fix #108 (@lime)
+  * Backport for fix #108 (@lime)
 
 * Tolk 1.8.0
- * Allow to exclude locales from other gems in config ! (@tsai146)
- * Make Tolk able to use either Kaminari or will_paginate (@lime)
+  * Allow to exclude locales from other gems in config ! (@tsai146)
+  * Make Tolk able to use either Kaminari or will_paginate (@lime)
 
 * Tolk 1.7.0
- * Rails 4.2 compatibility (@dnrce)
- * Fixed parameter handling in dump_yaml task (@grk)
+  * Rails 4.2 compatibility (@dnrce)
+  * Fixed parameter handling in dump_yaml task (@grk)
 
 * Tolk 1.6.0
   * Rails 4.2 beta compatibility (@cnrce)
