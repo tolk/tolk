@@ -1,3 +1,7 @@
+* Tolk 3.0.1
+  * Rails 5.1 enhanced compatibility (@sgrosse)
+
+
 * Tolk 3.0.0
   * All tests passes
   * Remove support for ruby < 2.2.2
