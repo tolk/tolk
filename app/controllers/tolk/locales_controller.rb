@@ -17,7 +17,7 @@ module Tolk
 
         format.yaml do
           data = @locale.to_hash
-          render :text => Tolk::YAML.dump(data)
+          render :plain => Tolk::YAML.dump(data)
         end
 
       end
