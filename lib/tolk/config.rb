@@ -23,6 +23,9 @@ module Tolk
       # strip translation texts automatically
       attr_accessor :strip_texts
 
+      # specify line width which Yaml.dump will use to break lines. -1 for not breaking
+      attr_accessor :yaml_line_width
+
       def reset
         @exclude_gems_token = false
 
@@ -78,6 +81,8 @@ module Tolk
           'zh-CN' => 'Chinese (Simplified)',
           'zh-TW' => 'Chinese (Traditional)'
         }
+
+        @yaml_line_width = Psych::Handler::OPTIONS.line_width # Psych::Handler::DumperOptions uses 0 as "default" for unset
       end
     end
 

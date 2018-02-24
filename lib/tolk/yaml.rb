@@ -22,7 +22,7 @@ module Tolk
       if payload.respond_to?(:ya2yaml)
         payload.ya2yaml(:syck_compatible => true)
       else
-        ::YAML.dump(payload)
+        ::YAML.dump(payload, line_width: Tolk::Config.yaml_line_width)
       end
     end
   end
