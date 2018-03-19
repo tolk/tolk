@@ -1,3 +1,8 @@
+* Tolk 3.0.2 (unreleased)
+  * Allow configuration of line width for dumps via Tolk::Config.yaml_line_width (@madis)
+  * Fix an n+1 query (@gisliorn)
+  * Make tests pass
+
 * Tolk 3.0.1
   * Rails 5.1 enhanced compatibility (@sgrosse)
 
@@ -7,7 +12,7 @@
   * Remove support for ruby < 2.2.2
   * Remove support for rails < 5.0
   * Rails 5.1 compatibility
-  
+
 * Tolk 2.0.0
   * Release
 

@@ -1,10 +1,13 @@
 ---
-da:
-  cozy: Hyggeligt
-  hello_world: Hej Verden
-  nested:
-    hello_world: Nedarvet Hej Verden
-  number:
-    currency:
-      format:
-        significant: true
+"da":
+  "cozy": >-
+    Hyggeligt
+  "hello_world": >-
+    Hej Verden
+  "nested":
+    "hello_world": >-
+      Nedarvet Hej Verden
+  "number":
+    "currency":
+      "format":
+        "significant": true

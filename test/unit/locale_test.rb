@@ -11,18 +11,18 @@ class LocaleTest < ActiveSupport::TestCase
     assert_equal({ "en" => {
       "hello_world" => "Hello World",
       "nested" => {
-        "hello_world" => "Nested Hello World",
-        "hello_country" => "Nested Hello Country"
+        "hello_country" => "Nested Hello Country",
+        "hello_world" => "Nested Hello World"
       },
       "number" => {
-        "human" => {
-          "format" => {
-            "precision" => 1
-          }
-        },
         "currency" => {
           "format" => {
             "significant" => false
+          }
+        },
+        "human" => {
+          "format" => {
+            "precision" => "1"
           }
         }
       }
