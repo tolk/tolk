@@ -80,8 +80,8 @@ class LocaleTest < ActiveSupport::TestCase
 
       %w( da se ).each do |locale|
         assert_equal \
-          File.read(Rails.root.join("../locales/basic/#{locale}.yml")),
-          File.read(Rails.root.join("../../tmp/locales/#{locale}.yml"))
+          SafeYAML.load_file(Rails.root.join("../locales/basic/#{locale}.yml")),
+          SafeYAML.load_file(Rails.root.join("../../tmp/locales/#{locale}.yml"))
       end
 
       # Make sure dump doesn't generate en.yml
