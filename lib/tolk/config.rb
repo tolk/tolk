@@ -26,6 +26,10 @@ module Tolk
       # specify line width which Yaml.dump will use to break lines. -1 for not breaking
       attr_accessor :yaml_line_width
 
+      # specify controller to inherit from to keep Tolk controllers
+      # in the same context than the rest of your app
+      attr_accessor :base_controller
+
       def reset
         @exclude_gems_token = false
 
@@ -83,6 +87,8 @@ module Tolk
         }
 
         @yaml_line_width = Psych::Handler::OPTIONS.line_width # Psych::Handler::DumperOptions uses 0 as "default" for unset
+
+        @base_controller =  'ActionController::Base'
       end
     end
 
