@@ -8,5 +8,6 @@ class ConfigTest < ActiveSupport::TestCase
     assert Tolk.config.mapping.keys.include?('ar')
     assert_equal 'Arabic',Tolk.config.mapping['ar']
     assert_equal true, Tolk.config.strip_texts
+    assert_equal 'ActionController::Base', Tolk.config.base_controller
   end
 end
