@@ -1,0 +1,26 @@
+<nav>
+  <%
+    if controller_name == "locales"
+      if action_name == "show"
+        current = 'missing'
+      else
+        current = 'completed'
+      end
+    else
+      current = 'search'
+    end
+    phrases_without_translation_count = @locale.count_phrases_without_translation
+    completed_translations_count = Tolk::Phrase.count - phrases_without_translation_count
+  %>
+  <a href="<%= locale_path(@locale) %>" <% if current == 'missing' %>class="current"<% end %>>
+    Phrases missing translation
+    <span class="nav__badge"><%= phrases_without_translation_count %></span>
+  </a>
+  <a href="<%= all_locale_path(@locale) %>" <% if current == 'completed' %>class="current"<% end %>>
+    Completed translations
+    <span class="nav__badge"><%= completed_translations_count %></span>
+  </a>
+  <a href="<%= search_path(tolk_locale: @locale, scope: 'origin') %>" <% if current == 'search' %>class="current"<% end %>>
+    Search
+  </a>
+</nav>
