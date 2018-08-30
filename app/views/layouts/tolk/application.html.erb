@@ -18,6 +18,10 @@
     <%= yield %>
   </div>
 
+  <script type='text/javascript'>
+    window.googleApiKey = '<%= ENV['GOOGLE_API_KEY'] %>';
+  </script>
+  <script src="https://apis.google.com/js/platform.js?onload=init"></script>
   <%= javascript_include_tag "tolk/libraries" %>
   <%= javascript_include_tag "tolk/application" %>
 </body>
