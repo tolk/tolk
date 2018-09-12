@@ -18,7 +18,9 @@
           / <%= link_to @locale.language_name, locale_path(@locale) %>
         <% end %>
       </h1>
-      <%= button_to "Apply Changes", dump_all_locales_path, method: :post, class: "btn btn--large" %>
+      <% if action_name == 'index' %>
+        <%= button_to "Apply Changes", dump_all_locales_path, method: :post, class: "btn btn--large" %>
+      <% end %>
     </header>
     <main>
       <%= yield %>
