@@ -19,7 +19,7 @@ $(function () {
     window.onbeforeunload = confirm;
   });
 
-  $("input.save, input.apply").click(function () {
+  $("input.save-translations").click(function () {
     window.onbeforeunload = null;
   });
 

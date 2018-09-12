@@ -1,31 +1,48 @@
-<h2>Locales <span>Primary locale is <%= Tolk::Locale.primary_locale.language_name %></span></h2>
+<h2>
+  Locales
+  <small>(Primary locale is <%= Tolk::Locale.primary_locale.language_name %>)</small>
+</h2>
+
 <% if @locales.any? %>
-  <ul class="locales clearfix">
+  <ul class="locales-list">
     <% @locales.each do |locale| %>
       <li>
-        <%= link_to locale.language_name, locale %>
-        <% missing_count = locale.count_phrases_without_translation %>
-        <% if missing_count > 0 %>
-          <span class="missing_translations"><%= missing_count %></span>
-        <% end %>
+        <a href="<%= locale_path(locale) %>">
+          <span><%= locale.language_name %></span>
+          <% missing_count = locale.count_phrases_without_translation %>
+          <% if missing_count > 0 %>
+            <em class="missing_translations"><%= missing_count %></em>
+          <% end %>
+          <% if locale.has_updated_translations? %>
+            <em class="updated_translations" title="Some phrases have changed">⚠</em>
+          <% end %>
+        </a>
       </li>
     <% end %>
+    <li>
+      <%= form_for(Tolk::Locale.new) do |f| %>
+        <p>
+          <select name="tolk_locale[name]">
+            <%= options_for_select tolk_locale_selection %>
+          </select>
+          <%= f.submit '+ Add', class: 'btn' %>
+        </p>
+      <% end %>
+    </li>
   </ul>
-  
 <% else %>
-  <p>No locales yet.</p>
-
+  <div class="empty-state">
+    <%= render 'tolk/empty.svg' %>
+    <p class="empty-state__msg">
+      No locales yet, add one:
+    </p>
+    <%= form_for(Tolk::Locale.new) do |f| %>
+      <p>
+        <select name="tolk_locale[name]">
+          <%= options_for_select tolk_locale_selection %>
+        </select>
+        <%= f.submit '+ Add', class: 'btn' %>
+      </p>
+    <% end %>
+  </div>
 <% end %>
-<%= form_for(Tolk::Locale.new) do |f| %>
-<div class="submit">
-  <p>
-    <%= f.label "Add a new Locale" %>
-    <select id="select_tolk_locale_name" name="tolk_locale[name]">
-      <%= options_for_select tolk_locale_selection %>
-    </select>
-    <%= f.submit 'Add' %>
-  </p>
-</div>
-<% end %>
-
-

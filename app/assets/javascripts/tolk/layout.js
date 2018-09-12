@@ -2,7 +2,7 @@ $(function () {
 
   // Fit text area height
   $('.translations textarea').each(function () {
-    $(this).css({ height: $(this).parent('td').css('height')});
+    $(this).css({ height: $(this).parent('td').height()});
   });
 
   // Mark active textarea
