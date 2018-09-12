@@ -1,3 +1,6 @@
+* Tolk 3.1.0
+  * Much refreshed UI ! (@jmvallet)
+
 * Tolk 3.0.2
   * Allow configuration of line width for dumps via Tolk::Config.yaml_line_width (@madis)
   * Fix an n+1 query (@gisliorn)
