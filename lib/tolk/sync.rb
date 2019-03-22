@@ -63,24 +63,26 @@ module Tolk
         primary_locale = self.primary_locale
 
         # Handle deleted phrases
-        translations.present? ? Tolk::Phrase.where(["tolk_phrases.key NOT IN (?)", translations.keys]).destroy_all : Tolk::Phrase.destroy_all
+        Tolk::Phrase.where.not(:key => translations.keys).destroy_all
 
-        phrases = Tolk::Phrase.all
+        phrases_by_key = Tolk::Phrase.all.index_by(&:key)
+        primary_translation_by_phrase_id = primary_locale.translations.index_by(&:phrase_id)
 
         translations.each do |key, value|
           next if value.is_a?(Proc)
           # Create phrase and primary translation if missing
-          existing_phrase = phrases.detect {|p| p.key == key} || Tolk::Phrase.create!(:key => key)
-          translation = existing_phrase.translations.primary || primary_locale.translations.build(:phrase_id => existing_phrase.id)
+          phrase = phrases_by_key[key] || Tolk::Phrase.create!(:key => key)
+          translation = primary_translation_by_phrase_id[phrase.id]
+          translation ||= primary_locale.translations.build(:phrase => phrase)
           translation.text = value
 
           if translation.changed? && !translation.new_record?
             # Set the primary updated flag if the primary translation has changed and it is not a new record.
-            existing_phrase.translations.where(Tolk::Translation.arel_table[:locale_id].not_eq(primary_locale.id)).update_all({ :primary_updated => true })
+            phrase.translations.where.not(:locale_id => primary_locale.id).update_all({ :primary_updated => true })
           end
 
           translation.primary = true
-          translation.save!
+          translation.save! if translation.changed?
         end
       end
 
