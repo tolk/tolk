@@ -224,4 +224,16 @@ class SyncTest < ActiveSupport::TestCase
   ensure
     FileUtils.rm_f(tmpdir)
   end
+
+  def test_sync_ignore_keys
+    Tolk.config.ignore_keys = %w[ignored nested.ignored]
+
+    Tolk::Locale.sync!
+
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'ignored'}
+    assert_nil phrase
+
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'nested.ignored'}
+    assert_nil phrase
+  end
 end
