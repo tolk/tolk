@@ -30,6 +30,9 @@ module Tolk
       # in the same context than the rest of your app
       attr_accessor :base_controller
 
+      # Ignore specific keys
+      attr_accessor :ignore_keys
+
       def reset
         @exclude_gems_token = false
 
@@ -89,6 +92,8 @@ module Tolk
         @yaml_line_width = Psych::Handler::OPTIONS.line_width # Psych::Handler::DumperOptions uses 0 as "default" for unset
 
         @base_controller =  'ActionController::Base'
+
+        @ignore_keys = []
       end
     end
 
