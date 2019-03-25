@@ -1,3 +1,6 @@
+* Not released
+  * Faster sync ! (@printercu)
+
 * Tolk 3.1.0
   * Much refreshed UI ! (@jmvallet)
 
