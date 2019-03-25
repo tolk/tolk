@@ -99,7 +99,7 @@ module Tolk
 
         regexp = Regexp.new(/\A#{ignored_escaped.join('|')}/)
 
-        flat_hash.reject { |key, _| regexp.match?(key) }
+        flat_hash.reject { |key, _| regexp === key }
       end
     end
   end
