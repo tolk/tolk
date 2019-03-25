@@ -1,4 +1,4 @@
-* Not released
+* Tolk 3.2.0
   * Faster sync ! (@printercu)
   * Allow to ignore keys (@rikas)
 
