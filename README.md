@@ -106,6 +106,9 @@ Tolk.config do |config|
 
   config.strip_texts = false
   # Don't strip translation texts automatically
+  
+  config.ignore_keys = ['faker', 'devise']
+  # Ignore all faker.* and devise.* keys
 end
 ```
 
