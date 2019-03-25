@@ -10,11 +10,11 @@ before_script:
 
 rvm:
   - 2.2.2
-  - 2.4.0
+  - 2.6.2
 
 env:
   - RAILS_VERSION="~> 5.0.0"
-  - RAILS_VERSION="~> 5.1.0"
+  - RAILS_VERSION="~> 5.2.2"
 
 matrix:
   exclude:
