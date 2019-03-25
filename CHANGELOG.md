@@ -1,5 +1,6 @@
 * Not released
   * Faster sync ! (@printercu)
+  * Allow to ignore keys (@rikas)
 
 * Tolk 3.1.0
   * Much refreshed UI ! (@jmvallet)
