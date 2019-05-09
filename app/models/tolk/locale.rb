@@ -92,7 +92,7 @@ module Tolk
     end
 
     def count_phrases_without_translation
-      existing_ids = self.translations.pluck(&:phrase_id).uniq
+      existing_ids = self.translations.pluck(:phrase_id).uniq
       Tolk::Phrase.count - existing_ids.count
     end
 
