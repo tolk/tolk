@@ -16,6 +16,7 @@ $(function () {
 
     var origText = $(this).parent(".actions").next('.original').find("textarea").val();
     var destLang = $(this).data('locale');
+    if(destLang === 'es-CO') { destLang = 'es'; }
     var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+ destLang + "&dt=t&q=" + encodeURI(origText);
     var self = this;
     $.getJSON(url, function(data) {
