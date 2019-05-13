@@ -1,5 +1,7 @@
 $(function () {
 
+  gapi.load('client');
+
   // Copy text action
   $('.translations .actions .copy').click(function (e) {
     e.preventDefault();
@@ -17,11 +19,21 @@ $(function () {
     var origText = $(this).parent(".actions").next('.original').find("textarea").val();
     var destLang = $(this).data('locale');
     if(destLang === 'es-CO') { destLang = 'es'; }
-    var url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="+ destLang + "&dt=t&q=" + encodeURI(origText);
     var self = this;
-    $.getJSON(url, function(data) {
-      var destText = data[0][0][0];
+    gapi.client.init({
+      'apiKey': window.googleApiKey,
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/translate/v2/rest'],
+    }).then(function() {
+      return gapi.client.language.translations.list({
+        q: origText,
+        source: 'en',
+        target: destLang,
+      });
+    }).then(function(response) {
+      var destText = response.result.data.translations[0].translatedText;
       $(self).parents('tr').find(".translation textarea").val(destText);
+    }, function(reason) {
+      console.warn('Error: ' + reason.result.error.message);
     });
   });
 
