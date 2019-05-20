@@ -92,7 +92,7 @@ Tolk.config do |config|
   # exclude locales tokens from gems.
 
   config.block_xxx_en_yml_locale_files = true
-  # reject files of type xxx.en.yml when syncing locales.
+  # reject files of type xxx.<locale>.yml when syncing locales.
 
   config.dump_path = '/new/path'
   # Dump locale path by default the locales folder (config/locales).
