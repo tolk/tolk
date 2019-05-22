@@ -1,5 +1,5 @@
 * Tolk 3.2.1
-  * Move Lucida Sans Unicode as initial font choice and remove non-unicode version (@marcindrozd)
+  * Update fonts used to unicode supporting ones and remove non-unicode version (@marcindrozd)
 
 * Tolk 3.2.0
   * Faster sync ! (@printercu)
