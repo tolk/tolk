@@ -1,3 +1,6 @@
+* Tolk 3.2.1
+  * Update fonts used to unicode supporting ones and remove non-unicode version (@marcindrozd)
+
 * Tolk 3.2.0
   * Faster sync ! (@printercu)
   * Allow to ignore keys (@rikas)
