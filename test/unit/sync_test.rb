@@ -226,7 +226,7 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_ignore_keys
-    Tolk.config.ignore_keys = %w[ignored nested.ignored]
+    Tolk.config.ignore_keys = %w[anytingbefore ignored nested.ignored]
 
     Tolk::Locale.sync!
 
@@ -235,5 +235,8 @@ class SyncTest < ActiveSupport::TestCase
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'nested.ignored'}
     assert_nil phrase
+
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'includesignored'}
+    assert_equal 'includesignored', phrase.key
   end
 end
