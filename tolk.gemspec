@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'sass'
 
   s.add_development_dependency 'capybara', '~> 2.14'
-  s.add_development_dependency 'sqlite3', '1.3.13'
+  s.add_development_dependency 'sqlite3', '1.4.2'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'will_paginate'
