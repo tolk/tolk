@@ -9,4 +9,4 @@ en:
   ignored: This should be ignored
   ignorednested:
     nested: This should be ignored
-  notignored: This should not be ignored
+  not_ignored: This should not be ignored

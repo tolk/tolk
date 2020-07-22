@@ -239,7 +239,7 @@ class SyncTest < ActiveSupport::TestCase
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'ignorednested.ignored'}
     assert_nil phrase
 
-    phrase = Tolk::Phrase.all.detect {|p| p.key == 'notignored'}
-    assert_equal 'notignored', phrase.key
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'not_ignored'}
+    assert_equal 'not_ignored', phrase.key
   end
 end
