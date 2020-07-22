@@ -1,3 +1,8 @@
+* Tolk 4.0
+  * New regex to have more consistent ignored_keys (@schnika)
+  * Request ruby 2.5 as 2.4 is EOL
+
+
 * Tolk 3.2.1
   * Update fonts used to unicode supporting ones and remove non-unicode version (@marcindrozd)
 
