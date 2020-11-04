@@ -27,7 +27,7 @@ module Tolk
     include Tolk::Sync
     include Tolk::Import
 
-    validates_uniqueness_of :name
+    validates_uniqueness_of :name, case_sensitive: false
     validates_presence_of :name
 
     cattr_accessor :special_prefixes
