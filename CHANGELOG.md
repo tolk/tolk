@@ -1,4 +1,7 @@
 * Tolk 4.0
+  * Avoid a case_sensitive rails 6 deprecation warning
+
+* Tolk 4.0
   * New regex to have more consistent ignored_keys (@schnika)
   * Request ruby 2.5 as 2.4 is EOL
   * Minimum rails version 5.2
