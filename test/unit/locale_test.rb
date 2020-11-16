@@ -22,7 +22,7 @@ class LocaleTest < ActiveSupport::TestCase
         },
         "human" => {
           "format" => {
-            "precision" => "1"
+            "precision" => 1
           }
         }
       }

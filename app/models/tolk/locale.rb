@@ -153,14 +153,14 @@ module Tolk
     end
 
     def to_hash
-      data = translations.joins(:phrase).order("tolk_phrases.key ASC").pluck("tolk_phrases.key, text").
-      each_with_object(Hash.new(0)) do |translation, locale|
-        if translation[0].include?(".")
-          locale.deep_merge!(unsquish(translation[0], translation[1]))
-        else
-          locale[translation[0]] = translation[1]
+      data = translations.includes(:phrase).references(:phrases).order(phrases.arel_table[:key]).
+        each_with_object({}) do |translation, locale|
+          if translation.phrase.key.include?(".")
+            locale.deep_merge!(unsquish(translation.phrase.key, translation.value))
+          else
+            locale[translation.phrase.key] = translation.value
+          end
         end
-      end
       { name => data }
     end
 
