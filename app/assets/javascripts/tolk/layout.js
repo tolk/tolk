@@ -14,4 +14,11 @@ $(function () {
     $(this).parents("tr").toggleClass('active');
   });
 
+  $("#limit_select").change(function () {
+    var limit = $(this).val();
+    var href = window.location.href.split("?")[0];
+    href += "?limit="
+    href += limit
+    window.location.href = href
+  })
 });

@@ -7,3 +7,5 @@ test/dummy/log/*
 test/dummy/tmp/*
 Gemfile.lock
 .ruby-version
+
+.idea/

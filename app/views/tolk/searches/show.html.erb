@@ -1,6 +1,7 @@
 <h3 class="search">
   <%= render :partial => "form", :locals => { :locale => @locale } %>
 </h3>
+<%= render :partial => "tolk/locales/gtranslate_all" %>
 
 <div class="search_exits">
   <%= link_to "Phrases missing translation", @locale %>
@@ -29,7 +30,7 @@
               </td>
               <td class="actions">
                 <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
-                <a class="gtranslate" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate"><%= image_tag "https://d1lfff0eu0tys6.cloudfront.net/google_icon.png", width: 16, height: 16 %></a><br>
+                <a class="gtranslate js-gtranslate-single" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate"><%= image_tag "https://d1lfff0eu0tys6.cloudfront.net/google_icon.png", width: 16, height: 16 %></a><br>
                 <span class="warning" title="Interpolation keys don't match">⚠</span>
               </td>
               <td class="original">
@@ -55,7 +56,7 @@
       </div>
     <% end %>
     <div class="paginate">
-      <%= tolk_paginate @phrases %>
+      <%= tolk_paginate @phrases, params: { limit: @limit } %>
     </div>
   <% else %>
     <p style="text-align: left">No search results.</p>

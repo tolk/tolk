@@ -1,5 +1,6 @@
 module Tolk
   class LocalesController < Tolk::ApplicationController
+    before_action :set_limit, :only => [:show, :update]
     before_action :find_locale, :only => [:show, :all, :update, :updated]
     before_action :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
 
@@ -11,6 +12,8 @@ module Tolk
       respond_to do |format|
         format.html do
           @phrases = @locale.phrases_without_translation(params[pagination_param])
+                            .includes(:translations)
+                            .per(@limit)
         end
 
         format.atom { @phrases = @locale.phrases_without_translation(params[pagination_param]).per(50) }
@@ -81,5 +84,8 @@ module Tolk
       params.permit(translations: [:id, :phrase_id, :locale_id, :text])[:translations]
     end
 
+    def set_limit
+      @limit = params[:limit] || 30
+    end
   end
 end
