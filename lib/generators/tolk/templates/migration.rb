@@ -22,6 +22,7 @@ class CreateTolkTables < ActiveRecord::Migration
       t.boolean  :primary_updated, :default => false
       t.datetime :created_at
       t.datetime :updated_at
+      t.datetime :auto_generated_at
     end
 
     add_index :tolk_translations, [:phrase_id, :locale_id], :unique => true

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100409194926) do
+ActiveRecord::Schema.define(:version => 2021_02_18_144215) do
 
   create_table "tolk_locales", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20100409194926) do
     t.datetime "updated_at"
     t.boolean  "primary_updated", :default => false
     t.text     "previous_text"
+    t.datetime "auto_generated_at"
   end
 
   add_index "tolk_translations", ["phrase_id", "locale_id"], :name => "index_tolk_translations_on_phrase_id_and_locale_id", :unique => true

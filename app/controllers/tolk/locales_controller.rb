@@ -1,6 +1,6 @@
 module Tolk
   class LocalesController < Tolk::ApplicationController
-    before_action :set_limit, :only => [:show, :update]
+    before_action :set_limit, :only => [:show, :update, :all, :updated]
     before_action :find_locale, :only => [:show, :all, :update, :updated]
     before_action :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
 
@@ -33,11 +33,11 @@ module Tolk
     end
 
     def all
-      @phrases = @locale.phrases_with_translation(params[pagination_param])
+      @phrases = @locale.phrases_with_translation(params[pagination_param], @limit)
     end
 
     def updated
-      @phrases = @locale.phrases_with_updated_translation(params[pagination_param])
+      @phrases = @locale.phrases_with_updated_translation(params[pagination_param], @limit)
       render :all
     end
 
@@ -81,7 +81,7 @@ module Tolk
     end
 
     def translation_params
-      params.permit(translations: [:id, :phrase_id, :locale_id, :text])[:translations]
+      params.permit(translations: [:id, :phrase_id, :locale_id, :text, :auto_generated_at])[:translations]
     end
 
     def set_limit

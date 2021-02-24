@@ -22,7 +22,11 @@ $(function () {
     var self = this;
     gTranslate(origText, destLang).then(function(response) {
       var destText = response.result.data.translations[0].translatedText;
-      $(self).parents('tr').find(".translation textarea").val(destText);
+      var tr = $(self).parents('tr')
+      var textarea = tr.find(".translation textarea")
+      textarea.val(destText);
+      textarea.data("auto_generated_value", destText);
+      tr.find('[id$="auto_generated_at"]').val(new Date().toISOString());
     }, function(reason) {
       console.warn('Error: ' + reason.result.error.message);
     });
@@ -43,7 +47,7 @@ $(function () {
       var translations = response.result.data.translations;
       tbody.find("td.translation").each(function(index) {
         var newValueArea = $(this).find("textarea");
-        var originalValue = $(this).parent().find("td.original textarea").val();
+        var originalValue = texts[index];
 
         var value = translations[index].translatedText;
         if(newValueArea.val().length > 0 || // exclude already filled
@@ -51,7 +55,9 @@ $(function () {
           originalValue.indexOf("---") > -1) { // exclude --- one: ... other: ...
           return true;
         }
+        newValueArea.data("auto_generated_value", value);
         newValueArea.val(value);
+        newValueArea.parent().find('[id$="auto_generated_at"]').val(new Date().toISOString());
       })
     }, function(reason) {
       console.warn('Error: ' + reason.result.error.message);
@@ -65,6 +71,16 @@ $(function () {
 
   $(".translations textarea").bind("change", function () {
     window.onbeforeunload = confirm;
+  });
+
+  $(".translations textarea").bind("keyup", function () {
+    var newValue = $(this).val().trim();
+    var input = $(this).parent().find('[id$="auto_generated_at"]');
+    if(newValue.length > 0 && newValue === $(this).data("auto_generated_value")) {
+      input.val(new Date().toISOString());
+    } else {
+      input.val("");
+    }
   });
 
   $("input.save, input.apply").click(function () {

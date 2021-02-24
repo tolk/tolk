@@ -8,6 +8,12 @@
   <%= render :partial => "tolk/searches/form", :locals => { :locale => @locale } %>
 </div>
 
+<%= render :partial => "tolk/locales/gtranslate_all" %>
+
+<div class="select-tag limit-select">
+  Show <%= select_tag :limit, options_for_select([30, 60, 100], selected: @limit), id: "limit_select" %> translations per page
+</div>
+
 <div class="translations">
 <% if @phrases.any? %>
   <%= form_for @locale do |locale_form| %>
@@ -23,12 +29,13 @@
             <td class="translation">
               <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
               <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
+              <%= hidden_field_tag :"translations[][auto_generated_at]", phrase.translation.auto_generated_at, :id => "#{phrase.translation.object_id}_auto_generated_at" %>
               <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text), :class => 'locale',
                                 :onfocus => "$(this).up('tr').addClassName('active');", :onblur => "$(this).up('tr').removeClassName('active');" %>
             </td>
             <td class="actions">
               <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
-              <a class="gtranslate" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate"><%= image_tag "https://d1lfff0eu0tys6.cloudfront.net/google_icon.png", width: 16, height: 16 %></a><br>
+              <a class="gtranslate js-gtranslate-single" data-locale="<%= @locale.name %>" href="#" tabindex="-1" title="Use Google Translate"><%= image_tag "https://d1lfff0eu0tys6.cloudfront.net/google_icon.png", width: 16, height: 16 %></a><br>
               <span class="warning" title="Interpolation keys don't match">⚠</span>
             </td>
             <td class="original">
@@ -50,6 +57,10 @@
               <% end %>
 
               <span class="key"><%= phrase.key %></span>
+
+              <% if phrase.translation.auto_generated_at %>
+                <small>auto generated at: <%= l(phrase.translation.auto_generated_at, format: :long) %></small>
+              <% end %>
             </td>
           </tr>
         <% end %>
@@ -59,7 +70,7 @@
       <p><%= locale_form.submit "Save changes", :class => 'save' %></p>
     </div>
     <div class="paginate">
-      <%= tolk_paginate @phrases %>
+      <%= tolk_paginate @phrases, params: { limit: @limit } %>
     </div>
   <% end %>
 <% else %>
