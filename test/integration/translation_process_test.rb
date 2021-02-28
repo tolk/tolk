@@ -30,7 +30,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     fill_in_first_translation :with => "Arrrr!"
     click_button 'Save changes'
 
-    assert_equal current_path, tolk.all_locale_path(locale)
+    assert_equal current_path, tolk.completed_translations_locale_path(locale)
     assert_equal 1, locale.translations.count
     assert_equal 'Arrrr!', locale.translations.reload.first.text
   end

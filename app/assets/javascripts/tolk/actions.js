@@ -12,18 +12,19 @@ $(function () {
 
   // avoid lose data
   $(".translations textarea").bind("keydown", function () {
-    window.onbeforeunload = confirm;
+    window.onbeforeunload = showConfirm;
   });
 
   $(".translations textarea").bind("change", function () {
-    window.onbeforeunload = confirm;
+    window.onbeforeunload = showConfirm;
   });
 
-  $("input.save-translations").click(function () {
+  $(".save-translations").click(function () {
     window.onbeforeunload = null;
+    $("body form").submit();
   });
 
-  function confirm() {
+  function showConfirm() {
     return "You are leaving this page with non-saved data. Are you sure you want to continue?";
   }
 

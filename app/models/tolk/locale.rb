@@ -7,6 +7,10 @@ module Tolk
 
     self.table_name = "tolk_locales"
 
+    if defined?(ProtectedAttributes)
+      attr_accessible :name
+    end
+
     def self._dump_path
       # Necessary to acces rails.root at runtime !
       @dump_path ||= Tolk.config.dump_path.is_a?(Proc) ? instance_eval(&Tolk.config.dump_path) : Tolk.config.dump_path
@@ -16,7 +20,7 @@ module Tolk
     has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
 
     accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
-    before_validation :remove_invalid_translations_from_target, :on => :update
+    #before_validation :remove_invalid_translations_from_target, :on => :update
 
     cattr_accessor :locales_config_path
     self.locales_config_path = self._dump_path

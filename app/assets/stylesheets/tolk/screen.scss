@@ -399,7 +399,50 @@ div.translations {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .save-translations{
+      position: fixed;
+      left: 40px;
+      bottom: 40px;
+    }
+
+    .cancel-translations{
+      background-image: none;
+      background-color: #777;
+      position: fixed;
+      left: 180px;
+      bottom: 40px;
+      text-decoration: none;
+
+      &:hover{
+        color: white;
+      }
+    }
   }
+}
+
+.alert{
+  padding: 15px;
+  padding-right: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: 4px;
+}
+
+.alert-danger{
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.alert-success{
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
 }
 
 /**

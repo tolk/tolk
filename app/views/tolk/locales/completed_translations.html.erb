@@ -1,13 +1,13 @@
 <%= render 'tolk/nav' %>
 
 <% if @locale.has_updated_translations? %>
-  <% if action_name == 'updated' %>
+  <% if action_name == 'updated_translations' %>
     <div class="notice">
       ⚠ Some phrases have changed. Update translations below.
     </div>
   <% else %>
     <div class="notice">
-      ⚠ Some phrases have changed. <%= link_to "Update translations", tolk.updated_locale_path(@locale) %>.
+      ⚠ Some phrases have changed. <%= link_to "Update translations", tolk.updated_translations_locale_path(@locale) %>.
     </div>
   <% end %>
 <% end %>
@@ -16,9 +16,13 @@
   <%= render partial: "tolk/searches/form", locals: { locale: @locale } %>
 </div>
 
+<%= render partial: 'tolk/locales/flash_messages' %>
+
 <% if @phrases.any? %>
   <div class="translations">
     <%= form_for @locale do |locale_form| %>
+      <input type="hidden" name="form_name" value="<%= params[:form_name].presence || 'completed_translations' %>" />
+
       <table>
         <thead>
           <tr>
@@ -27,36 +31,51 @@
             <th><%= Tolk::Locale.primary_language_name -%></th>
           </tr>
         </thead>
+
         <tbody>
           <% @phrases.each do |phrase| %>
             <% if phrase.translations.primary %>
+              <% if action_name == "update" %>
+                <% translations_attributes = params.dig(:tolk_locale, :translations_attributes) %>
+                <% if translations_attributes %>
+                  <% found = translations_attributes.to_unsafe_h.values.detect{|x| x["id"] == phrase.translation.id.to_s} %>
+                  <% if found %>
+                    <% phrase.translation.text = found["text"] %>
+                  <% end %>
+                <% end %>
+              <% end %>
+
               <tr>
                 <td class="translation">
-                  <%= hidden_field_tag :"translations[][id]", phrase.translation.id %>
-                  <%= hidden_field_tag :"translations[][locale_id]", phrase.translation.locale_id %>
-                  <%= text_area_tag :"translations[][text]", format_i18n_text_area_value(phrase.translation.text),
+                  <%= hidden_field_tag "tolk_locale[translations_attributes][#{phrase.translation.id}][id]", phrase.translation.id %>
+                  <%= hidden_field_tag "tolk_locale[translations_attributes][#{phrase.translation.id}][locale_id]", phrase.translation.locale_id %>
+                  <%= text_area_tag "tolk_locale[translations_attributes][#{phrase.translation.id}][text]", format_i18n_text_area_value(phrase.translation.text),
                         class: 'locale',
                         onfocus: "$(this).up('tr').addClassName('active');",
                         onblur: "$(this).up('tr').removeClassName('active');" %>
                 </td>
+
                 <td class="actions">
                   <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr;</a><br>
                   <span class="warning" title="Interpolation keys don't match">⚠</span>
                 </td>
+
                 <td class="original">
-                  <%= text_area_tag :"translations[][original_text]", format_i18n_text_area_value(phrase.translations.primary.text),
+                  <%= text_area_tag "tolk_locale[translations_attributes][#{phrase.translation.id}][original_text]", format_i18n_text_area_value(phrase.translations.primary.text),
                         disabled: true %>
 
-                  <% if action_name == 'updated' %>
+                  <% if action_name == 'updated_translations' %>
                     <div class="updated">
                       <p class="key"><em>Updated</em></p>
                       <%= format_i18n_value(phrase.translations.primary.text) -%>
                       <%= boolean_warning if phrase.translations.primary.boolean? -%>
                     </div>
+
                     <div class="previous">
                       <p class="key"><em>Previous</em></p>
                       <%= format_i18n_value(phrase.translations.primary.previous_text) -%>
                     </div>
+
                   <% else %>
                     <%= format_i18n_value(phrase.translations.primary.text) -%>
                     <%= boolean_warning if phrase.translations.primary.boolean? -%>
@@ -69,20 +88,23 @@
           <% end %>
         </tbody>
       </table>
+
       <div class="table_submit">
         <div>
           <%= locale_form.submit "Save changes", class: 'save-translations btn btn--large' %>
+          <%= link_to "Cancel", request.path, class: 'cancel-translations btn btn--large' %>
         </div>
         <%= tolk_paginate @phrases %>
       </div>
     <% end %>
   </div>
+
 <% else %>
   <div class="empty-state">
     <%= render 'tolk/blank_canva.svg' %>
+
     <p class="empty-state__msg">
       There aren't any completed translations for this locale.
     </p>
   </div>
 <% end %>
-

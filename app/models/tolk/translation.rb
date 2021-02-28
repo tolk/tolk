@@ -2,6 +2,10 @@ module Tolk
   class Translation < ActiveRecord::Base
     self.table_name = "tolk_translations"
 
+    if defined?(ProtectedAttributes)
+      attr_accessible :id, :phrase_id, :locale_id, :text
+    end
+
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
     serialize :text
