@@ -51,7 +51,9 @@
                 <% end %>
 
                 <%= hidden_field_tag "tolk_locale[translations_attributes][#{translation.object_id}][phrase_id]", phrase.id, id: "#{translation.object_id}_phrase_id" %>
+
                 <%= hidden_field_tag "tolk_locale[translations_attributes][#{translation.object_id}][locale_id]", translation.locale_id, id: "#{translation.object_id}_locale_id" %>
+
                 <%= text_area_tag "tolk_locale[translations_attributes][#{translation.object_id}][text]", format_i18n_text_area_value(translation.text), class: "locale", id: "#{translation.object_id}_text" %>
               </td>
 
@@ -68,6 +70,7 @@
                 <% else -%>
                   <%= format_i18n_value(phrase.translations.primary.text) -%>
                 <% end -%>
+
                 <%= boolean_warning if phrase.translations.primary.boolean? -%>
 
                 <span class="translation-key" title="<%= phrase.key %>"><%= truncate(phrase.key, length: 100) %></span>
@@ -78,14 +81,14 @@
       </table>
 
       <div class="table_submit">
+        <%= tolk_paginate @phrases %>
+
         <p>
           <%= locale_form.submit "Save changes", class: 'save-translations btn btn--large' %>
           <%= link_to "Cancel", request.path, class: 'cancel-translations btn btn--large' %>
         </p>
       </div>
     <% end %>
-
-    <%= tolk_paginate @phrases %>
   </div>
 
 <% else %>

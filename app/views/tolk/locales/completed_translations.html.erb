@@ -78,6 +78,7 @@
 
                   <% else %>
                     <%= format_i18n_value(phrase.translations.primary.text) -%>
+
                     <%= boolean_warning if phrase.translations.primary.boolean? -%>
                   <% end %>
 
@@ -90,11 +91,12 @@
       </table>
 
       <div class="table_submit">
+        <%= tolk_paginate @phrases %>
+
         <div>
           <%= locale_form.submit "Save changes", class: 'save-translations btn btn--large' %>
           <%= link_to "Cancel", request.path, class: 'cancel-translations btn btn--large' %>
         </div>
-        <%= tolk_paginate @phrases %>
       </div>
     <% end %>
   </div>
