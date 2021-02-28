@@ -14,7 +14,7 @@ class FormatTest < ActiveSupport::TestCase
     I18n.backend.send :init_translations
 
     @en = Tolk::Locale.primary_locale(true)
-    @spanish = Tolk::Locale.create!(:name => 'es')
+    @spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.sync!
   end
@@ -56,12 +56,12 @@ class FormatTest < ActiveSupport::TestCase
 
   def test_creating_translations_fails_on_mismatch_with_primary_translation
     # Invalid type
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => 'hola', :phrase => ph('number_array')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: 'hola', phrase: ph('number_array')) }
 
     # Invalid YAML
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => "1\n- 2\n", :phrase => ph('number_array')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: "1\n- 2\n", phrase: ph('number_array')) }
 
-    success = @spanish.translations.create!(:text => [1, 2], :phrase => ph('number_array'))
+    success = @spanish.translations.create!(text: [1, 2], phrase: ph('number_array'))
     assert_equal [1, 2], success.text
 
     success.text = "--- \n- 1\n- 2\n"
@@ -75,30 +75,30 @@ class FormatTest < ActiveSupport::TestCase
     assert_equal Set['more', 'variables'], ph('variables_in_struct').translations.primary.variables
 
     # Allow different ordering and multiple occurences of variables
-    assert @spanish.translations.build(:text => '{{world}} y {{hello}} y {{hello}} y {{world}}', :phrase => ph('variables')).valid?
+    assert @spanish.translations.build(text: '{{world}} y {{hello}} y {{hello}} y {{world}}', phrase: ph('variables')).valid?
 
     # Do not allow missing or wrong variables
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => 'Hola', :phrase => ph('variables')) }
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => '{{other}} variable', :phrase => ph('variables')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: 'Hola', phrase: ph('variables')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: '{{other}} variable', phrase: ph('variables')) }
 
     # Do not allow variables if the origin does not contain any
     assert_equal Set[], ph('string').translations.primary.variables
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => 'Hola {{mundo}}', :phrase => ph('string')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: 'Hola {{mundo}}', phrase: ph('string')) }
   end
 
   def test_creating_translations_with_nil_values
     # implicit nil value
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:phrase => ph('string')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(phrase: ph('string')) }
 
     # explicit nil value
-    niltrans = @spanish.translations.create!(:phrase => ph('string'), :text => '~')
+    niltrans = @spanish.translations.create!(phrase: ph('string'), text: '~')
     assert ! niltrans.text
   end
 
   def test_creating_translation_with_wrong_type
-    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(:text => [1, 2], :phrase => ph('string')) }
+    assert_raises(ActiveRecord::RecordInvalid) { @spanish.translations.create!(text: [1, 2], phrase: ph('string')) }
 
-    translation = @spanish.translations.create!(:text => "one more silly string", :phrase => ph('string'))
+    translation = @spanish.translations.create!(text: "one more silly string", phrase: ph('string'))
     assert_equal "one more silly string", translation.text
   end
 

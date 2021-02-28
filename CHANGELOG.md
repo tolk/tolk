@@ -1,11 +1,24 @@
-* Tolk 4.0
+# Changelog
+
+* **Unreleased**
+  * Allow editing primary locale (Solves #130, )
+  * Allow leaving out variables for translated phrases (Solves #133, #57)
+  * Add form Success and Error alerts
+  * Show Validation Errors on Failure
+  * Dont clear fields on error
+  * Highlight which translations have errors (TODO)
+  * Clarify Action Names
+  * Added Cancel Button
+  * Floating Save/Cancel Button
+  * Convert to Ruby 1.9+ hash syntax
+
+* Tolk 4.0.1
   * Avoid a case_sensitive rails 6 deprecation warning
 
 * Tolk 4.0
   * New regex to have more consistent ignored_keys (@schnika)
   * Request ruby 2.5 as 2.4 is EOL
   * Minimum rails version 5.2
-
 
 * Tolk 3.2.1
   * Update fonts used to unicode supporting ones and remove non-unicode version (@marcindrozd)

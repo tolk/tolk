@@ -16,11 +16,10 @@ module Tolk
       @dump_path ||= Tolk.config.dump_path.is_a?(Proc) ? instance_eval(&Tolk.config.dump_path) : Tolk.config.dump_path
     end
 
-    has_many :translations, :class_name => 'Tolk::Translation', :dependent => :destroy
-    has_many :phrases, :through => :translations, :class_name => 'Tolk::Phrase'
+    has_many :translations, class_name: 'Tolk::Translation', dependent: :destroy
+    has_many :phrases, through: :translations, class_name: 'Tolk::Phrase'
 
-    accepts_nested_attributes_for :translations, :reject_if => proc { |attributes| attributes['text'].blank? }
-    #before_validation :remove_invalid_translations_from_target, :on => :update
+    accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes['text'].blank? }
 
     cattr_accessor :locales_config_path
     self.locales_config_path = self._dump_path
@@ -42,6 +41,8 @@ module Tolk
 
     PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
 
+    # http://cldr.unicode.org/index/cldr-spec/plural-rules - TODO: usage of 'none' isn't standard-conform
+  
     class << self
       def primary_locale(reload = false)
         @_primary_locale = nil if reload
@@ -70,8 +71,6 @@ module Tolk
       def special_key_or_prefix?(prefix, key)
         self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
       end
-
-      # http://cldr.unicode.org/index/cldr-spec/plural-rules - TODO: usage of 'none' isn't standard-conform
 
       def pluralization_data?(data)
         keys = data.keys.map(&:to_s)
@@ -144,7 +143,7 @@ module Tolk
 
       found_translations_ids = Tolk::Locale.primary_locale.translations.where(["tolk_translations.text LIKE ?", "%#{query}%"]).to_a.map(&:phrase_id).uniq
       existing_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
-#      phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
+#      phrases = phrases.scoped(conditions: ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       phrases = phrases.where(['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       result = phrases.public_send(pagination_method, page)
       if Rails.version =~ /^4\.0/
@@ -182,14 +181,14 @@ module Tolk
 
     def get(key)
       if phrase = Tolk::Phrase.where(key: key).first
-        t = self.translations.where(:phrase_id => phrase.id).first
+        t = self.translations.where(phrase_id: phrase.id).first
         t.text if t
       end
     end
 
     def translations_with_html
-      translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND
-        tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
+      translations = self.translations.all(conditions: "tolk_translations.text LIKE '%>%' AND
+        tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", joins: :phrase)
       if Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new translations, :phrase
       else
@@ -213,19 +212,6 @@ module Tolk
     end
 
     private
-
-
-    def remove_invalid_translations_from_target
-      self.translations.target.dup.each do |t|
-        unless t.valid?
-          self.translations.target.delete(t)
-        else
-          t.updated_at_will_change!
-        end
-      end
-
-      true
-    end
 
     def find_phrases_with_translations(page, conditions = {})
       result = Tolk::Phrase.where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).joins(:translations).order('tolk_phrases.key ASC').public_send(pagination_method, page)

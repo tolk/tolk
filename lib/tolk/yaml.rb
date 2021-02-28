@@ -1,8 +1,8 @@
 module Tolk
   module YAML
     SAFE_YAML_OPTIONS = SafeYAML::Deep.freeze({
-      :default_mode => :safe,
-      :deserialize_symbols => true
+      default_mode: :safe,
+      deserialize_symbols: true
     })
 
     def self.load(yaml)
@@ -20,7 +20,7 @@ module Tolk
 
     def self.dump(payload)
       if payload.respond_to?(:ya2yaml)
-        payload.ya2yaml(:syck_compatible => true)
+        payload.ya2yaml(syck_compatible: true)
       else
         ::YAML.dump(payload, line_width: Tolk::Config.yaml_line_width)
       end

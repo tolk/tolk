@@ -14,7 +14,7 @@ module Tolk
     include Generators::Utils::InstanceMethods
     extend Generators::Utils::ClassMethods
 
-    argument :_namespace, :type => :string, :required => false, :desc => "Tolk url namespace"
+    argument :_namespace, type: :string, required: false, desc: "Tolk url namespace"
     desc "Tolk installation generator"
     def install
       routes = File.open(Rails.root.join("config/routes.rb")).try :read
@@ -33,9 +33,9 @@ module Tolk
       migration_template 'migration.rb', 'db/migrate/create_tolk_tables.rb' rescue display $!.message
 
       namespace = ask_for("Where do you want to mount tolk?", "tolk", _namespace)
-      gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\', :as => \'tolk\'/, ''
+      gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\', as: \'tolk\'/, ''
       gsub_file "config/routes.rb", /mount Tolk::Engine => \'\/.+\'/, ''
-      route("mount Tolk::Engine => '/#{namespace}', :as => 'tolk'")
+      route("mount Tolk::Engine => '/#{namespace}', as: 'tolk'")
 
       display "Job's done: migrate, start your server and visit '/#{namespace}'!", :blue
 

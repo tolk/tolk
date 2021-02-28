@@ -27,7 +27,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     click_link 'Completed translations'
     assert page.has_text?(:all, "Dead men don't bite")
 
-    fill_in_first_translation :with => "Arrrr!"
+    fill_in_first_translation with: "Arrrr!"
     click_button 'Save changes'
 
     assert_equal current_path, tolk.completed_translations_locale_path(locale)
@@ -44,11 +44,11 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     pirate_path = tolk.locale_path(locale)
     visit pirate_path
 
-    fill_in 'q', :with => 'hello_country'
-    fill_in 'k', :with => 'nested'
+    fill_in 'q', with: 'hello_country'
+    fill_in 'k', with: 'nested'
 
     click_button 'Search'
-    assert_equal true, page.has_selector?('td.translation', :count => 1)
+    assert_equal true, page.has_selector?('td.translation', count: 1)
   end
 
 

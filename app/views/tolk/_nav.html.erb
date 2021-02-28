@@ -4,17 +4,17 @@
     completed_translations_count = Tolk::Phrase.count - phrases_without_translation_count
   %>
 
-  <a href="<%= locale_path(@locale) %>" <% if @action_name == 'incomplete_translations' %>class="current"<% end %>>
+  <a href="<%= locale_path(@locale) %>" <% if [action_name, params[:form_name]].include?('incomplete_translations') %>class="current"<% end %>>
     Incomplete Translations
     <span class="nav__badge"><%= phrases_without_translation_count %></span>
   </a>
 
-  <a href="<%= completed_translations_locale_path(@locale) %>" <% if @action_name == 'completed_translations' %>class="current"<% end %>>
+  <a href="<%= completed_translations_locale_path(@locale) %>" <% if [action_name, params[:form_name]].include?('completed_translations') %>class="current"<% end %>>
     Completed Translations
     <span class="nav__badge"><%= completed_translations_count %></span>
   </a>
-  `
+  
   <a href="<%= search_path(tolk_locale: @locale, scope: 'origin') %>" <% if controller_name == 'search' %>class="current"<% end %>>
-    Search
+    Search All
   </a>
 </nav>

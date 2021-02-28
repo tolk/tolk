@@ -5,6 +5,7 @@ test/dummy/db/*.sqlite3
 test/dummy/db/*.sqlite3-journal
 test/dummy/log/*
 test/dummy/tmp/*
+db/*.sqlite3
 Gemfile.lock
 .ruby-version
 .DS_Store

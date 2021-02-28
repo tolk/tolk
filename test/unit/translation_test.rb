@@ -9,7 +9,7 @@ class TranslationTest < ActiveSupport::TestCase
   end
 
   test "translation is inavlid when a duplicate exists" do
-    translation = Tolk::Translation.new(:phrase => tolk_translations(:hello_world_da).phrase, :locale => tolk_translations(:hello_world_da).locale)
+    translation = Tolk::Translation.new(phrase: tolk_translations(:hello_world_da).phrase, locale: tolk_translations(:hello_world_da).locale)
     translation.text = "Revised Hello World"
     assert(translation.invalid?)
     assert(translation.errors[:phrase_id])
@@ -30,21 +30,21 @@ class TranslationTest < ActiveSupport::TestCase
 
   test "translation with string value with leading and trailing whitespace" do
     text = "\t          Hello World   \r\n"
-    assert_equal(text.strip, Tolk::Translation.new(:text => text).value)
+    assert_equal(text.strip, Tolk::Translation.new(text: text).value)
   end
 
   test "translation with string value with leading and trailing whitespace but with strip_texts config disabled" do
     Tolk.config.strip_texts = false
 
     text = "\t          Hello World   \r\n"
-    assert_equal(text, Tolk::Translation.new(:text => text).value)
+    assert_equal(text, Tolk::Translation.new(text: text).value)
 
     Tolk.config.strip_texts = true
   end
 
   test "translation with string value with variables" do
     text = "{{attribute}} {{message}}"
-    assert_equal(text, Tolk::Translation.new(:text => text).value)
+    assert_equal(text, Tolk::Translation.new(text: text).value)
   end
 
   test "translation with numeric value" do
@@ -60,8 +60,8 @@ class TranslationTest < ActiveSupport::TestCase
   end
 
   test "translation with hash value" do
-    hash = {:foo => "bar"}
-    assert_equal(hash, Tolk::Translation.new(:text => hash).value)
+    hash = {foo: "bar"}
+    assert_equal(hash, Tolk::Translation.new(text: hash).value)
   end
 
   test "pluralization translation special variable 'count' not a variable" do
@@ -83,8 +83,8 @@ class TranslationTest < ActiveSupport::TestCase
       'many' => "{{foo}}",
     }
 
-    Tolk::Translation.new(:text => text).tap do |t|
-      t.stubs(:primary_translation).returns(Tolk::Translation.new(:text => primary_text))
+    Tolk::Translation.new(text: text).tap do |t|
+      t.stubs(:primary_translation).returns(Tolk::Translation.new(text: primary_text))
       t.valid?
       assert_equal ["The translation should contain the substitutions of the primary translation: (message), found (message, foo)."], t.errors[:variables]
     end
@@ -98,8 +98,8 @@ class TranslationTest < ActiveSupport::TestCase
       'foo' => "{{foo}} nada"
     }
 
-    Tolk::Translation.new(:text => text).tap do |t|
-      t.stubs(:primary_translation).returns(Tolk::Translation.new(:text => primary_text))
+    Tolk::Translation.new(text: text).tap do |t|
+      t.stubs(:primary_translation).returns(Tolk::Translation.new(text: primary_text))
       t.valid?
       assert_equal ["The primary translation does not contain substitutions, so this should neither."], t.errors[:variables]
     end

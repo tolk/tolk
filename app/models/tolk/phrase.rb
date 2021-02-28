@@ -2,11 +2,11 @@ module Tolk
   class Phrase < ActiveRecord::Base
     self.table_name = "tolk_phrases"
 
-    validates_uniqueness_of :key
+    paginates_per 20
 
-    paginates_per 30
+    attr_accessor :translation
 
-    has_many :translations, :class_name => 'Tolk::Translation', :dependent => :destroy do
+    has_many :translations, class_name: 'Tolk::Translation', dependent: :destroy do
       def primary
         to_a.detect {|t| t.locale_id == Tolk::Locale.primary_locale.id}
       end
@@ -16,7 +16,7 @@ module Tolk
       end
     end
 
-    attr_accessor :translation
+    validates_uniqueness_of :key
 
     scope :containing_text, lambda { |query|
       where("tolk_phrases.key LIKE ?", "%#{query}%")

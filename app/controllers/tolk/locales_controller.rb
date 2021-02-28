@@ -1,6 +1,6 @@
 module Tolk
   class LocalesController < Tolk::ApplicationController
-    before_action :find_locale, :only => [:show, :update, :incomplete_translations, :completed_translations, :updated_translations]
+    before_action :find_locale, only: [:show, :update, :incomplete_translations, :completed_translations, :updated_translations]
 
     def index
       @locales = Tolk::Locale.all.sort_by(&:language_name)
@@ -41,7 +41,7 @@ module Tolk
 
         format.yaml do
           data = @locale.to_hash
-          render :plain => Tolk::YAML.dump(data)
+          render plain: Tolk::YAML.dump(data)
         end
 
       end
@@ -60,7 +60,7 @@ module Tolk
 
     def create
       Tolk::Locale.create!(params.require(:tolk_locale).permit(:name))
-      redirect_to :action => :index
+      redirect_to action: :index
     end
 
     def dump_all
@@ -77,12 +77,12 @@ module Tolk
         format.json do
           stats = @locales.collect do |locale|
             [locale.name, {
-              :missing => locale.count_phrases_without_translation,
-              :updated => locale.count_phrases_with_updated_translation,
-              :updated_at => locale.updated_at
+              missing: locale.count_phrases_without_translation,
+              updated: locale.count_phrases_with_updated_translation,
+              updated_at: locale.updated_at
             }]
           end
-          render :json => Hash[stats]
+          render json: Hash[stats]
         end
       end
     end

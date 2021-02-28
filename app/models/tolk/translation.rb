@@ -6,28 +6,24 @@ module Tolk
       attr_accessible :id, :phrase_id, :locale_id, :text
     end
 
-    scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
+    attr_accessor :primary, :explicit_nil
+
+    belongs_to :phrase, class_name: 'Tolk::Phrase'
+    belongs_to :locale, class_name: 'Tolk::Locale'
+    validates_presence_of :locale_id
 
     serialize :text
     serialize :previous_text
-    validate :validate_text_not_nil, :if => proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
-    validate :check_matching_variables, :if => proc { |tr| tr.primary_translation.present? }
+    validate :validate_text_not_nil, if: proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
+    validate :check_matching_variables, if: proc { |tr| tr.primary_translation.present? }
+    validates :phrase_id, uniqueness: {scope: :locale_id}
 
-    validates_uniqueness_of :phrase_id, :scope => :locale_id
-
-    belongs_to :phrase, :class_name => 'Tolk::Phrase'
-    belongs_to :locale, :class_name => 'Tolk::Locale'
-    validates_presence_of :locale_id
-
+    before_validation :fix_text_type, unless: proc {|r| r.primary }
+    before_validation :set_explicit_nil
     before_save :set_primary_updated
-
     before_save :set_previous_text
 
-    attr_accessor :primary
-    before_validation :fix_text_type, :unless => proc {|r| r.primary }
-
-    attr_accessor :explicit_nil
-    before_validation :set_explicit_nil
+    scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
     def boolean?
       text.is_a?(TrueClass) || text.is_a?(FalseClass) || text == 't' || text == 'f'
@@ -154,7 +150,8 @@ module Tolk
         if primary_translation.variables.empty?
           self.errors.add(:variables, "The primary translation does not contain substitutions, so this should neither.")
         else
-          self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
+          ### DO NOTHING
+          #self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
         end
       end
     end

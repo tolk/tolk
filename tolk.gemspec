@@ -6,8 +6,8 @@ require "tolk/version"
 Gem::Specification.new do |s|
   s.name        = 'tolk'
   s.version     = Tolk::VERSION
-  s.summary     = 'Rails engine providing web interface for managing i18n yaml files'
-  s.description = 'Tolk is a web interface for doing i18n translations packaged as an engine for Rails applications.'
+  s.summary     = 'Tolk is a Rails Engine that provides a web interface for editing I18n translations.'
+  s.description = s.summary
   s.license = 'MIT'
 
   s.authors = ['David Heinemeier Hansson', 'Piotr Sarnacki', 'Emilio Tagua', 'Thomas Darde', 'Ferran Basora']
@@ -16,8 +16,7 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
 
-
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 2.3.0'
 
   s.add_runtime_dependency 'rails', '>= 5.0'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
@@ -28,11 +27,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'will_paginate'
-
-
-  if File.exist?('UPGRADING')
-    s.post_install_message = File.read("UPGRADING")
-  end
 
   s.files = Dir['README', 'MIT-LICENSE', 'config/**/*', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']
 

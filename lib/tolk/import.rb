@@ -35,7 +35,7 @@ module Tolk
             next
           end
           next if translated_phrase_ids.include?(phrase.id)
-          translation = locale.translations.new(:text => value, :phrase => phrase)
+          translation = locale.translations.new(text: value, phrase: phrase)
           if translation.save
             count = count + 1
           elsif translation.errors[:variables].present?
