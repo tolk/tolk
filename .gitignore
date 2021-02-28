@@ -7,6 +7,7 @@ test/dummy/log/*
 test/dummy/tmp/*
 db/*.sqlite3
 Gemfile.lock
+gemfiles/*.lock
 .ruby-version
 .DS_Store
 ~.*

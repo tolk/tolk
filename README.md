@@ -169,3 +169,11 @@ And Tolk will take care of generating the appropriate entry in the YAML file.
 <img src="https://raw.githubusercontent.com/westonganger/tolk/master/screenshot_1.png"/>
 
 <img src="https://raw.githubusercontent.com/westonganger/tolk/master/screenshot_2.png"/>
+
+
+## Contributing
+
+We test multiple versions of `Rails` using the `appraisal` gem. Please use the following steps to test using `appraisal`.
+
+1. `bundle exec appraisal install`
+2. `bundle exec appraisal rake test`

@@ -1,6 +1,7 @@
 # Changelog
 
 * **Unreleased**
+  * Support Ruby 2.3+, Rails 5.0+
   * Allow editing primary locale (Solves #130, )
   * Allow leaving out variables for translated phrases (Solves #133, #57)
   * Add form Success and Error alerts
@@ -11,6 +12,7 @@
   * Added Cancel Button
   * Floating Save/Cancel Button
   * Convert to Ruby 1.9+ hash syntax
+  * Add Github Actions CI Test Suite
 
 * Tolk 4.0.1
   * Avoid a case_sensitive rails 6 deprecation warning
