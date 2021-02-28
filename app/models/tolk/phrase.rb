@@ -16,7 +16,7 @@ module Tolk
       end
     end
 
-    validates_uniqueness_of :key
+    validates :key, uniqueness: true
 
     scope :containing_text, lambda { |query|
       where("tolk_phrases.key LIKE ?", "%#{query}%")

@@ -9,22 +9,27 @@
       <li>
         <a href="<%= locale_path(locale) %>">
           <span><%= locale.language_name %></span>
+
           <% missing_count = locale.count_phrases_without_translation %>
+
           <% if missing_count > 0 %>
             <em class="missing_translations"><%= missing_count %></em>
           <% end %>
+
           <% if locale.has_updated_translations? %>
             <em class="updated_translations" title="Some phrases have changed">⚠</em>
           <% end %>
         </a>
       </li>
     <% end %>
+
     <li>
       <%= form_for(Tolk::Locale.new) do |f| %>
         <p>
           <select name="tolk_locale[name]">
             <%= options_for_select tolk_locale_selection %>
           </select>
+
           <%= f.submit '+ Add', class: 'btn' %>
         </p>
       <% end %>
@@ -33,14 +38,17 @@
 <% else %>
   <div class="empty-state">
     <%= render 'tolk/empty.svg' %>
+
     <p class="empty-state__msg">
       No locales yet, add one:
     </p>
+
     <%= form_for(Tolk::Locale.new) do |f| %>
       <p>
         <select name="tolk_locale[name]">
           <%= options_for_select tolk_locale_selection %>
         </select>
+
         <%= f.submit '+ Add', class: 'btn' %>
       </p>
     <% end %>

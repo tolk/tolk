@@ -13,6 +13,8 @@
   * Floating Save/Cancel Button
   * Convert to Ruby 1.9+ hash syntax
   * Add Github Actions CI Test Suite
+  * Simplify Controllers and Routes
+  * Cleanup Assets
 
 * Tolk 4.0.1
   * Avoid a case_sensitive rails 6 deprecation warning

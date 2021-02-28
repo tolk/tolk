@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'mocha'
   s.add_development_dependency 'poltergeist'
+  s.add_development_dependency 'warning'
   s.add_development_dependency 'will_paginate'
 
   s.files = Dir['README', 'MIT-LICENSE', 'config/**/*', 'init.rb', 'lib/**/*', 'app/**/*', 'public/tolk/**/*']

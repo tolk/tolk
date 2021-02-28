@@ -1,0 +1,135 @@
+<% if @locale.has_updated_translations? && action_name != 'updated_translations' %>
+  <div class="notice">
+    ⚠ Some phrases have changed. <%= link_to "Update translations", tolk.updated_translations_locale_path(@locale) %>.
+  </div>
+<% end %>
+
+<div class="search">
+  <%= render "search_form" %>
+</div>
+
+<% if flash.any? %>
+  <div style="margin: 15px; margin-bottom: 0;" 
+  <% if flash[:notice] %>
+    <div class='alert alert-success'>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if flash.alert %>
+    <div class='alert alert-danger'>
+      <%= flash[:alert] %>
+
+      <% if @locale.errors['translations.variables'] %>
+        <br> 
+        <br> 
+        <%= @locale.errors['translations.variables'].join("<br>").html_safe %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @phrases.any? %>
+  <div class="translations">
+    <%= form_for @locale do |locale_form| %>
+      <table class="translations">
+        <thead>
+          <tr>
+            <th><%= @locale.language_name -%></th>
+            <th class="actions">Actions</th>
+            <th><%= Tolk::Locale.primary_language_name -%></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @phrases.each do |phrase| %>
+            <% translation = phrase.translations.for(@locale) || Tolk::Translation.new(locale: @locale, phrase: phrase) %>
+
+            <%= locale_form.fields_for :translations, [translation] do |tf| %>
+              <tr>
+                <td class="translation">
+                  <%= tf.hidden_field :phrase_id, id: "#{translation.object_id}_phrase_id" %>
+                  <%= tf.hidden_field :locale_id, id: "#{translation.object_id}_locale_id" %>
+
+                  <%= tf.text_area :text, value: format_i18n_text_area_value(translation.text), id: "#{translation.object_id}_text", class: 'locale' %>
+                </td>
+
+                <td class="actions">
+                  <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr; Copy</a><br>
+                  <span class="warning" title="Interpolation keys don't match">⚠</span>
+                </td>
+
+                <td class="original">
+                  <% default_translation = phrase.translations.primary %>
+
+                  <%= text_area_tag "tolk_locale[translations_attributes][#{translation.object_id}][original_text]", format_i18n_text_area_value(default_translation.text), disabled: true %>
+
+                  <% if params[:search].present? -%>
+                    <%= highlight(format_i18n_value(default_translation.text), params[:search]) -%>
+                  <% else -%>
+                    <%= format_i18n_value(default_translation.text) -%>
+                  <% end -%>
+
+                  <%= boolean_warning if default_translation.boolean? -%>
+
+                  <% if params[:search].present? -%>
+                    <%= highlight(format_i18n_value(default_translation.text), params[:search]) -%>
+                  <% else -%>
+                    <%= format_i18n_value(default_translation.text) -%>
+                  <% end -%>
+
+                  <%= boolean_warning if default_translation.boolean? -%>
+
+                  <span class="translation-key" title="<%= phrase.key %>">
+                    <% if params[:k].present? %>
+                      <%= highlight(h(truncate(phrase.key, length: 100)), params[:k]) %>
+                    <% else %>
+                      <%= h(truncate(phrase.key, length: 100)) %>
+                    <% end %>
+                  </span>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="table_submit">
+        <%= tolk_paginate @phrases %>
+
+        <p>
+          <%= locale_form.submit "Save changes", class: 'save-translations btn btn--large' %>
+          <%= link_to "Cancel", request.path, class: 'cancel-translations btn btn--large' %>
+        </p>
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <div class="empty-state">
+
+    <% if params[:q] || params[:k] %>
+      <%= render 'tolk/no_data.svg' %>
+
+      <p class="empty-state__msg">
+        No search results.
+      </p>
+    <% elsif params[:filter] == "incomplete" %>
+      <%= render 'tolk/houra.svg' %>
+
+      <p class="empty-state__msg">
+        <% if @locale.has_updated_translations? %>
+          There aren't any missing phrases that need translation.
+        <% else %>
+          There aren't any missing or updated phrases that need translation.
+        <% end %>
+      </p>
+    <% elsif params[:filter] == "completed" %>
+      <%= render 'tolk/blank_canvas.svg' %>
+
+      <p class="empty-state__msg">
+        There aren't any completed translations for this locale.
+      </p>
+    <% end %>
+  </div>
+<% end %>

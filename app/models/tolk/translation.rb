@@ -8,15 +8,16 @@ module Tolk
 
     attr_accessor :primary, :explicit_nil
 
-    belongs_to :phrase, class_name: 'Tolk::Phrase'
-    belongs_to :locale, class_name: 'Tolk::Locale'
-    validates_presence_of :locale_id
-
     serialize :text
     serialize :previous_text
-    validate :validate_text_not_nil, if: proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
-    validate :check_matching_variables, if: proc { |tr| tr.primary_translation.present? }
+
+    belongs_to :phrase, class_name: 'Tolk::Phrase'
+    belongs_to :locale, class_name: 'Tolk::Locale'
+
+    validates :locale_id, presence: true
     validates :phrase_id, uniqueness: {scope: :locale_id}
+    validates :text, presence: true, if: proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
+    validate :check_matching_variables, if: proc { |tr| tr.primary_translation.present? }
 
     before_validation :fix_text_type, unless: proc {|r| r.primary }
     before_validation :set_explicit_nil
@@ -26,15 +27,15 @@ module Tolk
     scope :containing_text, lambda {|query| where("tolk_translations.text LIKE ?", "%#{query}%") }
 
     def boolean?
-      text.is_a?(TrueClass) || text.is_a?(FalseClass) || text == 't' || text == 'f'
-    end
-
-    def up_to_date?
-      not out_of_date?
+      [true, false, "t", "f"].include?(text)
     end
 
     def out_of_date?
       primary_updated?
+    end
+
+    def up_to_date?
+      !out_of_date?
     end
 
     def primary_translation
@@ -46,21 +47,28 @@ module Tolk
     end
 
     def text=(value)
-      value = value.to_s if value.kind_of?(Integer)
+      if value.kind_of?(Integer)
+        value = value.to_s
+      end
+
       if primary_translation && primary_translation.boolean?
-        value = case value.to_s.downcase.strip
+        case value.to_s.downcase.strip
         when 'true', 't'
-          true
+          value = true
         when 'false', 'f'
-          false
+          value = false
         else
           self.explicit_nil = true
-          nil
+          value = nil
         end
-        super unless value == text
       else
-        value = value.strip if value.is_a?(String) && Tolk.config.strip_texts
-        super unless value.to_s == text
+        if value.is_a?(String) && Tolk.config.strip_texts
+          value = value.strip
+        end
+      end
+
+      if value != text
+        super
       end
     end
 
@@ -75,11 +83,15 @@ module Tolk
     end
 
     def self.detect_variables(search_in)
-      variables = case search_in
-        when String then Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten)
-        when Array then search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
-        when Hash then search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
-        else Set[]
+      case search_in
+      when String 
+        variables = Set.new(search_in.scan(/\{\{(\w+)\}\}/).flatten + search_in.scan(/\%\{(\w+)\}/).flatten)
+      when Array 
+        variables = search_in.inject(Set[]) { |carry, item| carry + detect_variables(item) }
+      when Hash 
+        variables = search_in.values.inject(Set[]) { |carry, item| carry + detect_variables(item) }
+      else 
+        variables = Set[]
       end
 
       # delete special i18n variable used for pluralization itself (might not be used in all values of
@@ -111,54 +123,47 @@ module Tolk
     def fix_text_type
       if primary_translation.present?
         if self.text.is_a?(String) && !primary_translation.text.is_a?(String)
-          self.text = begin
-            YAML.load(self.text.strip)
+          begin
+            self.text = YAML.load(self.text.strip)
           rescue ArgumentError
-            nil
+            self.text = nil
           end
         end
 
         if primary_translation.boolean?
-          self.text = case self.text.to_s.strip
+          case self.text.to_s.strip
           when 'true'
-            true
+            self.text = true
           when 'false'
-            false
+            self.text = false
           else
-            nil
+            self.text = nil
           end
         elsif primary_translation.text.class != self.text.class
           self.text = nil
         end
       end
-
-      true
     end
 
     def set_primary_updated
       self.primary_updated = false
-      true
     end
 
     def set_previous_text
-      self.previous_text = self.text_was if text_changed?
-      true
-    end
-
-    def check_matching_variables
-      unless variables_match?
-        if primary_translation.variables.empty?
-          self.errors.add(:variables, "The primary translation does not contain substitutions, so this should neither.")
-        else
-          ### DO NOTHING
-          #self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
-        end
+      if text_changed?
+        self.previous_text = self.text_was
       end
     end
 
-    def validate_text_not_nil
-      return unless text.nil?
-      errors.add :text, :blank
+    def check_matching_variables
+      if !variables_match?
+        if primary_translation.variables.empty?
+          self.errors.add(:variables, "The primary translation does not contain substitutions, so this should neither.")
+        else
+          #self.errors.add(:variables, "The translation should contain the substitutions of the primary translation: (#{primary_translation.variables.to_a.join(', ')}), found (#{self.variables.to_a.join(', ')}).")
+          ### NEW: DO NOTHING
+        end
+      end
     end
   end
 end

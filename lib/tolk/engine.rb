@@ -4,12 +4,6 @@ module Tolk
   class Engine < Rails::Engine
     isolate_namespace Tolk
 
-    initializer :assets do |app|
-      app.config.assets.precompile += ['tolk/libraries.js']
-    end
-
-    # We need one of the two pagination engines loaded by this point.
-    # We don't care which one, just one of them will do.
     begin
       require 'kaminari'
     rescue LoadError

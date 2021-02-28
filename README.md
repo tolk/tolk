@@ -55,10 +55,10 @@ Upon visiting `http://your_app.com/tolk` - you will be presented with different 
 
 Once done with translating all the pending strings, you are can write back the new locales to filesystem. You have two options when dumping database locale data to file:
 
-To generate a single yml file for a specified locale. The locale ISO code should be given in string format as the only argument ("en-us" or "en-gb" for example).
+To generate a single yml file for a specified locale. The locale ISO code should be given in string format as the only argument.
 
 ```bash
-$ rake tolk:dump_yaml["the_target_locale"]
+$ rake tolk:dump_yaml["en"]
 ```
 
 To generate individual .yml files for all non primary locales and put them in `#{Rails.root}/config/locales/` directory by default.
@@ -83,6 +83,9 @@ You can add some settings in the initializer file
 # config/initializers/tolk.rb
 
 Tolk.config do |config|
+  # set base controller
+  config.base_controller = 'ActiveRecord::Base'
+
   # exclude locales tokens from gems.
   config.exclude_gems_token = true
 

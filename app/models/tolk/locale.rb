@@ -4,6 +4,8 @@ require 'tolk/pagination'
 module Tolk
   class Locale < ActiveRecord::Base
     include Tolk::Pagination::Methods
+    include Tolk::Sync
+    include Tolk::Import
 
     self.table_name = "tolk_locales"
 
@@ -16,22 +18,18 @@ module Tolk
       @dump_path ||= Tolk.config.dump_path.is_a?(Proc) ? instance_eval(&Tolk.config.dump_path) : Tolk.config.dump_path
     end
 
-    has_many :translations, class_name: 'Tolk::Translation', dependent: :destroy
-    has_many :phrases, through: :translations, class_name: 'Tolk::Phrase'
-
-    accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes['text'].blank? }
-
     cattr_accessor :locales_config_path
     self.locales_config_path = self._dump_path
 
     cattr_accessor :primary_locale_name
     self.primary_locale_name = Tolk.config.primary_locale_name || I18n.default_locale.to_s
 
-    include Tolk::Sync
-    include Tolk::Import
+    has_many :translations, class_name: 'Tolk::Translation', dependent: :destroy
+    has_many :phrases, through: :translations, class_name: 'Tolk::Phrase'
 
-    validates_uniqueness_of :name, case_sensitive: false
-    validates_presence_of :name
+    accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes['text'].blank? }
+
+    validates :name, presence: true, uniqueness: {case_sensitive: false}
 
     cattr_accessor :special_prefixes
     self.special_prefixes = ['activerecord.attributes']
@@ -43,39 +41,40 @@ module Tolk
 
     # http://cldr.unicode.org/index/cldr-spec/plural-rules - TODO: usage of 'none' isn't standard-conform
   
-    class << self
-      def primary_locale(reload = false)
-        @_primary_locale = nil if reload
-        @_primary_locale ||= begin
-          raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
-          where(name: self.primary_locale_name).first_or_create
-        end
+    def self.primary_locale(reload = false)
+      if reload
+        @_primary_locale = nil
       end
 
-      def primary_language_name
-        primary_locale.language_name
+      @_primary_locale ||= begin
+        raise "Primary locale is not set. Please set Locale.primary_locale_name in your application's config file" unless self.primary_locale_name
+        where(name: self.primary_locale_name).first_or_create
       end
+    end
 
-      def secondary_locales
-        all - [primary_locale]
-      end
+    def self.primary_language_name
+      primary_locale.language_name
+    end
 
-      def dump_all(*args)
-        secondary_locales.each { |locale| locale.dump(*args) }
-      end
+    def self.secondary_locales
+      all - [primary_locale]
+    end
 
-      def dump_yaml(name, *args)
-        where(name: name).first.dump(*args)
-      end
+    def self.dump_all(*args)
+      secondary_locales.each { |locale| locale.dump(*args) }
+    end
 
-      def special_key_or_prefix?(prefix, key)
-        self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
-      end
+    def self.dump_yaml(name, *args)
+      where(name: name).first.dump(*args)
+    end
 
-      def pluralization_data?(data)
-        keys = data.keys.map(&:to_s)
-        keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
-      end
+    def self.special_key_or_prefix?(prefix, key)
+      self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
+    end
+
+    def self.pluralization_data?(data)
+      keys = data.keys.map(&:to_s)
+      keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
     end
 
     def dump(to = self.locales_config_path, exporter = Tolk::Export)
@@ -86,85 +85,85 @@ module Tolk
       translations.where('tolk_translations.primary_updated' => true).count > 0
     end
 
-    def phrases_with_translation(page = nil)
-      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => false)
+    def phrases_with_translation
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => false)
     end
 
-    def phrases_with_updated_translation(page = nil)
-      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => true)
+    def phrases_with_updated_translation
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => true)
     end
 
     def count_phrases_without_translation
-      existing_ids = self.translations.pluck(:phrase_id).uniq
-      Tolk::Phrase.count - existing_ids.count
+      Tolk::Phrase.count - self.translations.pluck(:phrase_id).uniq
     end
 
-    def count_phrases_with_updated_translation(page = nil)
-      find_phrases_with_translations(page, :'tolk_translations.primary_updated' => true).count
+    def count_phrases_with_updated_translation
+      find_phrases_with_translations(:'tolk_translations.primary_updated' => true).count
     end
 
-    def phrases_without_translation(page = nil)
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
+    def phrases_without_translation
+      phrases = Tolk::Phrase.all.includes(:translations).order('tolk_phrases.key ASC')
 
-      existing_ids = self.translations.pluck(:phrase_id).uniq
-      phrases = phrases.where('tolk_phrases.id NOT IN (?)', existing_ids) if existing_ids.present?
+      phrases = phrases.where('tolk_phrases.id NOT IN (?)', self.translations.pluck(:phrase_id).uniq)
 
-      result = phrases.public_send(pagination_method, page)
-      if Rails.version =~ /^4\.0/
-        ActiveRecord::Associations::Preloader.new result, :translations
-      else
-        ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+      return result
+    end
+
+    def search_phrases(lang, query, key_query)
+      if query.blank? && key_query.blank?
+        return self
       end
 
-      result
-    end
-
-    def search_phrases(query, scope, key_query, page = nil)
-      return [] unless query.present? || key_query.present?
-
-      translations = case scope
-      when :origin
-        Tolk::Locale.primary_locale.translations.containing_text(query)
+      case lang.to_s
+      when "origin"
+        translations = Tolk::Locale.primary_locale.translations.containing_text(query)
       else # :target
-        self.translations.containing_text(query)
+        translations = self.translations.containing_text(query)
       end
 
       phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
+
       phrases = phrases.containing_text(key_query)
 
       phrases = phrases.where('tolk_phrases.id IN(?)', translations.map(&:phrase_id).uniq)
-      phrases.public_send(pagination_method, page)
     end
 
-    def search_phrases_without_translation(query, page = nil)
-      return phrases_without_translation(page) unless query.present?
+    def search_phrases_without_translation(query)
+      if query.blank?
+        return phrases_without_translation
+      end
 
       phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
 
-      found_translations_ids = Tolk::Locale.primary_locale.translations.where(["tolk_translations.text LIKE ?", "%#{query}%"]).to_a.map(&:phrase_id).uniq
-      existing_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
-#      phrases = phrases.scoped(conditions: ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
-      phrases = phrases.where(['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
-      result = phrases.public_send(pagination_method, page)
-      if Rails.version =~ /^4\.0/
-        ActiveRecord::Associations::Preloader.new result, :translations
-      else
-        ActiveRecord::Associations::Preloader.new().preload(result, :translations)
+      found_translations_ids = Tolk::Locale
+        .primary_locale
+        .translations
+        .where("tolk_translations.text LIKE ?", "%#{query}%")
+        .to_a
+        .map(&:phrase_id)
+        .uniq
+      
+      existing_phrase_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
+      
+      if !existing_phrase_ids.empty?
+        phrases = phrases.where('tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_phrase_ids, found_translations_ids) if existing_ids.present?
       end
 
       result
     end
 
     def to_hash
-      data = translations.joins(:phrase).order("tolk_phrases.key ASC").pluck("tolk_phrases.key, text").
-      each_with_object(Hash.new(0)) do |translation, locale|
+      result = translations.joins(:phrase).order("tolk_phrases.key ASC").pluck("tolk_phrases.key, text")
+
+      data = result.each_with_object(Hash.new(0)) do |translation, locale|
         if translation[0].include?(".")
           locale.deep_merge!(unsquish(translation[0], translation[1]))
         else
           locale[translation[0]] = translation[1]
         end
       end
-      { name => data }
+
+      return { name => data }
     end
 
     def to_param
@@ -180,21 +179,21 @@ module Tolk
     end
 
     def get(key)
-      if phrase = Tolk::Phrase.where(key: key).first
+      phrase = Tolk::Phrase.where(key: key).first
+
+      if phrase
         t = self.translations.where(phrase_id: phrase.id).first
-        t.text if t
+
+        if t
+          return t.text
+        end
       end
     end
 
     def translations_with_html
-      translations = self.translations.all(conditions: "tolk_translations.text LIKE '%>%' AND
-        tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", joins: :phrase)
-      if Rails.version =~ /^4\.0/
-        ActiveRecord::Associations::Preloader.new translations, :phrase
-      else
-        ActiveRecord::Associations::Preloader.new().preload(translations, :phrase)
-      end
       translations
+        .includes(:phrase).references(:phrase)
+        .where("tolk_translations.text LIKE '%>%' AND tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'")
     end
 
     def self.rename(old_name, new_name)
@@ -203,27 +202,26 @@ module Tolk
       else
         if locale = where(name: old_name).first
           locale.name = new_name
+
           locale.save
-          "Locale ' #{old_name}' was renamed '#{new_name}'"
+
+          return "Locale ' #{old_name}' was renamed '#{new_name}'"
         else
-          "Locale with name '#{old_name}' not found."
+          return "Locale with name '#{old_name}' not found."
         end
       end
     end
 
     private
 
-    def find_phrases_with_translations(page, conditions = {})
-      result = Tolk::Phrase.where({ :'tolk_translations.locale_id' => self.id }.merge(conditions)).joins(:translations).order('tolk_phrases.key ASC').public_send(pagination_method, page)
+    def find_phrases_with_translations(conditions = {})
+      result = Tolk::Phrase
+        .includes(:translations).references(:translations)
+        .where({'tolk_translations.locale_id' => self.id}.merge(conditions))
+        .order('tolk_phrases.key ASC')
 
       result.each do |phrase|
         phrase.translation = phrase.translations.for(self)
-      end
-
-      if Rails.version =~ /^4\.0/
-        ActiveRecord::Associations::Preloader.new result, :translations
-      else
-        ActiveRecord::Associations::Preloader.new().preload(result, :translations)
       end
 
       result

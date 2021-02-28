@@ -2,7 +2,7 @@ module Tolk
   module YAML
     SAFE_YAML_OPTIONS = SafeYAML::Deep.freeze({
       default_mode: :safe,
-      deserialize_symbols: true
+      deserialize_symbols: true,
     })
 
     def self.load(yaml)

@@ -1,10 +1,14 @@
-<%= form_tag tolk.search_path, :method => :get do %>
-  <%= hidden_field_tag :tolk_locale, locale.name %>
+<%= form_tag tolk.search_path, method: :get do %>
+  <%= hidden_field_tag :tolk_locale, @locale.name %>
+
   Search for
   <%= scope_selector_for(@locale) %>
+
   phrase:
   <%= text_field_tag :q, params[:q] %>
+
   within key:
   <%= text_field_tag :k, params[:k] %>
+
   <%= submit_tag "Search", name: nil, class: 'btn' %>
 <% end %>

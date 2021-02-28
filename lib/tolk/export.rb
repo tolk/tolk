@@ -23,5 +23,6 @@ module Tolk
         Tolk::Locale._dump_path
       end
     end
+
   end
 end
