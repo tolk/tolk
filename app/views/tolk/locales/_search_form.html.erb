@@ -1,4 +1,4 @@
-<%= form_tag tolk.search_path, method: :get do %>
+<%= form_tag tolk.edit_locale_path(@locale), method: :get do %>
   <%= hidden_field_tag :tolk_locale, @locale.name %>
 
   Search for

@@ -1,6 +1,6 @@
 module Tolk
   class LocalesController < Tolk::ApplicationController
-    before_action :find_locale, only: [:edit, :update]
+    before_action :find_locale, only: [:show, :edit, :update]
 
     def index
       @locales = Tolk::Locale.all.sort_by(&:language_name)
@@ -86,17 +86,21 @@ module Tolk
     def get_phrases
       case params[:filter]
       when "incomplete"
-        @phrases = @locale.phrases_without_translation
+        @phrases = @locale.phrases.without_translation
       when "completed"
-        @phrases = @locale.phrases_with_translation
+        @phrases = @locale.phrases.with_translation
       when "updated"
-        @phrases = @locale.phrases_with_updated_translation
+        @phrases = @locale.phrases.with_updated_translation
       else
         @phrases = @locale.phrases.includes(:translations)
       end
 
-      if params[:q].present? || params[:k].present?
-        @phrases = @phrases.search_phrases(params[:lang], params[:q], params[:k])
+      if params[:k].present?
+        @phrases = @phrases.containing_text(params[:k])
+      end
+
+      if params[:q].present?
+        @phrases = @phrases.search_translations(params[:q])
       end
 
       @phrases = @phrases.send(pagination_method, params[:page])

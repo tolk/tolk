@@ -18,6 +18,10 @@ module Tolk
       @dump_path ||= Tolk.config.dump_path.is_a?(Proc) ? instance_eval(&Tolk.config.dump_path) : Tolk.config.dump_path
     end
 
+    def to_param
+      name.parameterize
+    end
+
     cattr_accessor :locales_config_path
     self.locales_config_path = self._dump_path
 
@@ -30,12 +34,6 @@ module Tolk
     accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes['text'].blank? }
 
     validates :name, presence: true, uniqueness: {case_sensitive: false}
-
-    cattr_accessor :special_prefixes
-    self.special_prefixes = ['activerecord.attributes']
-
-    cattr_accessor :special_keys
-    self.special_keys = ['activerecord.models']
 
     PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
 
@@ -68,132 +66,9 @@ module Tolk
       where(name: name).first.dump(*args)
     end
 
-    def self.special_key_or_prefix?(prefix, key)
-      self.special_prefixes.include?(prefix) || self.special_keys.include?(key)
-    end
-
     def self.pluralization_data?(data)
       keys = data.keys.map(&:to_s)
       keys.all? {|k| PLURALIZATION_KEYS.include?(k) }
-    end
-
-    def dump(to = self.locales_config_path, exporter = Tolk::Export)
-      exporter.dump(name: name, data: to_hash, destination: to)
-    end
-
-    def has_updated_translations?
-      translations.where('tolk_translations.primary_updated' => true).count > 0
-    end
-
-    def phrases_with_translation
-      find_phrases_with_translations(:'tolk_translations.primary_updated' => false)
-    end
-
-    def phrases_with_updated_translation
-      find_phrases_with_translations(:'tolk_translations.primary_updated' => true)
-    end
-
-    def count_phrases_without_translation
-      Tolk::Phrase.count - self.translations.pluck(:phrase_id).uniq
-    end
-
-    def count_phrases_with_updated_translation
-      find_phrases_with_translations(:'tolk_translations.primary_updated' => true).count
-    end
-
-    def phrases_without_translation
-      phrases = Tolk::Phrase.all.includes(:translations).order('tolk_phrases.key ASC')
-
-      phrases = phrases.where('tolk_phrases.id NOT IN (?)', self.translations.pluck(:phrase_id).uniq)
-
-      return result
-    end
-
-    def search_phrases(lang, query, key_query)
-      if query.blank? && key_query.blank?
-        return self
-      end
-
-      case lang.to_s
-      when "origin"
-        translations = Tolk::Locale.primary_locale.translations.containing_text(query)
-      else # :target
-        translations = self.translations.containing_text(query)
-      end
-
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
-
-      phrases = phrases.containing_text(key_query)
-
-      phrases = phrases.where('tolk_phrases.id IN(?)', translations.map(&:phrase_id).uniq)
-    end
-
-    def search_phrases_without_translation(query)
-      if query.blank?
-        return phrases_without_translation
-      end
-
-      phrases = Tolk::Phrase.all.order('tolk_phrases.key ASC')
-
-      found_translations_ids = Tolk::Locale
-        .primary_locale
-        .translations
-        .where("tolk_translations.text LIKE ?", "%#{query}%")
-        .to_a
-        .map(&:phrase_id)
-        .uniq
-      
-      existing_phrase_ids = self.translations.select('tolk_translations.phrase_id').to_a.map(&:phrase_id).uniq
-      
-      if !existing_phrase_ids.empty?
-        phrases = phrases.where('tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_phrase_ids, found_translations_ids) if existing_ids.present?
-      end
-
-      result
-    end
-
-    def to_hash
-      result = translations.joins(:phrase).order("tolk_phrases.key ASC").pluck("tolk_phrases.key, text")
-
-      data = result.each_with_object(Hash.new(0)) do |translation, locale|
-        if translation[0].include?(".")
-          locale.deep_merge!(unsquish(translation[0], translation[1]))
-        else
-          locale[translation[0]] = translation[1]
-        end
-      end
-
-      return { name => data }
-    end
-
-    def to_param
-      name.parameterize
-    end
-
-    def primary?
-      name == self.class.primary_locale_name
-    end
-
-    def language_name
-      Tolk.config.mapping[self.name] || self.name
-    end
-
-    def get(key)
-      phrase = Tolk::Phrase.where(key: key).first
-
-      if phrase
-        t = self.translations.where(phrase_id: phrase.id).first
-
-        if t
-          return t.text
-        end
-      end
-    end
-
-    def translations_with_html
-      translations
-        .includes(:phrase).references(:phrase)
-        .where("tolk_translations.text LIKE '%>%' AND tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'")
     end
 
     def self.rename(old_name, new_name)
@@ -210,6 +85,52 @@ module Tolk
           return "Locale with name '#{old_name}' not found."
         end
       end
+    end
+
+    def to_hash
+      result = translations.joins(:phrase).order("tolk_phrases.key ASC").pluck("tolk_phrases.key, text")
+
+      data = result.each_with_object(Hash.new(0)) do |translation, locale|
+        if translation[0].include?(".")
+          locale.deep_merge!(unsquish(translation[0], translation[1]))
+        else
+          locale[translation[0]] = translation[1]
+        end
+      end
+
+      return { name => data }
+    end
+
+    def dump(to = self.locales_config_path, exporter = Tolk::Export)
+      exporter.dump(name: name, data: to_hash, destination: to)
+    end
+
+    def has_updated_translations?
+      translations.where('tolk_translations.primary_updated' => true).count > 0
+    end
+
+    def count_phrases_without_translation
+      Tolk::Phrase.count - self.translations.pluck(:phrase_id).uniq.count
+    end
+
+    def count_phrases_with_updated_translation
+      find_phrases_with_translations('tolk_translations.primary_updated' => true).count
+    end
+
+    def phrases_without_translation
+      phrases = Tolk::Phrase.all.includes(:translations).order('tolk_phrases.key ASC')
+
+      phrases = phrases.where('tolk_phrases.id NOT IN (?)', self.translations.pluck(:phrase_id).uniq)
+
+      return phrases
+    end
+
+    def primary?
+      name == self.class.primary_locale_name
+    end
+
+    def language_name
+      Tolk.config.mapping[self.name] || self.name
     end
 
     private

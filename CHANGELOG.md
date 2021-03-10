@@ -15,6 +15,7 @@
   * Add Github Actions CI Test Suite
   * Simplify Controllers and Routes
   * Cleanup Assets
+  * Added screenshots
 
 * Tolk 4.0.1
   * Avoid a case_sensitive rails 6 deprecation warning

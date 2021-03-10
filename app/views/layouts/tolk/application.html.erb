@@ -26,28 +26,30 @@
     </header>
 
     <main>
-      <nav>
-        <% current = ["incomplete","completed"].exclude?(params[:filter]) %>
-        <a href="<%= edit_locale_path(@locale) %>" <% if current %>class="current"<% end %>>
-          All
-        </a>
+      <% if @locale %>
+        <nav>
+          <% current = ["incomplete","completed"].exclude?(params[:filter]) %>
+          <a href="<%= edit_locale_path(@locale) %>" <% if current %>class="current"<% end %>>
+            All
+          </a>
 
-        <% phrases_without_translation_count = @locale.count_phrases_without_translation %>
-        <% current = params[:filter] == 'incomplete' %>
+          <% phrases_without_translation_count = @locale.count_phrases_without_translation %>
+          <% current = params[:filter] == 'incomplete' %>
 
-        <a href="<%= edit_locale_path(@locale, filter: "incomplete") %>" <% if current %>class="current"<% end %>>
-          Incomplete Translations
-          <span class="nav__badge"><%= phrases_without_translation_count %></span>
-        </a>
+          <a href="<%= edit_locale_path(@locale, filter: "incomplete") %>" <% if current %>class="current"<% end %>>
+            Incomplete Translations
+            <span class="nav__badge"><%= phrases_without_translation_count %></span>
+          </a>
 
-        <% completed_translations_count = Tolk::Phrase.count - phrases_without_translation_count %>
-        <% current = params[:filter] == 'completed' %>
+          <% completed_translations_count = Tolk::Phrase.count - phrases_without_translation_count %>
+          <% current = params[:filter] == 'completed' %>
 
-        <a href="<%= edit_locale_path(@locale, filter: "completed") %>" <% if current %>class="current"<% end %>>
-          Completed Translations
-          <span class="nav__badge"><%= completed_translations_count %></span>
-        </a>
-      </nav>
+          <a href="<%= edit_locale_path(@locale, filter: "completed") %>" <% if current %>class="current"<% end %>>
+            Completed Translations
+            <span class="nav__badge"><%= completed_translations_count %></span>
+          </a>
+        </nav>
+      <% end %>
 
       <%= yield %>
     </main>

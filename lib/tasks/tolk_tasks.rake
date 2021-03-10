@@ -37,7 +37,9 @@ namespace :tolk do
 
   desc "Show all the keys potentially containing HTML values and no _html postfix"
   task :html_keys => :environment do
-    bad_translations = Tolk::Locale.primary_locale.translations_with_html
+    bad_translations = Tolk::Locale.primary_locale.translations
+      .includes(:phrase).references(:phrase)
+      .where("tolk_translations.text LIKE '%>%' AND tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'")
 
     bad_translations.each do |bt|
       puts "#{bt.phrase.key} - #{bt.text}"

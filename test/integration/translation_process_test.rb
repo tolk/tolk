@@ -51,36 +51,35 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     assert_equal true, page.has_selector?('td.translation', count: 1)
   end
 
-
   private
 
-    def fill_in_first_translation(with_hash)
-      within('.translations tbody tr:first-child td.translation') do
-        fill_in 'translations[][text]', with_hash
-      end
+  def fill_in_first_translation(with_hash)
+    within('.translations tbody tr:first-child td.translation') do
+      fill_in 'translations[][text]', with_hash
     end
+  end
 
-    def add_locale(name)
-      visit tolk.root_path
-      select name, from: "tolk_locale[name]"
-      click_button '+ Add'
+  def add_locale(name)
+    visit tolk.root_path
+    select name, from: "tolk_locale[name]"
+    click_button '+ Add'
 
-      Tolk::Locale.where(name: Tolk.config.mapping.key(name)).first!
-    end
+    Tolk::Locale.where(name: Tolk.config.mapping.key(name)).first!
+  end
 
-    def setup_locales
-      Tolk::Locale.delete_all
-      Tolk::Translation.delete_all
-      Tolk::Phrase.delete_all
+  def setup_locales
+    Tolk::Locale.delete_all
+    Tolk::Translation.delete_all
+    Tolk::Phrase.delete_all
 
-      Tolk::Locale.locales_config_path = File.join(Rails.root, "../locales/sync/")
+    Tolk::Locale.locales_config_path = File.join(Rails.root, "../locales/sync/")
 
-      I18n.backend.reload!
-      I18n.load_path = [Tolk::Locale.locales_config_path + 'en.yml']
-      I18n.backend.send :init_translations
+    I18n.backend.reload!
+    I18n.load_path = [Tolk::Locale.locales_config_path + 'en.yml']
+    I18n.backend.send :init_translations
 
-      Tolk::Locale.primary_locale(true)
+    Tolk::Locale.primary_locale(true)
 
-      Tolk::Locale.sync!
-    end
+    Tolk::Locale.sync!
+  end
 end
