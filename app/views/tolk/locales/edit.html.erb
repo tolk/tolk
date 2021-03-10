@@ -115,7 +115,7 @@
         No search results.
       </p>
     <% elsif params[:filter] == "incomplete" %>
-      <%= render 'tolk/houra.svg' %>
+      <%= render 'tolk/locales/houra.svg' %>
 
       <p class="empty-state__msg">
         <% if @locale.has_updated_translations? %>
@@ -125,7 +125,7 @@
         <% end %>
       </p>
     <% elsif params[:filter] == "completed" %>
-      <%= render 'tolk/blank_canvas.svg' %>
+      <%= render 'tolk/locales/blank_canvas.svg' %>
 
       <p class="empty-state__msg">
         There aren't any completed translations for this locale.

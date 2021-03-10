@@ -44,12 +44,12 @@ class LocaleTest < ActiveSupport::TestCase
     Tolk::Phrase.paginates_per(5)
     locale = tolk_locales(:en)
 
-    assert_equal [1, 3, 2, 6, 5], locale.phrases_with_translation.map(&:id)
+    assert_equal [1,2,3,5,6], locale.phrases.with_translation.map(&:id)
   end
 
   test "counting missing translations" do
-    assert_equal 2, tolk_locales(:da).count_phrases_without_translation
-    assert_equal 5, tolk_locales(:se).count_phrases_without_translation
+    assert_equal 2, tolk_locales(:da).phrases_without_translation.count
+    assert_equal 5, tolk_locales(:se).phrases_without_translation.count
   end
 
   test "dumping all locales to yml" do

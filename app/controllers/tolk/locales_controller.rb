@@ -66,7 +66,7 @@ module Tolk
             [
               locale.name, 
               {
-                missing: locale.count_phrases_without_translation,
+                missing: locale.phrases_without_translation.count,
                 updated: locale.count_phrases_with_updated_translation,
                 updated_at: locale.updated_at
               }
@@ -86,7 +86,7 @@ module Tolk
     def get_phrases
       case params[:filter]
       when "incomplete"
-        @phrases = @locale.phrases.without_translation
+        @phrases = @locale.phrases_without_translation
       when "completed"
         @phrases = @locale.phrases.with_translation
       when "updated"
