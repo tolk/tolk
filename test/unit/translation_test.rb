@@ -73,22 +73,22 @@ class TranslationTest < ActiveSupport::TestCase
     assert_equal(Set['message'], Tolk::Translation.detect_variables(text))
   end
 
-  test "validation for variables (mismatch)" do
-    primary_text = {
-      'zero' => "{{message}}",
-      'many' => "{{message}} {{count}}",
-    }
-    text = {
-      'zero' => "{{message}}",
-      'many' => "{{foo}}",
-    }
+  # test "validation for variables (mismatch)" do
+  #   primary_text = {
+  #     'zero' => "{{message}}",
+  #     'many' => "{{message}} {{count}}",
+  #   }
+  #   text = {
+  #     'zero' => "{{message}}",
+  #     'many' => "{{foo}}",
+  #   }
 
-    #Tolk::Translation.new(text: text).tap do |t|
-    #  t.stubs(:primary_translation).returns(Tolk::Translation.new(text: primary_text))
-    #  t.valid?
-    #  assert_equal ["The translation should contain the substitutions of the primary translation: (message), found (message, foo)."], t.errors[:variables]
-    #end
-  end
+  #   Tolk::Translation.new(text: text).tap do |t|
+  #     t.stubs(:primary_translation).returns(Tolk::Translation.new(text: primary_text))
+  #     t.valid?
+  #     assert_equal ["The translation should contain the substitutions of the primary translation: (message), found (message, foo)."], t.errors[:variables]
+  #   end
+  # end
 
   test "validation for variables (no variables in primary)" do
     primary_text = {

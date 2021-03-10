@@ -43,10 +43,13 @@ module Tolk
     end
 
     def scope_selector_for(locale)
-      opts = [
-        [Tolk::Locale.primary_locale.language_name, "origin"],
-        [locale.language_name, "target"],
-      ]
+      opts = []
+        
+      if locale.language_name != Tolk::Locale.primary_locale.language_name
+        opts << [Tolk::Locale.primary_locale.language_name, "origin"]
+      end
+
+      opts << [locale.language_name, "target"]
 
       select_tag 'scope', options_for_select(opts, params[:scope])
     end

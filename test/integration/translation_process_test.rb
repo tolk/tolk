@@ -14,13 +14,12 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     assert locale.translations.empty?
 
     # Adding a new translation
-    pirate_path = tolk.locale_path(locale)
-    visit pirate_path
+    visit tolk.locale_path(locale)
 
     fill_in_first_translation with: "Dead men don't bite"
     click_button 'Save changes'
 
-    assert_equal current_path, pirate_path
+    assert_equal current_path, tolk.locale_path(locale)
     assert_equal 1, locale.translations.count
 
     # Updating the translation added above
@@ -41,8 +40,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
     assert locale.translations.empty?
 
     # Adding a new translation
-    pirate_path = tolk.locale_path(locale)
-    visit pirate_path
+    visit tolk.locale_path(locale)
 
     fill_in 'q', with: 'hello_country'
     fill_in 'k', with: 'nested'

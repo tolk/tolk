@@ -3,7 +3,6 @@ require 'tolk/pagination'
 
 module Tolk
   class Locale < ActiveRecord::Base
-    include Tolk::Pagination::Methods
     include Tolk::Sync
     include Tolk::Import
 
@@ -131,6 +130,14 @@ module Tolk
 
     def language_name
       Tolk.config.mapping[self.name] || self.name
+    end
+
+    def get(key)
+      phrase = Tolk::Phrase.where(key: key).first
+
+      if phrase
+        self.translations.where(phrase_id: phrase.id).first.try!(:text)
+      end
     end
 
     private
