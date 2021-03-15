@@ -30,9 +30,13 @@ module Tolk
     has_many :translations, class_name: 'Tolk::Translation', dependent: :destroy
     has_many :phrases, through: :translations, class_name: 'Tolk::Phrase'
 
-    accepts_nested_attributes_for :translations, reject_if: proc { |attributes| attributes['text'].blank? }
+    accepts_nested_attributes_for :translations, reject_if: ->(attrs){ attrs['id'].blank? && attrs['text'].blank? }
 
     validates :name, presence: true, uniqueness: {case_sensitive: false}
+
+    scope :secondary, ->(){
+      where("tolk_locales.name != ?", primary_locale.name)
+    }
 
     PLURALIZATION_KEYS = ['none', 'zero', 'one', 'two', 'few', 'many', 'other']
 
@@ -109,19 +113,7 @@ module Tolk
     end
 
     def count_phrases_without_translation
-      Tolk::Phrase.count - self.translations.pluck(:phrase_id).uniq.count
-    end
-
-    def count_phrases_with_updated_translation
-      find_phrases_with_translations('tolk_translations.primary_updated' => true).count
-    end
-
-    def phrases_without_translation
-      phrases = Tolk::Phrase.all.includes(:translations).order('tolk_phrases.key ASC')
-
-      phrases = phrases.where('tolk_phrases.id NOT IN (?)', self.translations.pluck(:phrase_id).uniq)
-
-      return phrases
+      Tolk::Locale.primary_locale.phrases.count - self.translations.pluck("DISTINCT phrase_id").count
     end
 
     def primary?
@@ -141,19 +133,6 @@ module Tolk
     end
 
     private
-
-    def find_phrases_with_translations(conditions = {})
-      result = Tolk::Phrase
-        .includes(:translations).references(:translations)
-        .where({'tolk_translations.locale_id' => self.id}.merge(conditions))
-        .order('tolk_phrases.key ASC')
-
-      result.each do |phrase|
-        phrase.translation = phrase.translations.for(self)
-      end
-
-      result
-    end
 
     def unsquish(string, value)
       if string.is_a?(String)

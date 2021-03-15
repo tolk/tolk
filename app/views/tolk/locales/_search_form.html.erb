@@ -1,5 +1,6 @@
 <%= form_tag tolk.edit_locale_path(@locale), method: :get do %>
   <%= hidden_field_tag :tolk_locale, @locale.name %>
+  <%= hidden_field_tag :filter, params[:filter] %>
 
   Search for
   <%= scope_selector_for(@locale) %>

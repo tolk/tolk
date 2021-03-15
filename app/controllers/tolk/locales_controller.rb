@@ -3,7 +3,7 @@ module Tolk
     before_action :find_locale, only: [:show, :edit, :update]
 
     def index
-      @locales = Tolk::Locale.all.sort_by(&:language_name)
+      @secondary_locales = Tolk::Locale.secondary.sort_by(&:language_name)
     end
 
     def create
@@ -39,6 +39,8 @@ module Tolk
       else
         flash.now[:alert] = "Not Saved!"
 
+        asd
+
         get_phrases
 
         render "tolk/locales/edit"
@@ -67,7 +69,7 @@ module Tolk
               locale.name, 
               {
                 missing: locale.phrases_without_translation.count,
-                updated: locale.count_phrases_with_updated_translation,
+                updated: locale.phrases.with_updated_translation.count,
                 updated_at: locale.updated_at
               }
             ]
@@ -85,14 +87,16 @@ module Tolk
 
     def get_phrases
       case params[:filter]
-      when "incomplete"
-        @phrases = @locale.phrases_without_translation
       when "completed"
         @phrases = @locale.phrases.with_translation
       when "updated"
         @phrases = @locale.phrases.with_updated_translation
       else
-        @phrases = @locale.phrases.includes(:translations)
+        params[:filter] = "incomplete"
+
+        existing_phrase_ids_for_locale = @locale.translations.where("tolk_translations.text IS NOT NULL").pluck(:phrase_id).uniq
+
+        @phrases = Tolk::Locale.primary_locale.phrases.where.not(id: existing_phrase_ids_for_locale)
       end
 
       if params[:k].present?

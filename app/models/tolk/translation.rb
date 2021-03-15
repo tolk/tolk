@@ -16,7 +16,7 @@ module Tolk
 
     validates :locale_id, presence: true
     validates :phrase_id, uniqueness: {scope: :locale_id}
-    validates :text, presence: true, if: proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
+    #validates :text, presence: true, if: proc {|r| r.primary.blank? && !r.explicit_nil && !r.boolean?}
     validate :check_matching_variables, if: proc { |tr| tr.primary_translation.present? }
 
     before_validation :fix_text_type, unless: proc {|r| r.primary }

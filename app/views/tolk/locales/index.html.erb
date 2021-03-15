@@ -1,48 +1,33 @@
 <h2>
-  Locales
-  <small>(Primary locale is <%= Tolk::Locale.primary_locale.language_name %>)</small>
+  All Languages
+  <small>(Primary locale is <%= link_to Tolk::Locale.primary_locale.language_name, locale_path(Tolk::Locale.primary_locale) %>)</small>
 </h2>
 
-<% if @locales.any? %>
-  <ul class="locales-list">
-    <% @locales.each do |locale| %>
-      <li>
-        <a href="<%= locale_path(locale) %>">
-          <span><%= locale.language_name %></span>
-
-          <% missing_count = locale.count_phrases_without_translation %>
-
-          <% if missing_count > 0 %>
-            <em class="missing_translations"><%= missing_count %></em>
-          <% end %>
-
-          <% if locale.has_updated_translations? %>
-            <em class="updated_translations" title="Some phrases have changed">⚠</em>
-          <% end %>
-        </a>
-      </li>
-    <% end %>
-
+<ul class="locales-list">
+  <% ([Tolk::Locale.primary_locale] + @secondary_locales).each do |locale| %>
     <li>
-      <%= form_for(Tolk::Locale.new) do |f| %>
-        <p>
-          <select name="tolk_locale[name]">
-            <%= options_for_select tolk_locale_selection %>
-          </select>
+      <a href="<%= locale_path(locale) %>">
+        <span><%= locale.language_name %></span>
+        <% if locale.primary? %>
+          <span>(Primary)</span>
+        <% end %>
 
-          <%= f.submit '+ Add', class: 'btn' %>
-        </p>
-      <% end %>
+        <% missing_count = locale.count_phrases_without_translation %>
+
+        <% if missing_count > 0 %>
+          <em class="missing_translations" style="display: inline-block; margin: 4px 0 0 2px;">
+            <%= missing_count %>
+          </em>
+        <% end %>
+
+        <% if locale.has_updated_translations? %>
+          <em class="updated_translations" title="Some phrases have changed">⚠</em>
+        <% end %>
+      </a>
     </li>
-  </ul>
-<% else %>
-  <div class="empty-state">
-    <%= render 'tolk/locales/empty.svg' %>
+  <% end %>
 
-    <p class="empty-state__msg">
-      No locales yet, add one:
-    </p>
-
+  <li>
     <%= form_for(Tolk::Locale.new) do |f| %>
       <p>
         <select name="tolk_locale[name]">
@@ -52,5 +37,5 @@
         <%= f.submit '+ Add', class: 'btn' %>
       </p>
     <% end %>
-  </div>
-<% end %>
+  </li>
+</ul>

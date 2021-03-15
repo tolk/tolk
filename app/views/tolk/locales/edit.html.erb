@@ -31,78 +31,65 @@
 
 <% if @phrases.any? %>
   <div class="translations">
-    <%= form_for @locale do |locale_form| %>
-      <table class="translations">
-        <thead>
-          <tr>
-            <th><%= @locale.language_name -%></th>
-            <th class="actions">Actions</th>
-            <th><%= Tolk::Locale.primary_language_name -%></th>
-          </tr>
-        </thead>
+    <div class='row headers'>
+      <div class="col col-1"><%= @locale.language_name -%></div>
+      <div class="col col-2">Primary Language (<%= Tolk::Locale.primary_language_name -%>)</div>
+      <div class="col col-3 actions">Actions</div>
+    </div>
 
-        <tbody>
-          <% @phrases.each do |phrase| %>
-            <% translation = phrase.translations.for(@locale) || Tolk::Translation.new(locale: @locale, phrase: phrase) %>
+    <% @phrases.each do |phrase| %>
+      <div class='row'>
+        <% translation = phrase.translations.for(@locale) || @locale.translations.new(phrase: phrase) %>
 
-            <%= locale_form.fields_for :translations, [translation] do |tf| %>
-              <tr>
-                <td class="translation">
-                  <%= tf.hidden_field :phrase_id, id: "#{translation.object_id}_phrase_id" %>
-                  <%= tf.hidden_field :locale_id, id: "#{translation.object_id}_locale_id" %>
+        <%= form_for @locale, as: :tolk_locale do |locale_form| %>
+          <%= locale_form.fields_for :translations, [translation] do |tf| %>
+            <%= tf.hidden_field :phrase_id, id: "#{translation.object_id}_phrase_id" %>
+            <%= tf.hidden_field :locale_id, id: "#{translation.object_id}_locale_id" %>
 
-                  <%= tf.text_area :text, value: format_i18n_text_area_value(translation.text), id: "#{translation.object_id}_text", class: 'locale' %>
-                </td>
+            <div class="col col-1 translation">
+              <%= tf.text_area :text, value: format_i18n_text_area_value(translation.text), id: "#{translation.object_id}_text", class: 'locale' %>
 
-                <td class="actions">
-                  <a class="copy" href="#" tabindex="-1" title="Copy original translation">&larr; Copy</a><br>
-                  <span class="warning" title="Interpolation keys don't match">⚠</span>
-                </td>
+              <div class="interpolation-warning">⚠ Warning Interpolation Keys dont match</div>
+            </div>
 
-                <td class="original">
-                  <% default_translation = phrase.translations.primary %>
+            <div class="col col-2 original">
+              <% default_translation = phrase.translations.primary %>
 
-                  <%= text_area_tag "tolk_locale[translations_attributes][#{translation.object_id}][original_text]", format_i18n_text_area_value(default_translation.text), disabled: true %>
+              <% if params[:search].present? -%>
+                <% orig_text = highlight(format_i18n_value(default_translation.text), params[:search]) -%>
+              <% else -%>
+                <% orig_text = format_i18n_value(default_translation.text) -%>
+              <% end -%>
 
-                  <% if params[:search].present? -%>
-                    <%= highlight(format_i18n_value(default_translation.text), params[:search]) -%>
-                  <% else -%>
-                    <%= format_i18n_value(default_translation.text) -%>
-                  <% end -%>
+              <pre><%= orig_text %></pre>
 
-                  <%= boolean_warning if default_translation.boolean? -%>
+              <%= text_area_tag "tolk_locale[translations_attributes][#{translation.object_id}][original_text]", format_i18n_text_area_value(default_translation.text), disabled: true %>
 
-                  <% if params[:search].present? -%>
-                    <%= highlight(format_i18n_value(default_translation.text), params[:search]) -%>
-                  <% else -%>
-                    <%= format_i18n_value(default_translation.text) -%>
-                  <% end -%>
+              <%= boolean_warning if default_translation.boolean? -%>
 
-                  <%= boolean_warning if default_translation.boolean? -%>
+              <span class="translation-key" title="<%= phrase.key %>">
+                <% if params[:k].present? %>
+                  <%= highlight(h(truncate(phrase.key, length: 100)), params[:k]) %>
+                <% else %>
+                  <%= h(truncate(phrase.key, length: 100)) %>
+                <% end %>
+              </span>
+            </div>
 
-                  <span class="translation-key" title="<%= phrase.key %>">
-                    <% if params[:k].present? %>
-                      <%= highlight(h(truncate(phrase.key, length: 100)), params[:k]) %>
-                    <% else %>
-                      <%= h(truncate(phrase.key, length: 100)) %>
-                    <% end %>
-                  </span>
-                </td>
-              </tr>
-            <% end %>
+            <div class="col col-3 actions">
+              <button type="submit" class="btn">&#x2611; Save</button>
+              <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn', style: "background-color: #999; margin-left: 5px;" %>
+              <div style="margin: 15px;"></div>
+              <a class="btn copy" style="background: orange; <%= 'display:none;' if tf.object.text %>" href="#">&larr; Copy From Primary</a><br>
+            </div>
           <% end %>
-        </tbody>
-      </table>
-
-      <div class="table_submit">
-        <%= tolk_paginate @phrases %>
-
-        <p>
-          <%= locale_form.submit "Save changes", class: 'save-translations btn btn--large' %>
-          <%= link_to "Cancel", request.path, class: 'cancel-translations btn btn--large' %>
-        </p>
+        <% end %>
       </div>
     <% end %>
+
+    <div class="table_pagination">
+      <%= tolk_paginate @phrases %>
+    </div>
   </div>
 
 <% else %>
@@ -132,4 +119,66 @@
       </p>
     <% end %>
   </div>
+<% end %>
+
+<% content_for :script_footer do %>
+  <script type="text/javascript">
+    $(function(){
+      //////////////////////////////////////////////////////////////////////// ACTIONS
+      $(".translations button.copy").click(function(e){
+        e.preventDefault();
+
+        var row = $(this).closest(".row");
+
+        var original_text = row.find(".original pre").text();
+
+        row.find(".translation textarea").val(original_text.trim()).trigger("change");
+      });
+
+      //////////////////////////////////////////////////////////////////////// FORM ARE YOU SURE PROMPT
+      var showConfirm = function(){
+        return "You are leaving this page with non-saved data. Are you sure you want to continue?";
+      };
+
+      var translation_fields = $(".translations textarea");
+
+      translation_fields.change(function(){
+        window.onbeforeunload = showConfirm;
+      });
+
+      $("form button[type=submit]").click(function(){
+        window.onbeforeunload = null;
+      });
+
+      //////////////////////////////////////////////////////////////////////// TEXT AREA AUTO-HEIGHT
+      translation_fields.each(function(){
+        var height = $(this).parent('td').height();
+        $(this).css({height: height});
+      });
+
+      //////////////////////////////////////////////////////////////////////// VERIFY INTERPOLATIONS
+      var interpolation = new RegExp("%{\\w+}", "g");
+      
+      translation_fields.change(function(){
+        var val = $(this).val();
+
+        var row = $(this).closest(".row");
+
+        row.find(".copy").toggle(val);
+
+        var original_text = row.find(".original pre").text();
+
+        var original_interpolations = original_text.match(interpolation) || [];
+
+        var translated_interpolations = val.match(interpolation) || [];
+
+        if(val.length > 0){
+          var not_match = $(original_interpolations).not(translated_interpolations).length !== 0 || $(translated_interpolations).not(original_interpolations).length !== 0;
+        }
+
+        row.find(".interpolation-warning").toggle(not_match);
+      });
+
+    });
+  </script>
 <% end %>

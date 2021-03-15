@@ -1,5 +1,5 @@
 /*
-* =require tolk/reset
+*= require tolk/reset
 */
 
 
@@ -15,8 +15,8 @@
 
 strong {font-weight: bold;}
 em {font-style: italic;}
-a {color: #888;}
-a:hover {color: #000;}
+//a {color: #888;}
+//a:hover {color: #000;}
 
 /**
  * Variables
@@ -25,7 +25,7 @@ $primary_color: #2fadcf;
 $font_family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 
 /**
- * Some generic components
+ * Generic Components
 **/
 .btn{
   font-family: $font_family;
@@ -35,20 +35,24 @@ $font_family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, 
   border-radius: 2px;
 
   border: none;
-  background-image: linear-gradient($primary_color, darken($primary_color, 4%));
+  background-color: $primary_color;
   color: #fff;
-  font-size: 1em;
+  font-size: 1rem;
+  text-decoration: none;
 
   cursor: pointer;
+  min-height: 28px;
+
   &:hover,
   &:focus{
-    background-image: linear-gradient(darken($primary_color, 2%), darken($primary_color, 8%));
+    filter: brightness(95%);
   }
+
   &:focus{
     box-shadow: 0 0 0 3px rgba($primary_color, .5);
   }
 
-  &.btn--large{
+  &.btn-large{
     font-size: 1.25em;
     padding: .5em .75em;
   }
@@ -282,39 +286,37 @@ ul.locales-list{
  * Translations form
 **/
 div.translations {
-  table {
-    width: 100%;
-    text-align: left;
-  }
-
-  td, th{
-    padding: 1rem 1.5rem;
-    vertical-align: top;
+  .col-1{
     width: 50%;
   }
-  td{
+  .col-2{
+    width: calc(50% - 240px);
+  }
+  .col-3{
+    width: 230px;
+  }
+
+  .col{
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    vertical-align: top;
     color: #222;
   }
-  th{
+
+  .headers{
     font-weight: bold;
     text-transform: uppercase;
     color: #aaa;
     border-bottom: 1px solid #ddd;
-    padding: 1.5rem 1.5rem .25rem 1.5rem;
+    padding: 0rem 1.5rem;
   }
 
-  th.actions,
-  td.actions{
-    width: 50px;
+  .col.actions{
     text-align: center;
   }
 
-  tbody tr:nth-child(2n) td{
+  .row:not(.headers):nth-child(2n){
     background-color: #fbfbfb;
-  }
-
-  tbody tr.active td:first-child{
-    box-shadow: 3px 0px 0px -1px $primary_color inset;
   }
 
   textarea.locale {
@@ -368,60 +370,36 @@ div.translations {
     .interpolation,
     .carriage_return,
     .boolean{
-      color: $primary_color;
       font-family: Courier, monospace;
       font-weight: bold;
       cursor: help;
     }
+
     .carriage_return:before{
-      content: "¶";
+      //content: "¶";
     }
   }
 
-  .actions a{
-    font-weight: bold;
-    text-decoration: none;
-  }
-
-  .actions .warning{
-    font-weight: bold;
-    font-size: 1.35em;
+  .interpolation-warning{
     color: orange;
     padding: 2px 4px;
     display: none;
     cursor: help;
+    font-size: 14px;
+    text-align: center;
   }
 
   .highlight{
     background-color: yellow;
   }
 
-  .table_submit{
+  .table_pagination{
     background: #f5f5f5;
     border-top: 1px solid #e0e0e0 ;
     padding: 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    .save-translations{
-      position: fixed;
-      left: 40px;
-      bottom: 40px;
-    }
-
-    .cancel-translations{
-      background-image: none;
-      background-color: #777;
-      position: fixed;
-      left: 180px;
-      bottom: 40px;
-      text-decoration: none;
-
-      &:hover{
-        color: white;
-      }
-    }
   }
 }
 

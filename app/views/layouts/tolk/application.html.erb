@@ -6,7 +6,7 @@
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <%= stylesheet_link_tag "tolk/application" %>
+  <%= stylesheet_link_tag "tolk/application.css" %>
   <%= yield :head %>
 </head>
 
@@ -14,25 +14,33 @@
   <div class="container">
     <header>
       <h1>
-        <%= link_to "Tolk", root_path %> / <%= link_to "All Languages", root_path %>
-        <% if defined?(@locale) && @locale.present? %>
-          / <%= link_to @locale.language_name, locale_path(@locale) %>
+        <%= link_to "Tolk", root_path %>
+        &rarr;
+        <%= link_to "All Languages", root_path %>
+        
+        <% if @locale %>
+          &rarr;
+
+          <% if @locale.primary? %>
+            Primary Locale
+          <% else %>
+            Secondary Locales
+          <% end %>
+
+          &rarr;
+
+          <%= link_to @locale.language_name, locale_path(@locale) %>
         <% end %>
       </h1>
 
       <% if action_name == 'index' %>
-        <%= button_to "Apply Changes", dump_all_locales_path, method: :post, class: "btn btn--large" %>
+        <%= button_to "Apply Changes", dump_all_locales_path, method: :post, class: "btn btn-large" %>
       <% end %>
     </header>
 
     <main>
       <% if @locale %>
         <nav>
-          <% current = ["incomplete","completed"].exclude?(params[:filter]) %>
-          <a href="<%= edit_locale_path(@locale) %>" <% if current %>class="current"<% end %>>
-            All
-          </a>
-
           <% phrases_without_translation_count = @locale.count_phrases_without_translation %>
           <% current = params[:filter] == 'incomplete' %>
 
@@ -56,5 +64,9 @@
   </div>
 
   <%= javascript_include_tag "tolk/application" %>
+
+  <% if content_for?(:script_footer) %>
+    <%= yield :script_footer %>
+  <% end %>
 </body>
 </html>
