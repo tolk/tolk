@@ -78,9 +78,9 @@
                 <% end %>
               </span>
             </div>
-          <% end %>
+          </div>
         <% end %>
-      </div>
+      <% end %>
     <% end %>
 
     <div class="table_pagination">
@@ -173,7 +173,7 @@
       translation_fields.change(function(){
         var val = $(this).val();
 
-        var row = $(this).closest(".row");
+        var row = $(this).parents(".row");
 
         if(val){
           row.find(".copy").hide();
@@ -181,7 +181,7 @@
           row.find(".copy").show();
         }
 
-        var primary_text = row.find(".primary textarea.primary-translation").text();
+        var primary_text = row.find(".primary textarea.primary-translation").val();
 
         var primary_interpolations = primary_text.match(interpolation) || [];
 
