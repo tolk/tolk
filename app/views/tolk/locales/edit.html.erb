@@ -36,7 +36,7 @@
       <div class="col col-2">Primary Language (<%= Tolk::Locale.primary_language_name -%>)</div>
     </div>
 
-    <%= form_for @locale, as: :tolk_locale, remote: true do |locale_form| %>
+    <%= form_for @locale, as: :tolk_locale do |locale_form| %>
       <% @phrases.each do |phrase| %>
         <% translation = phrase.translations.for(@locale) || @locale.translations.new(phrase: phrase) %>
 
@@ -81,16 +81,16 @@
           </div>
         <% end %>
       <% end %>
-    <% end %>
 
-    <div class="table_pagination">
-      <div class='save-and-cancel' style="position:fixed; left:35px; bottom: 35px;">
-        <button type="submit" class="btn btn-large save">&#x2611; Save</button>
-        <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn btn-large cancel', style: "background-color: #999; margin-left: 5px;" %>
+      <div class="table_pagination">
+        <div class='save-and-cancel' style="position:fixed; left:35px; bottom: 35px;">
+          <button type="submit" class="btn btn-large save">&#x2611; Save</button>
+          <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn btn-large cancel', style: "background-color: #999; margin-left: 5px;" %>
+        </div>
+
+        <%= tolk_paginate @phrases %>
       </div>
-
-      <%= tolk_paginate @phrases %>
-    </div>
+    <% end %>
   </div>
 
 <% else %>

@@ -7,7 +7,6 @@
   * Add form Success and Error alerts
   * Show Validation Errors on Failure
   * Dont clear fields on error
-  * Highlight which translations have errors (TODO)
   * Clarify Action Names
   * Added Cancel Button
   * Floating Save/Cancel Button
