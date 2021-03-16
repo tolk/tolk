@@ -290,10 +290,7 @@ div.translations {
     width: 50%;
   }
   .col-2{
-    width: calc(50% - 240px);
-  }
-  .col-3{
-    width: 230px;
+    width: 49%;
   }
 
   .col{
@@ -313,6 +310,10 @@ div.translations {
 
   .col.actions{
     text-align: center;
+  }
+
+  .row{
+    border-bottom: 1px solid black;
   }
 
   .row:not(.headers):nth-child(2n){
@@ -435,12 +436,11 @@ div.translations {
   background: #f5f5f5;
   margin: 0 0 0 auto;
 
-  a, span, em{
+  a, span.current, em{
     font-style: normal;
-    padding: .25em .75em;
+    padding: .5em 1em;
     text-decoration: none;
     border: 1px solid #ddd;
-    border-radius: 2px;
     display: inline-block;
     background-color: #fff;
     &.disabled {
@@ -450,7 +450,8 @@ div.translations {
 
   a:hover,
   a:focus,
-  em.current {
+  span.current,
+  em.current{
     background-color: $primary_color;
     border-color: $primary_color;
     color: #fff;

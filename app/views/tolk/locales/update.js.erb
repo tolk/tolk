@@ -1,0 +1,7 @@
+var row = $("#<%= params[:object_id] %>");
+
+<% if @locale.errors.any? -%>
+  row.replaceWith("<%= j render "translation_form" %>");
+<% else -%>
+  row.find(".actions .save-and-cancel").hide();
+<% end -%>

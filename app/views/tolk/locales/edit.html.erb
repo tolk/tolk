@@ -34,14 +34,13 @@
     <div class='row headers'>
       <div class="col col-1"><%= @locale.language_name -%></div>
       <div class="col col-2">Primary Language (<%= Tolk::Locale.primary_language_name -%>)</div>
-      <div class="col col-3 actions">Actions</div>
     </div>
 
-    <% @phrases.each do |phrase| %>
-      <div class='row'>
+    <%= form_for @locale, as: :tolk_locale, remote: true do |locale_form| %>
+      <% @phrases.each do |phrase| %>
         <% translation = phrase.translations.for(@locale) || @locale.translations.new(phrase: phrase) %>
 
-        <%= form_for @locale, as: :tolk_locale do |locale_form| %>
+        <div class='row' id="<%= translation.object_id %>">
           <%= locale_form.fields_for :translations, [translation] do |tf| %>
             <%= tf.hidden_field :phrase_id, id: "#{translation.object_id}_phrase_id" %>
             <%= tf.hidden_field :locale_id, id: "#{translation.object_id}_locale_id" %>
@@ -50,9 +49,13 @@
               <%= tf.text_area :text, value: format_i18n_text_area_value(translation.text), id: "#{translation.object_id}_text", class: 'locale' %>
 
               <div class="interpolation-warning">⚠ Warning Interpolation Keys dont match</div>
+
+              <div style="text-align: right; margin-top: 10px;">
+                <button type="button" class="btn copy" style="background: orange; <%= 'display:none;' if tf.object.text %>">&larr; Copy Text From Primary Language</a><br>
+              </div>
             </div>
 
-            <div class="col col-2 original">
+            <div class="col col-2 primary">
               <% default_translation = phrase.translations.primary %>
 
               <% if params[:search].present? -%>
@@ -63,7 +66,7 @@
 
               <pre><%= orig_text %></pre>
 
-              <%= text_area_tag "tolk_locale[translations_attributes][#{translation.object_id}][original_text]", format_i18n_text_area_value(default_translation.text), disabled: true %>
+              <%= text_area_tag nil, format_i18n_text_area_value(default_translation.text), disabled: true, class: 'primary-translation', style: "display:none;" %>
 
               <%= boolean_warning if default_translation.boolean? -%>
 
@@ -75,19 +78,17 @@
                 <% end %>
               </span>
             </div>
-
-            <div class="col col-3 actions">
-              <button type="submit" class="btn">&#x2611; Save</button>
-              <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn', style: "background-color: #999; margin-left: 5px;" %>
-              <div style="margin: 15px;"></div>
-              <a class="btn copy" style="background: orange; <%= 'display:none;' if tf.object.text %>" href="#">&larr; Copy From Primary</a><br>
-            </div>
           <% end %>
         <% end %>
       </div>
     <% end %>
 
     <div class="table_pagination">
+      <div class='save-and-cancel' style="position:fixed; left:35px; bottom: 35px;">
+        <button type="submit" class="btn btn-large save">&#x2611; Save</button>
+        <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn btn-large cancel', style: "background-color: #999; margin-left: 5px;" %>
+      </div>
+
       <%= tolk_paginate @phrases %>
     </div>
   </div>
@@ -121,18 +122,34 @@
   </div>
 <% end %>
 
+<style>
+  textarea{
+    resize: none;
+  }
+</style>
+
 <% content_for :script_footer do %>
   <script type="text/javascript">
     $(function(){
+
+      //////////////////////////////////////////////////////////////////////// TEXT AREA AUTO-HEIGHT
+      var textarea = $("textarea");
+      textarea.not("[rows]").prop('rows','1');
+      autosize(textarea);
+
       //////////////////////////////////////////////////////////////////////// ACTIONS
       $(".translations button.copy").click(function(e){
         e.preventDefault();
 
         var row = $(this).closest(".row");
 
-        var original_text = row.find(".original pre").text();
+        var primary_text = row.find(".primary textarea.primary-translation").val();
 
-        row.find(".translation textarea").val(original_text.trim()).trigger("change");
+        var field = row.find(".translation textarea");
+
+        field.val(primary_text.trim()).trigger("change");
+
+        autosize.update(field);
       });
 
       //////////////////////////////////////////////////////////////////////// FORM ARE YOU SURE PROMPT
@@ -150,12 +167,6 @@
         window.onbeforeunload = null;
       });
 
-      //////////////////////////////////////////////////////////////////////// TEXT AREA AUTO-HEIGHT
-      translation_fields.each(function(){
-        var height = $(this).parent('td').height();
-        $(this).css({height: height});
-      });
-
       //////////////////////////////////////////////////////////////////////// VERIFY INTERPOLATIONS
       var interpolation = new RegExp("%{\\w+}", "g");
       
@@ -164,16 +175,20 @@
 
         var row = $(this).closest(".row");
 
-        row.find(".copy").toggle(val);
+        if(val){
+          row.find(".copy").hide();
+        }else{
+          row.find(".copy").show();
+        }
 
-        var original_text = row.find(".original pre").text();
+        var primary_text = row.find(".primary textarea.primary-translation").text();
 
-        var original_interpolations = original_text.match(interpolation) || [];
+        var primary_interpolations = primary_text.match(interpolation) || [];
 
         var translated_interpolations = val.match(interpolation) || [];
 
         if(val.length > 0){
-          var not_match = $(original_interpolations).not(translated_interpolations).length !== 0 || $(translated_interpolations).not(original_interpolations).length !== 0;
+          var not_match = $(primary_interpolations).not(translated_interpolations).length !== 0 || $(translated_interpolations).not(primary_interpolations).length !== 0;
         }
 
         row.find(".interpolation-warning").toggle(not_match);

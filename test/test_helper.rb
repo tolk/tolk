@@ -6,6 +6,7 @@ require "rails/test_help"
 require "capybara/rails"
 require "mocha/minitest"
 require 'capybara/poltergeist'
+require 'protected_attributes_continued'
 
 Rails.backtrace_cleaner.remove_silencers!
 

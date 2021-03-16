@@ -35,15 +35,25 @@ module Tolk
       if @locale.update(translation_params)
         flash[:notice] = "Save Successful!"
 
-        redirect_back(fallback_location: edit_locale_path(@locale))
+        respond_to do |f|
+          f.html{ 
+            redirect_back(fallback_location: edit_locale_path(@locale))
+          }
+
+          f.js
+        end
       else
         flash.now[:alert] = "Not Saved!"
 
-        asd
-
         get_phrases
 
-        render "tolk/locales/edit"
+        respond_to do |f|
+          f.html{ 
+            render "tolk/locales/edit"
+          }
+
+          f.js
+        end
       end
     end
 
