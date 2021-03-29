@@ -100,6 +100,7 @@ $(function () {
         q: q,
         source: 'en',
         target: target,
+        format: 'text'
       });
     })
   }
