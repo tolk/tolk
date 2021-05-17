@@ -430,3 +430,20 @@ div.translations {
     color: #fff;
   }
 }
+
+/**
+ * Google translate index
+**/
+
+.google-translate-container {
+  padding: 1rem 1.5rem;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #eee;
+  line-height: 2em;
+
+  .banner {
+    margin: 3rem auto;
+    width: 60%;
+  }
+
+}

@@ -6,8 +6,10 @@ Tolk::Engine.routes.draw do
 
   resources :locales do
     member do
-      get :all
-      get :updated
+      get  :all
+      get  :updated
+      get  :google_translate
+      post :start_translation
     end
   end
   resource :search

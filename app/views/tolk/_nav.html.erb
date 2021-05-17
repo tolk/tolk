@@ -3,6 +3,8 @@
     if controller_name == "locales"
       if action_name == "show"
         current = 'missing'
+      elsif action_name == "google_translate"
+        current = 'google_translate'
       else
         current = 'completed'
       end
@@ -19,6 +21,9 @@
   <a href="<%= all_locale_path(@locale) %>" <% if current == 'completed' %>class="current"<% end %>>
     Completed translations
     <span class="nav__badge"><%= completed_translations_count %></span>
+  </a>
+  <a href="<%= google_translate_locale_path(@locale) %>" <% if current == 'google_translate' %>class="current"<% end %>>
+    Google translate
   </a>
   <a href="<%= search_path(tolk_locale: @locale, scope: 'origin') %>" <% if current == 'search' %>class="current"<% end %>>
     Search

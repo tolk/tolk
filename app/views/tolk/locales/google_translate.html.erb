@@ -1,0 +1,14 @@
+<%= render 'tolk/nav' %>
+
+<div class="google-translate-container">
+  <div class="banner">
+    <span>You are about to send <b><%= @locale.count_phrases_without_translation %></b> phrases to be translated on Google Translation API. Once this is done, you will be able to view finished translation on completed translation tab.
+
+    <br />
+    <br />
+    <br />
+
+
+    <button class="btn js-start-batch-translation" data-url="<%= start_translation_locale_path(@locale) %>">Start the translation</button>
+  </div>
+</div>

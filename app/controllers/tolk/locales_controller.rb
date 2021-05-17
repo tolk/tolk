@@ -1,6 +1,9 @@
+require 'tolk/interpreter'
+
 module Tolk
   class LocalesController < Tolk::ApplicationController
-    before_action :find_locale, :only => [:show, :all, :update, :updated]
+    before_action :find_locale, :only => [:show, :all, :update, :updated, :google_translate, :start_translation]
+    before_action :set_translation_interpreter, :only => [:google_translate, :start_translation]
     before_action :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
 
     def index
@@ -31,6 +34,13 @@ module Tolk
 
     def all
       @phrases = @locale.phrases_with_translation(params[pagination_param])
+    end
+
+    def google_translate
+    end
+
+    def start_translation
+      @interpreter.start_translation(@locale)
     end
 
     def updated
@@ -79,6 +89,10 @@ module Tolk
 
     def translation_params
       params.permit(translations: [:id, :phrase_id, :locale_id, :text])[:translations]
+    end
+
+    def set_translation_interpreter
+      @interpreter ||= ::Tolk::Interpreter.new
     end
 
   end

@@ -33,6 +33,15 @@ module Tolk
       # Ignore specific keys
       attr_accessor :ignore_keys
 
+      # Google Cloud Platform project ID for translation
+      attr_accessor :translate_project_id
+
+      # Google Cloud Platfrom location ID for translation
+      attr_accessor :translate_location_id
+
+      # Google Cloud Platfrom path to auth JSON
+      attr_accessor :translate_auth_json_location
+
       def reset
         @exclude_gems_token = false
 
