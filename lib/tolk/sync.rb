@@ -97,7 +97,7 @@ module Tolk
 
         ignored_escaped = ignored.map { |key| Regexp.escape(key) }
 
-        regexp = Regexp.new(/\A#{ignored_escaped.join('|')}/)
+        regexp = Regexp.new(/\A(#{ignored_escaped.join('|')})(:?\.|\Z)/)
 
         flat_hash.reject { |key, _| regexp === key }
       end
