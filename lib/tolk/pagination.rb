@@ -1,8 +1,7 @@
 module Tolk
   module Pagination
     module Methods
-      # Kaminari defaults page_method_name to :page, will_paginate always uses
-      # :page
+      # Kaminari defaults page_method_name to :page, will_paginate always uses :page
       def pagination_method
         defined?(Kaminari) ? Kaminari.config.page_method_name : :page
       end

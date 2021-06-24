@@ -38,12 +38,20 @@ module Tolk
       existing_locale_names = Tolk::Locale.all.map(&:name)
 
       pairs = Tolk.config.mapping.to_a.map(&:reverse).sort_by(&:first)
-      pairs.reject {|pair| existing_locale_names.include?(pair.last) }
+
+      pairs.reject{|pair| existing_locale_names.include?(pair.last) }
     end
 
     def scope_selector_for(locale)
-      select_tag 'scope', options_for_select([[Tolk::Locale.primary_locale.language_name, "origin"],
-                                              [locale.language_name, "target"]], params[:scope])
+      opts = []
+        
+      if locale.language_name != Tolk::Locale.primary_locale.language_name
+        opts << [Tolk::Locale.primary_locale.language_name, "origin"]
+      end
+
+      opts << [locale.language_name, "target"]
+
+      select_tag 'scope', options_for_select(opts, params[:scope])
     end
   end
 end

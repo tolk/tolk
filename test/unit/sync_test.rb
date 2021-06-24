@@ -39,15 +39,15 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_sets_primary_updated_for_secondary_translations_on_update
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.expects(:load_translations).returns({"hello_world" => "Hello World", 'nested.hello_country' => 'Nested Hello Country'}).at_least_once
     Tolk::Locale.sync!
 
     phrase1 = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    t1 = spanish.translations.create!(:text => 'hola', :phrase => phrase1)
+    t1 = spanish.translations.create!(text: 'hola', phrase: phrase1)
     phrase2 = Tolk::Phrase.all.detect {|p| p.key == 'nested.hello_country'}
-    t2 = spanish.translations.create!(:text => 'nested hola', :phrase => phrase2)
+    t2 = spanish.translations.create!(text: 'nested hola', phrase: phrase2)
 
     # Change 'Hello World' to 'Hello Super World'. But don't change nested.hello_country
     Tolk::Locale.expects(:load_translations).returns({'hello_world' => 'Hello Super World', 'nested.hello_country' => 'Nested Hello Country'}).at_least_once
@@ -61,11 +61,11 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_marks_translations_for_review_when_the_primary_translation_has_changed
-    Tolk::Locale.create!(:name => 'es')
+    Tolk::Locale.create!(name: 'es')
 
-    phrase = Tolk::Phrase.create! :key => 'number.precision'
-    phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "en").first)
-    spanish_translation = phrase.translations.create!(:text => "1", :locale => Tolk::Locale.where(name: "es").first)
+    phrase = Tolk::Phrase.create! key: 'number.precision'
+    phrase.translations.create!(text: "1", locale: Tolk::Locale.where(name: "en").first)
+    spanish_translation = phrase.translations.create!(text: "1", locale: Tolk::Locale.where(name: "es").first)
 
     Tolk::Locale.expects(:load_translations).returns({'number.precision' => "1"}).at_least_once
     Tolk::Locale.sync! and spanish_translation.reload
@@ -100,13 +100,13 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_deletes_stale_translations_for_secondary_locales_on_delete_all
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.expects(:load_translations).returns({'hello_world' => 'Hello World', 'nested.hello_country' => 'Nested Hello Country'}).at_least_once
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    hola = spanish.translations.create!(text: 'hola', phrase: phrase)
 
     # Mimic deleting all the translations
     Tolk::Locale.expects(:load_translations).returns({}).at_least_once
@@ -119,13 +119,13 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_deletes_stale_translations_for_secondary_locales_on_delete_some
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.expects(:load_translations).returns({'hello_world' => 'Hello World', 'nested.hello_country' => 'Nested Hello Country'}).at_least_once
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    hola = spanish.translations.create!(text: 'hola', phrase: phrase)
 
     # Mimic deleting 'hello_world'
     Tolk::Locale.expects(:load_translations).returns({'nested.hello_country' => 'Nested Hello World'}).at_least_once
@@ -152,13 +152,13 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_doesnt_mess_with_existing_translations
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.expects(:load_translations).returns({"hello_world" => "Hello Super World"}).at_least_once
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    hola = spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    hola = spanish.translations.create!(text: 'hola', phrase: phrase)
 
     # Mimic deleting 'nested.hello_country' and updating 'hello_world'
     Tolk::Locale.expects(:load_translations).returns({"hello_world" => "Hello Super World"}).at_least_once
@@ -169,7 +169,7 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_sync_array_values
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     data = {"weekend" => ['Friday', 'Saturday', 'Sunday']}
     Tolk::Locale.expects(:load_translations).returns(data).at_least_once
@@ -181,17 +181,17 @@ class SyncTest < ActiveSupport::TestCase
     assert_equal data['weekend'], translation.text
 
     yaml = ['Saturday', 'Sunday'].to_yaml
-    spanish_weekends = spanish.translations.create!(:text => yaml, :phrase => Tolk::Phrase.first)
+    spanish_weekends = spanish.translations.create!(text: yaml, phrase: Tolk::Phrase.first)
     assert_equal Tolk::YAML.load(yaml), spanish_weekends.text
   end
 
   def test_dump_all_after_sync
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    spanish.translations.create!(text: 'hola', phrase: phrase)
 
     tmpdir = Rails.root.join("../../tmp/sync/locales")
     FileUtils.mkdir_p(tmpdir)
@@ -206,12 +206,12 @@ class SyncTest < ActiveSupport::TestCase
   end
 
   def test_dump_locale_after_sync
-    spanish = Tolk::Locale.create!(:name => 'es')
+    spanish = Tolk::Locale.create!(name: 'es')
 
     Tolk::Locale.sync!
 
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'hello_world'}
-    spanish.translations.create!(:text => 'hola', :phrase => phrase)
+    spanish.translations.create!(text: 'hola', phrase: phrase)
 
     tmpdir = Rails.root.join("../../tmp/sync/locales")
     FileUtils.mkdir_p(tmpdir)

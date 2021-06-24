@@ -2,8 +2,6 @@ require 'active_support/core_ext/class/attribute_accessors'
 
 module Tolk
   module Config
-
-
     class << self
       # Mapping : a hash of the type { 'ar'    => 'Arabic' }
       attr_accessor :mapping
@@ -26,8 +24,7 @@ module Tolk
       # specify line width which Yaml.dump will use to break lines. -1 for not breaking
       attr_accessor :yaml_line_width
 
-      # specify controller to inherit from to keep Tolk controllers
-      # in the same context than the rest of your app
+      # specify controller to inherit from to keep Tolk controllers in the same context than the rest of your app
       attr_accessor :base_controller
 
       # Ignore specific keys
@@ -41,6 +38,13 @@ module Tolk
         @block_xxx_en_yml_locale_files = true # keep compat with older versions
 
         @dump_path = Proc.new { "#{Rails.application.root}/config/locales" }
+
+        ### Psych::Handler::DumperOptions uses 0 as "default" for unset
+        @yaml_line_width = Psych::Handler::OPTIONS.line_width
+
+        @base_controller = 'ActionController::Base'
+
+        @ignore_keys = []
 
         @mapping = {
           'ar'    => 'Arabic',
@@ -88,12 +92,6 @@ module Tolk
           'zh-CN' => 'Chinese (Simplified)',
           'zh-TW' => 'Chinese (Traditional)'
         }
-
-        @yaml_line_width = Psych::Handler::OPTIONS.line_width # Psych::Handler::DumperOptions uses 0 as "default" for unset
-
-        @base_controller =  'ActionController::Base'
-
-        @ignore_keys = []
       end
     end
 

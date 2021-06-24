@@ -1,8 +1,9 @@
-begin
-  require 'bundler/setup'
-rescue LoadError
-  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
-end
+require 'bundler/setup'
+
+require 'warning'
+Warning.ignore(
+  %r{mail/parsers/address_lists_parser}, ### Hide mail gem warnings
+)
 
 require 'rdoc/task'
 

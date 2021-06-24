@@ -1,53 +1,72 @@
 module Tolk
   class LocalesController < Tolk::ApplicationController
-    before_action :find_locale, :only => [:show, :all, :update, :updated]
-    before_action :ensure_no_primary_locale, :only => [:all, :update, :show, :updated]
+    before_action :find_locale, only: [:show, :edit, :update]
 
     def index
-      @locales = Tolk::Locale.secondary_locales.sort_by(&:language_name)
+      @secondary_locales = Tolk::Locale.secondary.sort_by(&:language_name)
     end
 
+    def create
+      Tolk::Locale.create!(params.require(:tolk_locale).permit(:name))
+
+      redirect_to action: :index
+    end
+    
     def show
+      redirect_to action: :edit, id: @locale.name
+    end
+
+    def edit
       respond_to do |format|
         format.html do
-          @phrases = @locale.phrases_without_translation(params[pagination_param])
+          get_phrases
         end
-
-        format.atom { @phrases = @locale.phrases_without_translation(params[pagination_param]).per(50) }
 
         format.yaml do
           data = @locale.to_hash
-          render :plain => Tolk::YAML.dump(data)
+          render plain: Tolk::YAML.dump(data)
         end
-
       end
     end
 
     def update
-      @locale.translations_attributes = translation_params
-      @locale.save
-      redirect_to request.referrer
-    end
+      translation_params = params.require(:tolk_locale).permit(translations_attributes: [:id, :phrase_id, :locale_id, :text])
 
-    def all
-      @phrases = @locale.phrases_with_translation(params[pagination_param])
-    end
+      if @locale.update(translation_params)
+        flash[:notice] = "Save Successful!"
 
-    def updated
-      @phrases = @locale.phrases_with_updated_translation(params[pagination_param])
-      render :all
-    end
+        respond_to do |f|
+          f.html{ 
+            redirect_back(fallback_location: edit_locale_path(@locale))
+          }
 
-    def create
-      Tolk::Locale.create!(locale_params)
-      redirect_to :action => :index
+          f.js
+        end
+      else
+        flash.now[:alert] = "Not Saved!"
+
+        get_phrases
+
+        respond_to do |f|
+          f.html{ 
+            render "tolk/locales/edit"
+          }
+
+          f.js
+        end
+      end
     end
 
     def dump_all
       Tolk::Locale.dump_all
+
       I18n.reload!
-      I18n::JS.export if defined? I18n::JS
-      redirect_to request.referrer
+
+      if defined? I18n::JS
+        I18n::JS.export 
+      end
+
+      redirect_back(fallback_location: locales_path)
     end
 
     def stats
@@ -56,13 +75,16 @@ module Tolk
       respond_to do |format|
         format.json do
           stats = @locales.collect do |locale|
-            [locale.name, {
-              :missing => locale.count_phrases_without_translation,
-              :updated => locale.count_phrases_with_updated_translation,
-              :updated_at => locale.updated_at
-            }]
+            [
+              locale.name, 
+              {
+                missing: locale.phrases_without_translation.count,
+                updated: locale.phrases.with_updated_translation.count,
+                updated_at: locale.updated_at
+              }
+            ]
           end
-          render :json => Hash[stats]
+          render json: Hash[stats]
         end
       end
     end
@@ -70,15 +92,32 @@ module Tolk
     private
 
     def find_locale
-      @locale = Tolk::Locale.where('UPPER(name) = UPPER(?)', params[:id]).first!
+      @locale = Tolk::Locale.find_by!('UPPER(name) = UPPER(?)', params[:id])
     end
 
-    def locale_params
-      params.require(:tolk_locale).permit(:name)
-    end
+    def get_phrases
+      case params[:filter]
+      when "completed"
+        @phrases = @locale.phrases.with_translation
+      when "updated"
+        @phrases = @locale.phrases.with_updated_translation
+      else
+        params[:filter] = "incomplete"
 
-    def translation_params
-      params.permit(translations: [:id, :phrase_id, :locale_id, :text])[:translations]
+        existing_phrase_ids_for_locale = @locale.translations.where("tolk_translations.text IS NOT NULL").pluck(:phrase_id).uniq
+
+        @phrases = Tolk::Locale.primary_locale.phrases.where.not(id: existing_phrase_ids_for_locale)
+      end
+
+      if params[:k].present?
+        @phrases = @phrases.containing_text(params[:k])
+      end
+
+      if params[:q].present?
+        @phrases = @phrases.search_translations(params[:q])
+      end
+
+      @phrases = @phrases.send(pagination_method, params[:page])
     end
 
   end

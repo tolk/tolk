@@ -1,0 +1,199 @@
+<% if @locale.has_updated_translations? && action_name != 'updated_translations' %>
+  <div class="notice">
+    ⚠ Some phrases have changed. <%= link_to "Update translations", tolk.updated_translations_locale_path(@locale) %>.
+  </div>
+<% end %>
+
+<div class="search">
+  <%= render "search_form" %>
+</div>
+
+<% if flash.any? %>
+  <div style="margin: 15px; margin-bottom: 0;" 
+  <% if flash[:notice] %>
+    <div class='alert alert-success'>
+      <%= flash[:notice] %>
+    </div>
+  <% end %>
+
+  <% if flash.alert %>
+    <div class='alert alert-danger'>
+      <%= flash[:alert] %>
+
+      <% if @locale.errors['translations.variables'] %>
+        <br> 
+        <br> 
+        <%= @locale.errors['translations.variables'].join("<br>").html_safe %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @phrases.any? %>
+  <div class="translations">
+    <div class='row headers'>
+      <div class="col col-1"><%= @locale.language_name -%></div>
+      <div class="col col-2">Primary Language (<%= Tolk::Locale.primary_language_name -%>)</div>
+    </div>
+
+    <%= form_for @locale, as: :tolk_locale do |locale_form| %>
+      <% @phrases.each do |phrase| %>
+        <% translation = phrase.translations.for(@locale) || @locale.translations.new(phrase: phrase) %>
+
+        <div class='row' id="<%= translation.object_id %>">
+          <%= locale_form.fields_for :translations, [translation] do |tf| %>
+            <%= tf.hidden_field :phrase_id, id: "#{translation.object_id}_phrase_id" %>
+            <%= tf.hidden_field :locale_id, id: "#{translation.object_id}_locale_id" %>
+
+            <div class="col col-1 translation">
+              <%= tf.text_area :text, value: format_i18n_text_area_value(translation.text), id: "#{translation.object_id}_text", class: 'locale' %>
+
+              <div class="interpolation-warning">⚠ Warning Interpolation Keys dont match</div>
+
+              <div style="text-align: right; margin-top: 10px;">
+                <button type="button" class="btn copy" style="background: orange; <%= 'display:none;' if tf.object.text %>">&larr; Copy Text From Primary Language</a><br>
+              </div>
+            </div>
+
+            <div class="col col-2 primary">
+              <% default_translation = phrase.translations.primary %>
+
+              <% if params[:search].present? -%>
+                <% orig_text = highlight(format_i18n_value(default_translation.text), params[:search]) -%>
+              <% else -%>
+                <% orig_text = format_i18n_value(default_translation.text) -%>
+              <% end -%>
+
+              <pre><%= orig_text %></pre>
+
+              <%= text_area_tag nil, format_i18n_text_area_value(default_translation.text), disabled: true, class: 'primary-translation', style: "display:none;" %>
+
+              <%= boolean_warning if default_translation.boolean? -%>
+
+              <span class="translation-key" title="<%= phrase.key %>">
+                <% if params[:k].present? %>
+                  <%= highlight(h(truncate(phrase.key, length: 100)), params[:k]) %>
+                <% else %>
+                  <%= h(truncate(phrase.key, length: 100)) %>
+                <% end %>
+              </span>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <div class="table_pagination">
+        <div class='save-and-cancel' style="position:fixed; left:35px; bottom: 35px;">
+          <button type="submit" class="btn btn-large save">&#x2611; Save</button>
+          <%= link_to "&#x2715; Cancel".html_safe, request.path, class: 'btn btn-large cancel', style: "background-color: #999; margin-left: 5px;" %>
+        </div>
+
+        <%= tolk_paginate @phrases %>
+      </div>
+    <% end %>
+  </div>
+
+<% else %>
+  <div class="empty-state">
+
+    <% if params[:q] || params[:k] %>
+      <%= render 'tolk/locales/no_data.svg' %>
+
+      <p class="empty-state__msg">
+        No search results.
+      </p>
+    <% elsif params[:filter] == "incomplete" %>
+      <%= render 'tolk/locales/houra.svg' %>
+
+      <p class="empty-state__msg">
+        <% if @locale.has_updated_translations? %>
+          There aren't any missing phrases that need translation.
+        <% else %>
+          There aren't any missing or updated phrases that need translation.
+        <% end %>
+      </p>
+    <% elsif params[:filter] == "completed" %>
+      <%= render 'tolk/locales/blank_canvas.svg' %>
+
+      <p class="empty-state__msg">
+        There aren't any completed translations for this locale.
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
+<style>
+  textarea{
+    resize: none;
+  }
+</style>
+
+<% content_for :script_footer do %>
+  <script type="text/javascript">
+    $(function(){
+
+      //////////////////////////////////////////////////////////////////////// TEXT AREA AUTO-HEIGHT
+      var textarea = $("textarea");
+      textarea.not("[rows]").prop('rows','1');
+      autosize(textarea);
+
+      //////////////////////////////////////////////////////////////////////// ACTIONS
+      $(".translations button.copy").click(function(e){
+        e.preventDefault();
+
+        var row = $(this).closest(".row");
+
+        var primary_text = row.find(".primary textarea.primary-translation").val();
+
+        var field = row.find(".translation textarea");
+
+        field.val(primary_text.trim()).trigger("change");
+
+        autosize.update(field);
+      });
+
+      //////////////////////////////////////////////////////////////////////// FORM ARE YOU SURE PROMPT
+      var showConfirm = function(){
+        return "You are leaving this page with non-saved data. Are you sure you want to continue?";
+      };
+
+      var translation_fields = $(".translations textarea");
+
+      translation_fields.change(function(){
+        window.onbeforeunload = showConfirm;
+      });
+
+      $("form button[type=submit]").click(function(){
+        window.onbeforeunload = null;
+      });
+
+      //////////////////////////////////////////////////////////////////////// VERIFY INTERPOLATIONS
+      var interpolation = new RegExp("%{\\w+}", "g");
+      
+      translation_fields.change(function(){
+        var val = $(this).val();
+
+        var row = $(this).parents(".row");
+
+        if(val){
+          row.find(".copy").hide();
+        }else{
+          row.find(".copy").show();
+        }
+
+        var primary_text = row.find(".primary textarea.primary-translation").val();
+
+        var primary_interpolations = primary_text.match(interpolation) || [];
+
+        var translated_interpolations = val.match(interpolation) || [];
+
+        if(val.length > 0){
+          var not_match = $(primary_interpolations).not(translated_interpolations).length !== 0 || $(translated_interpolations).not(primary_interpolations).length !== 0;
+        }
+
+        row.find(".interpolation-warning").toggle(not_match);
+      });
+
+    });
+  </script>
+<% end %>

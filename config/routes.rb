@@ -1,14 +1,8 @@
 Tolk::Engine.routes.draw do
-  root :to => 'locales#index'
+  resources :locales, only: [:index, :show, :create, :edit, :update]
 
-  post "/dump_all" => "locales#dump_all", :as => :dump_all_locales
+  post "/dump_all" => "locales#dump_all", as: :dump_all_locales
   get "/stats" => "locales#stats"
 
-  resources :locales do
-    member do
-      get :all
-      get :updated
-    end
-  end
-  resource :search
+  root to: 'locales#index'
 end

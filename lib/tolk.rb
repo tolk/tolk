@@ -1,4 +1,5 @@
 require 'safe_yaml/load'
+
 require 'tolk/config'
 require 'tolk/engine'
 require 'tolk/sync'
@@ -8,7 +9,7 @@ require 'tolk/yaml'
 require 'tolk/pagination'
 
 module Tolk
-  # Setup Tolk
+
   def self.config(&block)
     if block_given?
       block.call(Tolk::Config)
@@ -16,4 +17,5 @@ module Tolk
       Tolk::Config
     end
   end
+
 end
