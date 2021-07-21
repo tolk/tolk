@@ -1,3 +1,6 @@
+* Tolk 4.1
+  * Allow for ruby 3 compatibility updating kaminari call (@dianedelallee, @Migoo, @Kevinrob)
+
 * Tolk 4.0
   * Avoid a case_sensitive rails 6 deprecation warning
 
