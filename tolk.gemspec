@@ -25,10 +25,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
   s.add_runtime_dependency 'sassc'
 
-  s.add_development_dependency 'capybara', '~> 2.14'
   s.add_development_dependency 'sqlite3', '~> 1.3', '< 1.5'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'will_paginate'
+  s.add_development_dependency "capybara", "~> 3.14"
   s.add_development_dependency "cuprite"
 
 
