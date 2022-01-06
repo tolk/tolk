@@ -28,8 +28,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara', '~> 2.14'
   s.add_development_dependency 'sqlite3', '~> 1.3', '< 1.5'
   s.add_development_dependency 'mocha', '>= 1.0'
-  s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'will_paginate'
+  s.add_development_dependency "cuprite"
 
 
   if File.exist?('UPGRADING')
