@@ -107,7 +107,9 @@ module Tolk
       phrases = phrases.where('tolk_phrases.id NOT IN (?)', existing_ids) if existing_ids.present?
 
       result = phrases.public_send(pagination_method, page)
-      if Rails.version =~ /^4\.0/
+      if Gem::Version.new(Rails.version) >= Gem::Version.new('7')
+        ActiveRecord::Associations::Preloader.new(records: result, associations: :translations).call
+      elsif Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new result, :translations
       else
         ActiveRecord::Associations::Preloader.new().preload(result, :translations)
@@ -143,7 +145,9 @@ module Tolk
 #      phrases = phrases.scoped(:conditions => ['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       phrases = phrases.where(['tolk_phrases.id NOT IN (?) AND tolk_phrases.id IN(?)', existing_ids, found_translations_ids]) if existing_ids.present?
       result = phrases.public_send(pagination_method, page)
-      if Rails.version =~ /^4\.0/
+      if Gem::Version.new(Rails.version) >= Gem::Version.new('7')
+        ActiveRecord::Associations::Preloader.new(records: result, associations: :translations).call
+      elsif Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new result, :translations
       else
         ActiveRecord::Associations::Preloader.new().preload(result, :translations)
@@ -186,7 +190,9 @@ module Tolk
     def translations_with_html
       translations = self.translations.all(:conditions => "tolk_translations.text LIKE '%>%' AND
         tolk_translations.text LIKE '%<%' AND tolk_phrases.key NOT LIKE '%_html'", :joins => :phrase)
-      if Rails.version =~ /^4\.0/
+      if Gem::Version.new(Rails.version) >= Gem::Version.new('7')
+        ActiveRecord::Associations::Preloader.new(records: result, associations: :translations).call
+      elsif Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new translations, :phrase
       else
         ActiveRecord::Associations::Preloader.new().preload(translations, :phrase)
@@ -230,7 +236,9 @@ module Tolk
         phrase.translation = phrase.translations.for(self)
       end
 
-      if Rails.version =~ /^4\.0/
+      if Gem::Version.new(Rails.version) >= Gem::Version.new('7')
+        ActiveRecord::Associations::Preloader.new(records: result, associations: :translations).call
+      elsif Rails.version =~ /^4\.0/
         ActiveRecord::Associations::Preloader.new result, :translations
       else
         ActiveRecord::Associations::Preloader.new().preload(result, :translations)
