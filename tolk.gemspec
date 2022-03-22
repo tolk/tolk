@@ -16,18 +16,20 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
 
+  s.required_ruby_version = ">= 2.5.0"
 
-  s.required_ruby_version = '>= 2.5.0'
+  s.add_runtime_dependency "rails", ">= 5.0"
+  s.add_runtime_dependency "sprockets-rails", "~> 3.4"
 
-  s.add_runtime_dependency 'rails', '>= 5.0'
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
   s.add_runtime_dependency 'sassc'
 
-  s.add_development_dependency 'capybara', '~> 2.14'
   s.add_development_dependency 'sqlite3', '~> 1.3', '< 1.5'
   s.add_development_dependency 'mocha', '>= 1.0'
-  s.add_development_dependency 'poltergeist'
   s.add_development_dependency 'will_paginate'
+  s.add_development_dependency "capybara", "~> 3.14"
+  s.add_development_dependency "cuprite"
+  s.add_development_dependency "puma", "~> 5.5"
 
 
   if File.exist?('UPGRADING')

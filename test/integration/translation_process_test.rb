@@ -56,7 +56,7 @@ class TranslationProcessTest < ActiveSupport::IntegrationCase
 
     def fill_in_first_translation(with_hash)
       within('.translations tbody tr:first-child td.translation') do
-        fill_in 'translations[][text]', with_hash
+        fill_in 'translations[][text]', **with_hash
       end
     end
 
