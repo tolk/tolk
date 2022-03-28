@@ -1,3 +1,7 @@
+- Tolk 4.2.0
+
+  - Rails 7 compatibility by @Kevinrob
+
 - Tolk 4.1.1
 
   - Fix tests
