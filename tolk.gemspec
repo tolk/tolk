@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara", "~> 3.14"
   s.add_development_dependency "cuprite"
   s.add_development_dependency "puma", "~> 5.5"
-
+  s.add_development_dependency "appraisal"
 
   if File.exist?('UPGRADING')
     s.post_install_message = File.read("UPGRADING")
