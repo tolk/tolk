@@ -20,6 +20,9 @@ module Tolk
       # reject files of type xxx.en.yml when syncing locales
       attr_accessor :block_xxx_en_yml_locale_files
 
+      # specify an array of files to skip ["devise"] will skip devise.<locale>.yml when syncing locales.
+      attr_accessor :ignore_locale_files
+
       # strip translation texts automatically
       attr_accessor :strip_texts
 

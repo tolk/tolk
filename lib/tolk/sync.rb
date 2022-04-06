@@ -25,6 +25,16 @@ module Tolk
             translations_files =  translations_files.reject(&locale_block_filter)
           end
 
+          if Tolk.config.ignore_locale_files.present?
+            locale_block_filter = Proc.new do |file_name|
+              directory_path = Rails.root.join('config', 'locales', 'final_separator').to_s.gsub("final_separator", "")
+              normalized_file_name = file_name.gsub(directory_path, "").split('.').first
+              Tolk.config.ignore_locale_files.include?(normalized_file_name)
+            end
+            translations_files =  translations_files.reject(&locale_block_filter)
+          end
+
+
           I18n.backend.load_translations(translations_files)
         else
           I18n.backend.send :init_translations unless I18n.backend.initialized? # force load

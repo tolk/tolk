@@ -242,4 +242,45 @@ class SyncTest < ActiveSupport::TestCase
     phrase = Tolk::Phrase.all.detect {|p| p.key == 'not_ignored'}
     assert_equal 'not_ignored', phrase.key
   end
+
+  def test_sync_ignore_locale_files
+    Tolk::Locale.delete_all
+    Tolk::Translation.delete_all
+    Tolk::Phrase.delete_all
+
+    Tolk.config.ignore_locale_files = %w[file_to_ignore]
+    Tolk.config.exclude_gems_token =true
+    Tolk.config.block_xxx_en_yml_locale_files = false
+
+    tmpfile = Rails.root.join("../../test/files/file_to_ignore.en.yml").to_s
+    tmpdest = Rails.root.join("config/locales/file_to_ignore.en.yml").to_s
+    FileUtils.cp(tmpfile, tmpdest)
+
+    tmpfile2 = Rails.root.join("../../test/files/file_to_include.en.yml").to_s
+    tmpdest2 = Rails.root.join("config/locales/file_to_include.en.yml").to_s
+    FileUtils.cp(tmpfile2, tmpdest2)
+
+    I18n.load_path = [Tolk::Locale.locales_config_path + 'en.yml']
+
+    I18n.backend.reload!
+
+
+    Tolk::Locale.primary_locale(true)
+
+
+        @en = Tolk::Locale.primary_locale(true)
+
+
+
+    Tolk::Locale.sync!
+
+
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'phrase_ignored'}
+    assert_nil phrase
+    phrase = Tolk::Phrase.all.detect {|p| p.key == 'phrase_included'}
+    assert_equal 'phrase_included', phrase.key
+  ensure
+    FileUtils.rm_f(tmpdest)
+    FileUtils.rm_f(tmpdest2)
+  end
 end

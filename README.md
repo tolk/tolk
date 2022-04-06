@@ -94,6 +94,9 @@ Tolk.config do |config|
   config.block_xxx_en_yml_locale_files = true
   # reject files of type xxx.<locale>.yml when syncing locales.
 
+  config.ignore_locale_files = []
+  # specify an array of files to skip ["devise"] will skip devise.<locale>.yml when syncing locales.
+
   config.dump_path = '/new/path'
   # Dump locale path by default the locales folder (config/locales).
 
@@ -106,7 +109,7 @@ Tolk.config do |config|
 
   config.strip_texts = false
   # Don't strip translation texts automatically
-  
+
   config.ignore_keys = ['faker', 'devise']
   # Ignore all faker.* and devise.* keys
 end
