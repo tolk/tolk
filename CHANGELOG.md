@@ -1,3 +1,8 @@
+- Tolk 4.3.0
+
+  - Added matrix for testing
+  - Added a new option ignore_locale_files to specifically ignore locale files
+
 - Tolk 4.2.0
 
   - Rails 7 compatibility by @Kevinrob
