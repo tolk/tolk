@@ -8,7 +8,7 @@ class TranslationTest < ActiveSupport::TestCase
     Tolk::Locale.primary_locale(true)
   end
 
-  test "translation is inavlid when a duplicate exists" do
+  test "translation is invalid when a duplicate exists" do
     translation = Tolk::Translation.new(:phrase => tolk_translations(:hello_world_da).phrase, :locale => tolk_translations(:hello_world_da).locale)
     translation.text = "Revised Hello World"
     assert(translation.invalid?)
