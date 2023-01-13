@@ -25,7 +25,6 @@ Gem::Specification.new do |s|
 
 
 
-  s.add_development_dependency 'sassc'
   s.add_development_dependency 'sqlite3', '~> 1.3', '< 1.5'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'will_paginate'

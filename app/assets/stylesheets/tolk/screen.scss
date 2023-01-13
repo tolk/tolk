@@ -26,9 +26,30 @@ a:hover {
 /**
  * Variables
 **/
-$primary_color: #2fadcf;
 :root {
-  --primary-color: #2fadcf;
+  --primary-color-h: 192.8;
+  --primary-color-s: 63%;
+  --primary-color-l: 49.8%;
+  --primary-color-hsl: var(--primary-color-h), var(--primary-color-s),
+    var(--primary-color-l);
+
+  --primary-color: hsl(var(--primary-color-hsl));
+  --primary-color-dark-2: hsl(
+    var(--primary-color-h),
+    var(--primary-color-s),
+    calc(var(--primary-color-l) * 0.9)
+  );
+  --primary-color-dark-4: hsl(
+    var(--primary-color-h),
+    var(--primary-color-s),
+    calc(var(--primary-color-l) * 0.9)
+  );
+  --primary-color-dark-8: hsl(
+    var(--primary-color-h),
+    var(--primary-color-s),
+    calc(var(--primary-color-l) * 0.9)
+  );
+
   --font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
     Roboto, Arial, sans-serif;
 }
@@ -44,7 +65,10 @@ $primary_color: #2fadcf;
   border-radius: 2px;
 
   border: none;
-  background-image: linear-gradient($primary_color, darken($primary_color, 4%));
+  background-image: linear-gradient(
+    var(--primary-color),
+    var(--primary-color-dark-4)
+  );
   color: #fff;
   font-size: 1em;
 
@@ -52,12 +76,18 @@ $primary_color: #2fadcf;
   &:hover,
   &:focus {
     background-image: linear-gradient(
-      darken($primary_color, 2%),
-      darken($primary_color, 8%)
+      var(--primary-color-dark-2),
+      var(--primary-color-dark-8)
     );
   }
   &:focus {
-    box-shadow: 0 0 0 3px rgba($primary_color, 0.5);
+    box-shadow: 0 0 0 3px
+      hsla(
+        var(--primary-color-h),
+        var(--primary-color-s),
+        var(--primary-color-l),
+        0.5
+      );
   }
 
   &.btn--large {
@@ -80,7 +110,13 @@ textarea {
   border: 1px solid #ccc;
   border-top: 1px solid #bbb;
   &:focus {
-    box-shadow: 0 0 0 2px rgba($primary_color, 0.5);
+    box-shadow: 0 0 0 2px
+      hsla(
+        var(--primary-color-h),
+        var(--primary-color-s),
+        var(--primary-color-l),
+        0.5
+      );
   }
 }
 textarea {
@@ -188,15 +224,15 @@ h2 {
 **/
 .notice {
   background: #ffc;
-  color: darken(#ffc, 70%);
+  color: hsl(60, 100%, 20%);
   font-size: 1em;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid darken(#ffc, 30%);
+  border-bottom: 1px solid hsl(60, 100%, 70%);
   a {
-    color: darken(#ffc, 70%);
+    color: hsl(60, 100%, 20%);
     &:hover,
     &:focus {
-      color: darken(#ffc, 90%);
+      color: hsl(60, 100%, 10%);
     }
   }
 }
@@ -279,8 +315,19 @@ ul.locales-list {
   }
 
   form {
-    border: 1px dashed rgba($primary_color, 0.5);
-    background-color: rgba($primary_color, 0.025);
+    border: 1px dashed
+      hsla(
+        var(--primary-color-h),
+        var(--primary-color-s),
+        var(--primary-color-l),
+        0.5
+      );
+    background-color: hsla(
+      var(--primary-color-h),
+      var(--primary-color-s),
+      var(--primary-color-l),
+      0.025
+    );
     height: 100%;
     display: grid;
     justify-items: center;
