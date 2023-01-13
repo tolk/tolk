@@ -29,15 +29,15 @@ a:hover {
 $primary_color: #2fadcf;
 :root {
   --primary-color: #2fadcf;
+  --font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Arial, sans-serif;
 }
-$font_family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-  Arial, sans-serif;
 
 /**
  * Some generic components
 **/
 .btn {
-  font-family: $font_family;
+  font-family: var(--font-family);
   display: inline-block;
 
   padding: 0.25em 0.5em;
@@ -68,12 +68,12 @@ $font_family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
 
 select,
 input {
-  font-family: $font_family;
+  font-family: var(--font-family);
   font-size: 1em;
 }
 input[type="text"],
 textarea {
-  font-family: $font_family;
+  font-family: var(--font-family);
   font-size: 1em;
   padding: 0.2em 0.25em;
   border-radius: 2px;
@@ -91,7 +91,7 @@ textarea {
  * Base layout
 **/
 body {
-  font-family: $font_family;
+  font-family: var(--font-family);
   background: #e9e9e9;
   color: #333;
   margin: 0;
