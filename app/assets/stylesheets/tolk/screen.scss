@@ -27,6 +27,9 @@ a:hover {
  * Variables
 **/
 $primary_color: #2fadcf;
+:root {
+  --primary-color: #2fadcf;
+}
 $font_family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
   Arial, sans-serif;
 
@@ -122,11 +125,11 @@ header {
     font-size: 1.5em;
   }
   a {
-    color: $primary_color;
+    color: var(--primary-color);
     text-decoration: none;
     &:hover,
     &:focus {
-      color: $primary_color;
+      color: var(--primary-color);
       text-decoration: underline;
     }
     &:first-child {
@@ -151,7 +154,7 @@ nav {
       color: #fff;
     }
     &.current {
-      background: $primary_color;
+      background: var(--primary-color);
       color: #fff;
     }
   }
@@ -172,7 +175,7 @@ h2 {
   padding: 1rem 1.5rem;
   font-size: 18px;
   background-color: #f9f9f9;
-  color: $primary_color;
+  color: var(--primary-color);
   border-bottom: 1px solid #eee;
   small {
     font-size: 0.75em;
@@ -324,7 +327,7 @@ div.translations {
   }
 
   tbody tr.active td:first-child {
-    box-shadow: 3px 0px 0px -1px $primary_color inset;
+    box-shadow: 3px 0px 0px -1px var(--primary-color) inset;
   }
 
   textarea.locale {
@@ -378,7 +381,7 @@ div.translations {
     .interpolation,
     .carriage_return,
     .boolean {
-      color: $primary_color;
+      color: var(--primary-color);
       font-family: Courier, monospace;
       font-weight: bold;
       cursor: help;
@@ -441,8 +444,8 @@ div.translations {
   a:hover,
   a:focus,
   em.current {
-    background-color: $primary_color;
-    border-color: $primary_color;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: #fff;
   }
 }
