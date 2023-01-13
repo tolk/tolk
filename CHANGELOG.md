@@ -1,3 +1,8 @@
+- Tolk 5.0.0
+  - Minimum rails version 6.0
+  - Remove sassc dependency
+  - Test ruby 3.2
+
 - Tolk 4.3.0
 
   - Added matrix for testing
