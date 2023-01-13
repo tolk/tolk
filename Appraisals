@@ -15,10 +15,6 @@
     gem db_gem
   end
 
-  appraise "rails_5.2.#{db_gem}" do
-    gem "rails", "~> 5.2.4"
-    gem db_gem
-  end
 
 
 end
