@@ -1,3 +1,6 @@
+- Tolk 5.0.1
+  - Update jQuery to 3.7.0
+
 - Tolk 5.0.0
   - Minimum rails version 6.0
   - Remove sassc dependency
