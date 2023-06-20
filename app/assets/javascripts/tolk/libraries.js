@@ -1,1 +1,1 @@
-//= require tolk/jquery-1.9.1.min.js
+//= require tolk/jquery-3.7.0.js
