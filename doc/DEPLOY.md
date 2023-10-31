@@ -4,5 +4,5 @@
 * Ensure changelog is up to date
 * Update version in version.rb
 * Update version in changelog
-* Commit changes to master
+* Commit changes to main
 * `rake release`

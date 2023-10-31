@@ -1,5 +1,5 @@
 # Tolk
-[![Build Status](https://travis-ci.org/tolk/tolk.svg?branch=master)](https://travis-ci.org/tolk/tolk)
+[![Build Status](https://travis-ci.org/tolk/tolk.svg?branch=main)](https://travis-ci.org/tolk/tolk)
 
 Tolk is a Rails engine designed to facilitate the translators doing the dirty work of translating your application to other languages.
 
