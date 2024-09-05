@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "rails", ">= 7.0", "< 7.3"
   s.add_runtime_dependency "sprockets-rails", "~> 3.4"
 
-  s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
 
 
 

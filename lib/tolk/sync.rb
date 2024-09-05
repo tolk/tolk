@@ -47,7 +47,7 @@ module Tolk
       def read_primary_locale_file
         primary_file = "#{self.locales_config_path}/#{self.primary_locale_name}.yml"
         if File.exist?(primary_file)
-          flat_hash(Tolk::YAML.load_file(primary_file)[self.primary_locale_name])
+          flat_hash(YAML.load_file(primary_file)[self.primary_locale_name])
         else
           {}
         end

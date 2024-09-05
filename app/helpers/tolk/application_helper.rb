@@ -23,7 +23,7 @@ module Tolk
     def yaml_value(value)
       if value.present?
         unless value.is_a?(String) || value.is_a?(TrueClass) || value.is_a?(FalseClass)
-          value = Tolk::YAML.dump(value)
+          value = YAML.dump(value)
         end
       end
 

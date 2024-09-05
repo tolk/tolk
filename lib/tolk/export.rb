@@ -10,7 +10,7 @@ module Tolk
 
     def dump
       File.open("#{destination}/#{name}.yml", "w+") do |file|
-        file.write(Tolk::YAML.dump(data))
+        file.write(YAML.dump(data))
       end
     end
 
