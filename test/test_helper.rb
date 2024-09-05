@@ -17,4 +17,6 @@ ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
 
 # Configure capybara for integration testing
 Capybara.default_driver = :cuprite
-options = {js_errors: false}
+Capybara.register_driver(:cuprite) do |app|
+  Capybara::Cuprite::Driver.new(app, process_timeout: 20)
+end
