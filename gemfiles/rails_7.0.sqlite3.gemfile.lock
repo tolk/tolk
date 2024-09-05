@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    tolk (5.0.1)
+    tolk (5.0.2)
       rails (>= 6.0, < 7.2)
       safe_yaml (>= 0.8.6)
       sprockets-rails (~> 3.4)
@@ -204,7 +204,7 @@ DEPENDENCIES
   capybara (~> 3.14)
   cuprite
   mocha (>= 1.0)
-  puma (>= 5.5)
+  puma (~> 6.0)
   rails (~> 7.0.2)
   sassc
   sqlite3

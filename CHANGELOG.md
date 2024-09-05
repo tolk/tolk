@@ -1,3 +1,8 @@
+- Tolk 6.0.0
+
+  - Remove ruby 2.x support
+  - Remove rails 6 support
+
 - Tolk 5.0.2
 
   - Tighter rails dependency as rails 7.2 is not supported
