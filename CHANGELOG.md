@@ -1,7 +1,13 @@
+- Tolk 5.0.2
+
+  - Tighter rails dependency as rails 7.2 is not supported
+
 - Tolk 5.0.1
+
   - Update jQuery to 3.7.0
 
 - Tolk 5.0.0
+
   - Minimum rails version 6.0
   - Remove sassc dependency
   - Test ruby 3.2
