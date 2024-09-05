@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class AuthenticationTest < ActionDispatch::IntegrationTest
-  self.fixture_path = Rails.root.join( "/../fixtures")
+  # Would be nice to understand how to fix this, using duplicated fixtures for the moment...
+
+  # self.fixture_paths << Rails.root.join( "/../fixtures")
   fixtures :all
 
   def setup

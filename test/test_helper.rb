@@ -13,7 +13,8 @@ Rails.backtrace_cleaner.remove_silencers!
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 # Load fixtures from the engine
-ActiveSupport::TestCase.fixture_path = File.expand_path("../fixtures", __FILE__)
+# Would be nice to understand how to fix this, using duplicated fixtures for the moment...
+# ActiveSupport::TestCase.fixture_paths << File.expand_path("../fixtures", __FILE__)
 
 # Configure capybara for integration testing
 Capybara.default_driver = :cuprite
