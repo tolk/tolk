@@ -1,5 +1,7 @@
-- Tolk 6.0.0
+- Tolk 6.0.0-alpha
 
+  - Use native serialize YAML and limit available classes
+  - Drop safe_yaml
   - Remove ruby 2.x support
   - Remove rails 6 support
 
