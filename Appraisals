@@ -12,4 +12,10 @@
     gem db_gem
   end
 
+  appraise "rails_7.2.#{db_gem}" do
+    gem "rails", "~> 7.2.0"
+    gem "sqlite3", "~> 2.0"
+    gem db_gem
+  end
+
 end

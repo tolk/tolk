@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 3.0.0"
 
-  s.add_runtime_dependency "rails", ">= 6.0", "< 7.2"
+  s.add_runtime_dependency "rails", ">= 7.0", "< 7.3"
   s.add_runtime_dependency "sprockets-rails", "~> 3.4"
 
   s.add_runtime_dependency 'safe_yaml', ">= 0.8.6"
