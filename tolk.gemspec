@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.platform = Gem::Platform::RUBY
 
-  s.required_ruby_version = ">= 2.5.0"
+  s.required_ruby_version = ">= 3.0.0"
 
   s.add_runtime_dependency "rails", ">= 6.0", "< 7.2"
   s.add_runtime_dependency "sprockets-rails", "~> 3.4"
