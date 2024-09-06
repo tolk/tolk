@@ -2,7 +2,7 @@
 
   appraise "rails_7.0.#{db_gem}" do
     gem "rails", "~> 7.0.2"
-    gem "sqlite3", "~> 2.0"
+    gem "sqlite3", "~> 1.4"
     gem db_gem
   end
 

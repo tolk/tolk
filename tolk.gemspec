@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3', '>= 1.3'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'will_paginate'
+  s.add_development_dependency 'rake', "~> 13.0"
   s.add_development_dependency "capybara", "~> 3.14"
   s.add_development_dependency "cuprite"
   s.add_development_dependency "sassc"
