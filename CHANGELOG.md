@@ -1,3 +1,7 @@
+- Tolk 6.0.0
+
+  - Release version 6 for rails 7.2
+
 - Tolk 6.0.0-alpha
 
   - Use native serialize YAML and limit available classes
