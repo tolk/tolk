@@ -19,11 +19,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0.0"
 
   s.add_runtime_dependency "rails", ">= 7.0", "< 7.3"
-  s.add_runtime_dependency "sprockets-rails", "~> 3.4"
 
 
 
 
+  s.add_development_dependency "sprockets-rails", "~> 3.4"
   s.add_development_dependency 'sqlite3', '>= 1.3'
   s.add_development_dependency 'mocha', '>= 1.0'
   s.add_development_dependency 'will_paginate'

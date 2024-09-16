@@ -1,3 +1,7 @@
+- Unreleased
+
+  - Remove spockets dependency
+
 - Tolk 6.0.0
 
   - Release version 6 for rails 7.2
