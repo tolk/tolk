@@ -1,0 +1,16 @@
+{
+  "name": "tolk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tolk/tolk.git",
+  "author": "Thomas Darde <thomas@rougecardinal.fr>",
+  "license": "MIT",
+  "scripts": {
+    "prod:build:js": "esbuild app/javascript/*.js --bundle --sourcemap --minify --outdir=app/assets/javascript",
+    "prod:build:css": "sass --load-path=node_modules --no-source-map ./app/assets/stylesheets/application.scss:./app/assets/stylesheets/application.css"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "sass": "^1.80.4"
+  }
+}
