@@ -1,3 +1,8 @@
+- Tolk 6.1.0
+
+  - Release version 6.1 for rails 8.0 and 8.1
+  - Test against Ruby 3.4
+
 - Tolk 6.0.0
 
   - Release version 6 for rails 7.2

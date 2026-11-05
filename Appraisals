@@ -18,4 +18,16 @@
     gem db_gem
   end
 
+  appraise "rails_8.0.#{db_gem}" do
+    gem "rails", "~> 8.0.0"
+    gem "sqlite3", "~> 2.0"
+    gem db_gem
+  end
+
+  appraise "rails_8.1.#{db_gem}" do
+    gem "rails", "~> 8.1.0"
+    gem "sqlite3", "~> 2.0"
+    gem db_gem
+  end
+
 end
